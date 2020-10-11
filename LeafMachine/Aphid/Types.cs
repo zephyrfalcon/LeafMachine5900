@@ -28,8 +28,19 @@ namespace LeafMachine.Aphid.Types
 
         public override string ToString()
         {
-            return "<to be implemented>";
-            // TODO: some string interpolation here
+            return $"<{name}>";
         }
     }
+
+    public class AphidSymbol : AphidType
+    {
+        string value = null;
+        public AphidSymbol(string s)
+        {
+            value = s;
+        }
+
+        public override string ToString() { return value; }
+    }
+
 }

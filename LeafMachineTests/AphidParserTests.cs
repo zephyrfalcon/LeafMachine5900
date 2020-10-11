@@ -16,15 +16,16 @@ namespace LeafMachineTests
         [Test]
         public void TestParser()
         {
-            List<AphidType> values = Parser.TokenizeAndParse("1 2 3");
-            Assert.AreEqual(values.Count, 3);
+            List<AphidType> values = Parser.TokenizeAndParse("1 2 3 dup");
+            Assert.AreEqual(values.Count, 4);
             Assert.AreEqual(values[0].ToString(), "1");
             Assert.AreEqual(values[1].ToString(), "2");
             Assert.AreEqual(values[2].ToString(), "3");
+            Assert.AreEqual(values[3].ToString(), "dup");
 
             // we don't have map() but this appears to be the closest thing...
             string[] actual = values.Select(x => x.ToString()).ToArray();
-            string[] expected = { "1", "2", "3" };
+            string[] expected = { "1", "2", "3", "dup" };
             Assert.AreEqual(actual, expected);
         }
     }

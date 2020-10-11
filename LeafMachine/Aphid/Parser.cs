@@ -21,7 +21,7 @@ namespace LeafMachine.Aphid
                 }
 
                 // if nothing else matches, it's a symbol
-                throw new Exception("to be implemented: symbol");
+                values.Add(new AphidSymbol(token));
             }
             return values;
         }
