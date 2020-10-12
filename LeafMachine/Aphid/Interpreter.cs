@@ -33,8 +33,7 @@ namespace LeafMachine.Aphid
         {
             BuiltinWords bw = new BuiltinWords();
             words = new Dictionary<string, AphidType> { };
-            foreach (KeyValuePair<string, DelAphidBuiltinWord> entry in bw.GetBuiltinWords())
-            {
+            foreach (KeyValuePair<string, DelAphidBuiltinWord> entry in bw.GetBuiltinWords()) {
                 words[entry.Key] = new AphidBuiltinWord(entry.Key, entry.Value);
             }
             // TODO: make sure we don't have duplicates

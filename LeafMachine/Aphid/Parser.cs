@@ -14,8 +14,7 @@ namespace LeafMachine.Aphid
             foreach (string token in tokens)
             {
                 Match match = Regex.Match(token, re_integer);
-                if (match.Success)
-                {
+                if (match.Success) {
                     values.Add(new AphidInteger(Int32.Parse(token)));
                     continue;
                 }
