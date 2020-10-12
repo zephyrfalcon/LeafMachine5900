@@ -39,5 +39,11 @@ namespace LeafMachine.Aphid
             }
             // TODO: make sure we don't have duplicates
         }
+
+        public void Run(string s)
+        {
+            List<AphidType> values = Parser.TokenizeAndParse(s);
+            values.ForEach(x => x.ToString());  // FIXME
+        }
     }
 }

@@ -5,6 +5,15 @@ namespace LeafMachine.Aphid.Types
     public class AphidType
     {
         // should this be abstract?
+
+        // indicates what happens when we execute the object after parsing.
+        // e.g. numbers => pushes onto the stack
+        // symbols => looked up ...?
+        // NEEDS MORE THOUGHT
+        public virtual void Execute(AphidInterpreter aip)
+        {
+            throw new System.Exception("not implemented");
+        }
     }
 
     public class AphidInteger : AphidType
@@ -13,6 +22,10 @@ namespace LeafMachine.Aphid.Types
         public AphidInteger() { }
         public AphidInteger(int x) { value = x; }
         public override string ToString() { return this.value.ToString(); }
+        public override void Execute(AphidInterpreter aip)
+        {
+            aip.stack.Push(this);
+        }
     }
 
     public class AphidBuiltinWord : AphidType
