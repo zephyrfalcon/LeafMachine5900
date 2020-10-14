@@ -14,6 +14,14 @@ namespace LeafMachine.Aphid.Types
         {
             throw new System.Exception("not implemented");
         }
+        public virtual void Run(AphidInterpreter aip)
+        {
+            throw new System.Exception("not implemented");
+        }
+
+        // NOTE: ToString() is (currently) really only used for tests, to have a readable
+        // string representation. No assumptions should be made, e.g. re-parsing the
+        // value returned by ToString() does not necessarily produce the same object.
     }
 
     public class AphidInteger : AphidType
@@ -43,6 +51,14 @@ namespace LeafMachine.Aphid.Types
         {
             return $"<{name}>";
         }
+
+        // TODO: A method that indicates that we *run* this. NOT the same as Execute(), which shouldn't
+        // even be possible for this type, because it happens directly after parsing, and there is no
+        // way the parser can produce an AphidBuiltinWord directly.
+        public override void Run(AphidInterpreter aip)
+        {
+            builtinWord(aip);
+        }
     }
 
     public class AphidSymbol : AphidType
@@ -54,6 +70,20 @@ namespace LeafMachine.Aphid.Types
         }
 
         public override string ToString() { return value; }
+
+        public override void Execute(AphidInterpreter aip)
+        {
+            if (value.StartsWith(':')) {
+                // it's a symbol literal; push the symbol onto the stack
+                AphidSymbol sym = new AphidSymbol(value.Substring(1));
+                // TODO: assert new symbol is not empty!
+                aip.stack.Push(sym);
+            } else {
+                // look it up, expect to find a (built-in?) word, and run it
+                AphidType x = aip.Lookup(this.value);
+                
+            }
+        }
     }
 
 }

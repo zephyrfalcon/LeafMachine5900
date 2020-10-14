@@ -27,6 +27,9 @@ namespace LeafMachineTests
             string[] actual = values.Select(x => x.ToString()).ToArray();
             string[] expected = { "1", "2", "3", "dup" };
             Assert.AreEqual(actual, expected);
+
+            Assert.IsTrue(values[1] is AphidInteger);
+            Assert.IsTrue(values[3] is AphidSymbol);
         }
     }
 }
