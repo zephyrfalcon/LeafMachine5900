@@ -28,6 +28,7 @@ namespace LeafMachineTests
             string[] expected = { "1", "2", "3", "dup" };
             Assert.AreEqual(actual, expected);
 
+            // are the types correct?
             Assert.IsTrue(values[1] is AphidInteger);
             Assert.IsTrue(values[3] is AphidSymbol);
         }

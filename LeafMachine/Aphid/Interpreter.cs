@@ -43,7 +43,7 @@ namespace LeafMachine.Aphid
         public void Run(string s)
         {
             List<AphidType> values = Parser.TokenizeAndParse(s);
-            values.ForEach(x => x.ToString());  // FIXME
+            values.ForEach(x => x.Execute(this));
         }
 
         public AphidType Lookup(string s)

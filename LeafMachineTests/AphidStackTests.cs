@@ -27,5 +27,18 @@ namespace LeafMachineTests
             // add tests for equality later in the test suite for types! for now, just wing it :)
             Assert.AreEqual(x.ToString(), "2");
         }
+
+        [Test]
+        public void TestSimpleRepr()
+        {
+            Stack s = new Stack();
+            s.Push(new AphidInteger(1));
+            s.Push(new AphidInteger(2));
+            s.Push(new AphidInteger(3));
+            Assert.AreEqual(s.SimpleRepr(), "1 2 3");
+
+            Stack s2 = new Stack();
+            Assert.AreEqual(s2.SimpleRepr(), "");
+        }
     }
 }

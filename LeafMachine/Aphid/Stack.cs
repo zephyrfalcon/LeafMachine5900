@@ -64,5 +64,11 @@ namespace LeafMachine.Aphid
             throw new Exception("to be implemented");
         }
 
+        // simple stack representation meant for testing
+        public string SimpleRepr()
+        {
+            return String.Join(" ", this.stack.Select(x => x.ToString()));
+        }
+
     }
 }

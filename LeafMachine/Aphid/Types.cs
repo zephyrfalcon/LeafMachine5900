@@ -81,7 +81,7 @@ namespace LeafMachine.Aphid.Types
             } else {
                 // look it up, expect to find a (built-in?) word, and run it
                 AphidType x = aip.Lookup(this.value);
-                
+                x.Run(aip);
             }
         }
     }
