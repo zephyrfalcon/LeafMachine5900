@@ -5,6 +5,7 @@ using System.Text;
 using LeafMachine.Aphid.Types;
 using LeafMachine.Aphid;
 using System.Linq;
+using System.ComponentModel;
 
 namespace LeafMachine.Aphid
 {
@@ -43,6 +44,14 @@ namespace LeafMachine.Aphid
         {
             List<AphidType> values = Parser.TokenizeAndParse(s);
             values.ForEach(x => x.ToString());  // FIXME
+        }
+
+        public AphidType Lookup(string s)
+        {
+            AphidType result = null;
+            bool found = this.words.TryGetValue(s, out result);
+            if (found) return result; 
+            else throw new Exception($"word not found: {s}");
         }
     }
 }
