@@ -28,6 +28,17 @@ namespace LeafMachine.Aphid
             aip.stack.Push(b);
         }
 
+        public void LeftBracket(AphidInterpreter aip)
+        {
+            aip.PushStack();
+        }
+
+        public void RightBracket(AphidInterpreter aip)
+        {
+            Stack topstack = aip.PopStack();
+            aip.stack.Push(new AphidList(topstack));
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -35,6 +46,8 @@ namespace LeafMachine.Aphid
                 { "dup", Dup },
                 { "drop", Drop },
                 { "swap", Swap },
+                { "[", LeftBracket },
+                { "]", RightBracket },
             };
             return bw;
         }

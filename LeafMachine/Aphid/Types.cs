@@ -1,4 +1,8 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Linq;
+using System;
 
 namespace LeafMachine.Aphid.Types
 {
@@ -85,5 +89,30 @@ namespace LeafMachine.Aphid.Types
             }
         }
     }
+
+    public class AphidList : AphidType 
+    {
+        List<AphidType> values;
+
+        public AphidList()
+        {
+            values = new List<AphidType> { };
+        }
+        public AphidList(Stack s)
+        {
+            values = s.AsList();
+        }
+        public AphidList(List<AphidType> lst)
+        {
+            values = lst;
+        }
+        public override string ToString()
+        {
+            if (values.Count == 0) return "[ ]";
+            string s = String.Join(' ', values.Select(x => x.ToString()));
+            return $"[ {s} ]";
+        }
+    }
+
 
 }

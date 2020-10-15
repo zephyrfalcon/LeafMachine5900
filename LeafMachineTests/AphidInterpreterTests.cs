@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using LeafMachine.Aphid;
 using NuGet.Frameworks;
+using LeafMachine.Aphid.Types;
 
 namespace LeafMachineTests
 {
@@ -28,6 +29,22 @@ namespace LeafMachineTests
         {
             aip.Run("1 2 dup");
             Assert.AreEqual(aip.stack.SimpleRepr(), "1 2 2");
+        }
+
+        [Test]
+        public void TestBrackets()
+        {
+            aip.Run("1 2 [ 3");
+            // at this point, only the "top stack" is visible, and it only has a 3
+            Assert.AreEqual(aip.stack.SimpleRepr(), "3");
+            aip.Run("4 ] 5");
+            Assert.AreEqual(aip.stack.SimpleRepr(), "1 2 [ 3 4 ] 5");
+            AphidType x1 = aip.stack.Pop();
+            Assert.IsTrue(x1 is AphidInteger);
+            Assert.AreEqual(x1.ToString(), "5");
+            AphidType x2 = aip.stack.TOS();
+            Assert.IsTrue(x2 is AphidList);
+            Assert.AreEqual(x2.ToString(), "[ 3 4 ]");
         }
     }
 
@@ -65,6 +82,12 @@ namespace LeafMachineTests
         public void TestSwap()
         {
             Check("4 10 swap", "10 4");
+        }
+
+        [Test]
+        public void TestBrackets()
+        {
+            Check("1 2 [ 4 5 ]", "1 2 [ 4 5 ]");
         }
     }
 }

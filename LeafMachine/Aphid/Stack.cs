@@ -70,5 +70,10 @@ namespace LeafMachine.Aphid
             return String.Join(" ", this.stack.Select(x => x.ToString()));
         }
 
+        public List<AphidType> AsList()
+        {
+            return stack;
+        }
+
     }
 }

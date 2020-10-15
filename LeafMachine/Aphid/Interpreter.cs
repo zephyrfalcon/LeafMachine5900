@@ -28,6 +28,22 @@ namespace LeafMachine.Aphid
             get { return stacks.ElementAt(stacks.Count - 1); }
         }
 
+        public void PushStack()
+        {
+            stacks.Add(new Stack());
+        }
+
+        public Stack PopStack()
+        {
+            if (stacks.Count > 1) {
+                Stack topstack = stacks.ElementAt(stacks.Count - 1);
+                stacks.RemoveAt(stacks.Count - 1);
+                return topstack;
+            } else {
+                throw new Exception("cannot collapse stack");
+            }
+        }
+
         // TODO: AddStack, which pushes a new Stack onto `stacks`
 
         protected void LoadBuiltins()
