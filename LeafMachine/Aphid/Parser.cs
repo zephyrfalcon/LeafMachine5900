@@ -1,6 +1,8 @@
 ﻿using LeafMachine.Aphid.Types;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace LeafMachine.Aphid
@@ -11,19 +13,36 @@ namespace LeafMachine.Aphid
 
         public static List<AphidType> Parse(string[] tokens)
         {
-            List<AphidType> values = new List<AphidType>();
-            foreach (string token in tokens)
-            {
-                Match match = Regex.Match(token, re_integer);
-                if (match.Success) {
-                    values.Add(new AphidInteger(Int32.Parse(token)));
-                    continue;
-                }
+            List<List<AphidType>> lists = new List<List<AphidType>> { new List<AphidType> { } };
+            //List<AphidType> values = new List<AphidType>();
+            foreach (string token in tokens) {
+                if (token == "{") {
 
-                // if nothing else matches, it's a symbol
-                values.Add(new AphidSymbol(token));
+                }
+                else if (token == "}") {
+
+                }
+                else {
+                    ParseToken(token, lists.ElementAt(lists.Count - 1));
+                }
             }
-            return values;
+
+            // at this point, we should have exactly one list in `lists`
+            if (lists.Count == 1)
+                return lists[0];
+            else throw new Exception("parser error");
+        }
+
+        private static void ParseToken(string token, List<AphidType> list)
+        {
+            Match match = Regex.Match(token, re_integer);
+            if (match.Success) {
+                list.Add(new AphidInteger(Int32.Parse(token)));
+                return;
+            }
+
+            // if nothing else matches, it's a symbol
+            list.Add(new AphidSymbol(token));
         }
 
         public static List<AphidType> TokenizeAndParse(string data)
