@@ -46,6 +46,13 @@ namespace LeafMachineTests
             Assert.IsTrue(x2 is AphidList);
             Assert.AreEqual(x2.ToString(), "[ 3 4 ]");
         }
+
+        [Test]
+        public void TestBlocks()
+        {
+            aip.Run("1 2 { dup } exec");
+            Assert.AreEqual(aip.stack.SimpleRepr(), "1 2 2");
+        }
     }
 
     public class StackWordTests {
@@ -69,8 +76,7 @@ namespace LeafMachineTests
         [Test]
         public void TestDup()
         {
-            Check("1 2 dup", "1 2 2");
-        }
+            Check("1 2 dup", "1 2 2");        }
 
         [Test]
         public void TestDrop()

@@ -39,6 +39,14 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidList(topstack));
         }
 
+        public void Exec(AphidInterpreter aip)
+        {
+            AphidType x = aip.stack.Pop();
+            if (x is AphidBlock)
+                x.Run(aip);
+            else throw new System.Exception($"exec: Cannot execute {x.ToString()}");
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -48,6 +56,7 @@ namespace LeafMachine.Aphid
                 { "swap", Swap },
                 { "[", LeftBracket },
                 { "]", RightBracket },
+                { "exec", Exec },
             };
             return bw;
         }

@@ -141,6 +141,11 @@ namespace LeafMachine.Aphid.Types
         {
             aip.stack.Push(this);
         }
+
+        public override void Run(AphidInterpreter aip)
+        {
+            this.words.ForEach(x => x.Execute(aip));
+        }
     }
 
 }
