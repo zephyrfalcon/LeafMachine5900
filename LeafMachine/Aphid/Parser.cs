@@ -17,10 +17,21 @@ namespace LeafMachine.Aphid
             //List<AphidType> values = new List<AphidType>();
             foreach (string token in tokens) {
                 if (token == "{") {
-
+                    // we are starting a new block, so we add a new list to `lists`
+                    lists.Add(new List<AphidType> { });
+                    continue;
                 }
                 else if (token == "}") {
-
+                    // having <= 1 elements in `lists` is an error at this point.
+                    if (lists.Count <= 1)
+                        throw new Exception("parser error");
+                    // a block just ended; we take the topmost list from `lists`, and turn it into
+                    // an AphidBlock, and push that onto the new topmost list.
+                    List<AphidType> topmost = lists.ElementAt(lists.Count - 1);
+                    lists.RemoveAt(lists.Count - 1);
+                    AphidBlock blk = new AphidBlock(topmost);
+                    lists.ElementAt(lists.Count - 1).Add(blk);
+                    continue;
                 }
                 else {
                     ParseToken(token, lists.ElementAt(lists.Count - 1));
