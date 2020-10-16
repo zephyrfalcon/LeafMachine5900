@@ -8,6 +8,7 @@ namespace LeafMachine.Aphid
     public class Parser
     {
         static string re_integer = "\\d+";
+
         public static List<AphidType> Parse(string[] tokens)
         {
             List<AphidType> values = new List<AphidType>();

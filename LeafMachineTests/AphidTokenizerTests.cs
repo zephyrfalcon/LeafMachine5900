@@ -18,5 +18,13 @@ namespace LeafMachineTests
             string[] tokens = Tokenizer.Tokenize(s1);
             Assert.AreEqual(tokens, values);
         }
+
+        [Test]
+        public void TestTokenizerNewlines()
+        {
+            string[] tokens = Tokenizer.Tokenize("1 2\n3 4");
+            string[] expected = { "1", "2", "3", "4" };
+            Assert.AreEqual(expected, tokens);
+        }
     }
 }
