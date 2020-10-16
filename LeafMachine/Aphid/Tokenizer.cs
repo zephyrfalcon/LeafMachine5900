@@ -4,8 +4,8 @@ namespace LeafMachine.Aphid
 {
     public class Tokenizer
     {
-        // very basic version for now; simply splits the string on whitespace; does not take
-        // into account spaces inside string literals, comments, etc.
+        // rather basic version for now; simply splits the string on whitespace; does not take
+        // into account spaces inside string literals, etc.
         public static string[] Tokenize(string data)
         {
             List<string> tokens = new List<string>();

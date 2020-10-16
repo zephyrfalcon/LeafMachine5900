@@ -10,10 +10,13 @@ namespace LeafMachine.Aphid.Types
     {
         // should this be abstract?
 
-        // indicates what happens when we execute the object after parsing.
-        // e.g. numbers => pushes onto the stack
-        // symbols => looked up ...?
-        // NEEDS MORE THOUGHT
+        /* NOTE:
+         * Execute() is what happens when a get an object of this type back after being parser.
+         * In many cases, this means it will be pushed onto the stack, but for some types,
+         * other things will happen (e.g. words get executed, etc.)
+         * (It really needs a better name...)
+         */
+
         public virtual void Execute(AphidInterpreter aip)
         {
             throw new System.Exception("not implemented");
@@ -114,5 +117,30 @@ namespace LeafMachine.Aphid.Types
         }
     }
 
+    public class AphidBlock : AphidType
+    {
+        List<AphidType> words;
+
+        public AphidBlock()
+        {
+            words = new List<AphidType> { };
+        }
+        public AphidBlock(List<AphidType> some_words)
+        {
+            words = some_words;
+        }
+
+        public override string ToString()
+        {
+            if (words.Count == 0) return "{ }";
+            string s = String.Join(' ', words.Select(x => x.ToString()));
+            return $"{{ {s} }}";
+
+        }
+        public override void Execute(AphidInterpreter aip)
+        {
+            aip.stack.Push(this);
+        }
+    }
 
 }
