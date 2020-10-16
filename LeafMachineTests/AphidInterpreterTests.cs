@@ -89,5 +89,11 @@ namespace LeafMachineTests
         {
             Check("1 2 [ 4 5 ]", "1 2 [ 4 5 ]");
         }
+
+        [Test]
+        public void TestBraces()
+        {
+            Check("1 2 { 3 4 }", "1 2 { 3 4 }");
+        }
     }
 }

@@ -32,5 +32,12 @@ namespace LeafMachineTests
             Assert.IsTrue(values[1] is AphidInteger);
             Assert.IsTrue(values[3] is AphidSymbol);
         }
+
+        [Test]
+        public void TestBlocks()
+        {
+            List<AphidType> values = Parser.TokenizeAndParse("{ 3 4 }");
+            Assert.IsTrue(values[0] is AphidBlock);
+        }
     }
 }
