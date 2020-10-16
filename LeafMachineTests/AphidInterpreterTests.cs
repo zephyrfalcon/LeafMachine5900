@@ -95,5 +95,12 @@ namespace LeafMachineTests
         {
             Check("1 2 { 3 4 }", "1 2 { 3 4 }");
         }
+
+        [Test]
+        public void TestNestedBlocks()
+        {
+            Check("1 { 2 3 { dup } 4 } 5", "1 { 2 3 { dup } 4 } 5");
+        }
+
     }
 }
