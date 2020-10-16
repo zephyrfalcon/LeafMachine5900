@@ -11,7 +11,7 @@ namespace LeafMachineTests
         }
 
         [Test]
-        public void TestTokenizer()
+        public void TestBasics()
         {
             string s1 = "  1 2 3   dup drop ";
             string[] values = { "1", "2", "3", "dup", "drop" };
@@ -20,9 +20,25 @@ namespace LeafMachineTests
         }
 
         [Test]
-        public void TestTokenizerNewlines()
+        public void TestNewlines()
         {
             string[] tokens = Tokenizer.Tokenize("1 2\n3 4");
+            string[] expected = { "1", "2", "3", "4" };
+            Assert.AreEqual(expected, tokens);
+        }
+
+        [Test]
+        public void TestEmptyLines()
+        {
+            string[] tokens = Tokenizer.Tokenize("1 2\n\n3\r\t\t\n\r  5\n");
+            string[] expected = { "1", "2", "3", "5" };
+            Assert.AreEqual(expected, tokens);
+        }
+
+        [Test]
+        public void TestComments()
+        {
+            string[] tokens = Tokenizer.Tokenize("1 2 ; nonsense here\n  3 4");
             string[] expected = { "1", "2", "3", "4" };
             Assert.AreEqual(expected, tokens);
         }
