@@ -6,6 +6,7 @@ using LeafMachine.Aphid.Types;
 using LeafMachine.Aphid;
 using System.Linq;
 using System.ComponentModel;
+using System.Threading;
 
 namespace LeafMachine.Aphid
 {
@@ -68,6 +69,11 @@ namespace LeafMachine.Aphid
             bool found = this.words.TryGetValue(s, out result);
             if (found) return result; 
             else throw new Exception($"word not found: {s}");
+        }
+
+        public void Reset()
+        {
+            stacks.Clear();
         }
     }
 }
