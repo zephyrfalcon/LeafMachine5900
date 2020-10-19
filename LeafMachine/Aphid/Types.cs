@@ -148,4 +148,20 @@ namespace LeafMachine.Aphid.Types
         }
     }
 
+    public class AphidString : AphidType
+    {
+        private string value = "";
+        public AphidString() { value = ""; }
+        public AphidString(string s) { value = s; }
+        public override string ToString()
+        {
+            return $"\"{value}\"";
+        }
+        public override void Execute(AphidInterpreter aip)
+        {
+            aip.stack.Push(this);
+        }
+
+    }
+
 }

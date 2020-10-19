@@ -9,6 +9,7 @@ namespace LeafMachine.Aphid
     public class Parser
     {
         static string re_integer = "\\d+";
+        static string re_string = "\".*?\"";
 
         public static List<AphidType> Parse(string[] tokens)
         {
@@ -48,6 +49,11 @@ namespace LeafMachine.Aphid
             Match match = Regex.Match(token, re_integer);
             if (match.Success) {
                 list.Add(new AphidInteger(Int32.Parse(token)));
+                return;
+            }
+            match = Regex.Match(token, re_string);
+            if (match.Success) {
+                list.Add(new AphidString(token.Substring(1, token.Length - 2)));
                 return;
             }
 
