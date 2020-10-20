@@ -11,15 +11,15 @@ namespace LeafMachine.Aphid
         static string re_integer = "\\d+";
         static string re_string = "\".*?\"";
 
-        public static List<AphidType> Parse(string[] tokens)
+        public static List<AphidType> Parse(List<string> tokens)
         {
             List<List<AphidType>> lists = new List<List<AphidType>> { new List<AphidType> { } };
             //List<AphidType> values = new List<AphidType>();
-            foreach (string token in tokens) {
+            tokens.ForEach(token => {
+                //foreach (string token in tokens) {
                 if (token == "{") {
                     // we are starting a new block, so we add a new list to `lists`
                     lists.Add(new List<AphidType> { });
-                    continue;
                 }
                 else if (token == "}") {
                     // having <= 1 elements in `lists` is an error at this point.
@@ -31,12 +31,11 @@ namespace LeafMachine.Aphid
                     lists.RemoveAt(lists.Count - 1);
                     AphidBlock blk = new AphidBlock(topmost);
                     lists.ElementAt(lists.Count - 1).Add(blk);
-                    continue;
                 }
                 else {
                     ParseToken(token, lists.ElementAt(lists.Count - 1));
                 }
-            }
+            });
 
             // at this point, we should have exactly one list in `lists`
             if (lists.Count == 1)
@@ -63,7 +62,7 @@ namespace LeafMachine.Aphid
 
         public static List<AphidType> TokenizeAndParse(string data)
         {
-            string[] tokens = Tokenizer.Tokenize(data);
+            List<string> tokens = Tokenizer.Tokenize(data);
             return Parse(tokens);
         }
     }
