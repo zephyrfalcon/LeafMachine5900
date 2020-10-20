@@ -14,10 +14,16 @@ namespace LeafMachineTests
         [Test]
         public void TestBasics()
         {
-            string s1 = "  1 2 3   dup drop ";
-            List<string> values = new List<string> { "1", "2", "3", "dup", "drop" };
+            string s1 = "  1 2 3   dup drop  döf ";
+            List<string> values = new List<string> { "1", "2", "3", "dup", "drop", "döf" };
             List<string> tokens = Tokenizer.Tokenize(s1);
             Assert.AreEqual(tokens, values);
+
+            // try some Unicode stuff here
+            Assert.AreEqual(tokens[5].Length, 3);
+            char c = tokens[5][1];
+            Assert.AreEqual(c, 'ö');
+            // apparently it does not work for "😂", which is considered to have length 2.
         }
 
         [Test]
