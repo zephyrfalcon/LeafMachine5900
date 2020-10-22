@@ -1,4 +1,5 @@
-﻿using LeafMachine.Aphid;
+﻿using System;
+using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
 using System.Collections.Generic;
 
@@ -47,6 +48,22 @@ namespace LeafMachine.Aphid
             else throw new System.Exception($"exec: Cannot execute {x.ToString()}");
         }
 
+        public void StrToChars(AphidInterpreter aip)
+        {
+            AphidType x = aip.stack.Pop();
+            if (x is AphidString) {
+                string s1 = x.ToString();
+                string s2 = s1.Substring(1, s1.Length - 2);
+                Char[] chars = s2.ToCharArray();
+                List<AphidType> achars = new List<AphidType> { };
+                foreach (Char c in chars) {
+                    achars.Add(new AphidChar(c));
+                }
+                aip.stack.Push(new AphidList(achars));
+            }
+            else throw new System.Exception($"str>chars: Not a string: {x.ToString()}");
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -57,6 +74,7 @@ namespace LeafMachine.Aphid
                 { "[", LeftBracket },
                 { "]", RightBracket },
                 { "exec", Exec },
+                { "str>chars", StrToChars },
             };
             return bw;
         }

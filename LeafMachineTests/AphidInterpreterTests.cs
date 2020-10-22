@@ -108,5 +108,11 @@ namespace LeafMachineTests
             Check("1 { 2 3 { dup } 4 } 5", "1 { 2 3 { dup } 4 } 5");
         }
 
+        [Test]
+        public void TestStrToChars()
+        {
+            Check("\"abc\" str>chars", "[ 'a' 'b' 'c' ]");
+        }
+
     }
 }
