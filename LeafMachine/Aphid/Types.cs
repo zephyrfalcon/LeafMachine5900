@@ -164,4 +164,19 @@ namespace LeafMachine.Aphid.Types
 
     }
 
+    public class AphidChar : AphidType
+    {
+
+        private Char value;
+        public AphidChar(Char c) { value = c; }
+        public override string ToString()
+        {
+            return $"'{value}'";
+        }
+        public override void Execute(AphidInterpreter aip)
+        {
+            aip.stack.Push(this);
+        }
+    }
+
 }

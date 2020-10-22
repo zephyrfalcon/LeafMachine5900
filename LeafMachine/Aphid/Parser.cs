@@ -10,6 +10,7 @@ namespace LeafMachine.Aphid
     {
         static string re_integer = "\\d+";
         static string re_string = "\".*?\"";
+        static string re_char = @"'\w'";
 
         public static List<AphidType> Parse(List<string> tokens)
         {
@@ -53,6 +54,11 @@ namespace LeafMachine.Aphid
             match = Regex.Match(token, re_string);
             if (match.Success) {
                 list.Add(new AphidString(token.Substring(1, token.Length - 2)));
+                return;
+            }
+            match = Regex.Match(token, re_char);
+            if (match.Success) {
+                list.Add(new AphidChar(token[1]));
                 return;
             }
 
