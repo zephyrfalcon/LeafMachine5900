@@ -18,6 +18,10 @@ namespace LeafMachine
      * A "spinner" OTOH would require some kind of integer to determine which image we need.
      * Needs more thought! */
 
+    /* What we probably *do* need is different constructors for each. Like HiresChar could take
+     * an int[64] array, which would then be translated to foreground and background colors (sort of,
+     * see the "demo". */
+
     public class HiresChar : GraphicChar
     {
         private Texture2D image;
