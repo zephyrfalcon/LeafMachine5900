@@ -14,9 +14,12 @@ for i in range(256):
         byteset.append(bits)
     bytesets[i] = byteset
 
+INDENT = " "*8
+print(INDENT + "int[,] chars = new int[256,64] {")
 for i in range(256):
-    print(f"    {{ // {i}")
+    print(f"{INDENT}    {{ // {i}")
     byteset = bytesets[i]
     for bits in byteset:
-        print(" "*8 + (', '.join([str(bit) for bit in bits])))
-    print("    },")
+        print(INDENT + INDENT + (', '.join([str(bit) for bit in bits]) + ","))
+    print(f"{INDENT}    }},")
+print(INDENT + "};")
