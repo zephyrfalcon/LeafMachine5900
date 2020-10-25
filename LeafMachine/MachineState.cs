@@ -12,14 +12,15 @@ namespace LeafMachine
         const int NUM_COLORS = 16;
 
         public Color[] palette = new Color[NUM_COLORS+1];
-        // 0 is bogus but will be referred to elsewhere, meaning "background"
+        // 0 is bogus but will be referred to in images, meaning "background"/"transparent"
         // so 1..16 are the actual colors. for now, anyway.
-        public Color bgColor;
+        public int bgColor;  // index into the palette (1..16)
 
         // a 40x25 grid of characters, much like the C64
         public GraphicChar[,] chars = new GraphicChar[WIDTH,HEIGHT];
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
+        // Q: Do we really need to pass a GraphicsDeviceManager? what for?
         public MachineState(GraphicsDeviceManager graphics)
         {
             // clear the 40x25 grid

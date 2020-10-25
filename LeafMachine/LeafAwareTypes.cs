@@ -1,6 +1,9 @@
 ﻿using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
 
+/* Put Leaf-aware types here. These have access to MachineState, which must always be passed
+ * as the first argument in a constructor. */
+
 namespace LeafMachine
 {
     public delegate void DelAphidLeafBuiltinWord(AphidInterpreter aip, MachineState state);
