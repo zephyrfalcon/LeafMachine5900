@@ -3,6 +3,8 @@ using LeafMachine.Aphid.Types;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace LeafMachine
 {
@@ -18,9 +20,19 @@ namespace LeafMachine
             intp = new AphidInterpreter();
             _graphics = new GraphicsDeviceManager(this);
             state = new MachineState(_graphics);
-            // TODO: load built-in Aphid words that can access the MachineState
+            LoadBuiltinLeafWords(intp, state);
+
+            // not sure about these
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        void LoadBuiltinLeafWords(AphidInterpreter aip, MachineState state)
+        {
+            LeafBuiltinWords bw = new LeafBuiltinWords();
+            foreach(KeyValuePair<string, DelAphidLeafBuiltinWord> entry in bw.GetBuiltinWords()) {
+                aip.LoadBuiltin(entry.Key, new AphidLeafBuiltinWord(state, entry.Key, entry.Value));
+            }
         }
 
         protected override void Initialize()

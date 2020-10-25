@@ -43,11 +43,15 @@ namespace LeafMachine.Aphid.Types
         }
     }
 
-    public class AphidBuiltinWord : AphidType
+    public abstract class AphidWord : AphidType
     {
-        string name;
+        protected string name;
+        // a word must always have a name
+    }
+
+    public class AphidBuiltinWord : AphidWord
+    {
         DelAphidBuiltinWord builtinWord;
-        // a built-in word must always have a name
         public AphidBuiltinWord(string aname, DelAphidBuiltinWord abuiltinWord)
         {
             name = aname;

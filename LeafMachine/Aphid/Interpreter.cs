@@ -52,9 +52,16 @@ namespace LeafMachine.Aphid
             BuiltinWords bw = new BuiltinWords();
             words = new Dictionary<string, AphidType> { };
             foreach (KeyValuePair<string, DelAphidBuiltinWord> entry in bw.GetBuiltinWords()) {
-                words[entry.Key] = new AphidBuiltinWord(entry.Key, entry.Value);
+                LoadBuiltin(entry.Key, new AphidBuiltinWord(entry.Key, entry.Value));
             }
+        }
+
+        public void LoadBuiltin(string name, AphidWord word)
+        {
             // TODO: make sure we don't have duplicates
+            if (words.ContainsKey(name))
+                throw new Exception($"Word already exists: {name}");
+            words[name] = word;
         }
 
         public void Run(string s)
