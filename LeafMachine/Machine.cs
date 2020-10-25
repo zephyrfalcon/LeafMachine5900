@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LeafMachine.Aphid;
+using LeafMachine.Aphid.Types;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -8,10 +10,15 @@ namespace LeafMachine
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private MachineState state;
+        private AphidInterpreter intp;
 
         public Machine()
         {
+            intp = new AphidInterpreter();
             _graphics = new GraphicsDeviceManager(this);
+            state = new MachineState(_graphics);
+            // TODO: load built-in Aphid words that can access the MachineState
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
