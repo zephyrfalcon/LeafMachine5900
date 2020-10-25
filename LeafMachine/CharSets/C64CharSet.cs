@@ -6,8 +6,10 @@ namespace LeafMachine.CharSets
 {
     // XXX might want to derive from a superclass later...
 
-    // XXX this is not what I want. See e.g. https://www.c64-wiki.com/wiki/Character_set
-    // I want 0-127 to be the set of uppercase characters (etc), then 128-255 for lowercase.
+    // NOTE: Let's just stick to bits and character mappings and such here; let's not actually
+    // add Texture2Ds etc to this class.
+
+    // NOTE: 0-127 is the set of uppercase characters (etc), then 128-255 for lowercase.
     // The reverse values don't interest me because I can just generate them at will.
     // (This will result in double entries for certain graphic characters, but that doesn't
     // really matter.)
@@ -2614,7 +2616,7 @@ namespace LeafMachine.CharSets
                 chars[c] = ((int)c) - 64;  // ASCII: 65.., this charset: 1..,
             };
             foreach (char c in "abcdefghijklmnopqrstuvwxyz") {
-                chars[c] = ((int)c) - 96 + 128;  // ASCII: 97.., this charset: 128..,
+                chars[c] = ((int)c) - 96 + 128;  // ASCII: 97.., this charset: 129..,
             };
 
             return chars;
