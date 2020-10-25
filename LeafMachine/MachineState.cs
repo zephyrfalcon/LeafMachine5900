@@ -7,9 +7,9 @@ namespace LeafMachine
 
     public class MachineState
     {
-        const int WIDTH = 40;
-        const int HEIGHT = 25;
-        const int NUM_COLORS = 16;
+        public const int WIDTH = 40;
+        public const int HEIGHT = 25;
+        public const int NUM_COLORS = 16;
 
         public Color[] palette = new Color[NUM_COLORS+1];
         // 0 is bogus but will be referred to in images, meaning "background"/"transparent"
@@ -17,7 +17,7 @@ namespace LeafMachine
         public int bgColor;  // index into the palette (1..16)
 
         // a 40x25 grid of characters, much like the C64
-        public GraphicChar[,] chars = new GraphicChar[WIDTH,HEIGHT];
+        public GraphicChar[,] chars = new GraphicChar[WIDTH,HEIGHT];  // TODO: must be regular chars!
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
         // Q: Do we really need to pass a GraphicsDeviceManager? what for?

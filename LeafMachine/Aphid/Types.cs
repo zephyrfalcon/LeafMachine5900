@@ -41,6 +41,7 @@ namespace LeafMachine.Aphid.Types
         {
             aip.stack.Push(this);
         }
+        public int AsInteger() { return value; }
     }
 
     public abstract class AphidWord : AphidType
@@ -165,6 +166,7 @@ namespace LeafMachine.Aphid.Types
         {
             aip.stack.Push(this);
         }
+        public string AsString() { return value; }
 
     }
 

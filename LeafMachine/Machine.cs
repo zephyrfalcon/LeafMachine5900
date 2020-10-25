@@ -61,7 +61,7 @@ namespace LeafMachine
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(state.palette[state.bgColor]);
 
             // TODO: Add your drawing code here
 
