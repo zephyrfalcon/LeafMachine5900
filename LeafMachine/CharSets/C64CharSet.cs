@@ -1,9 +1,19 @@
-﻿namespace LeafMachine.CharSets
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace LeafMachine.CharSets
 {
     // XXX might want to derive from a superclass later...
+
+    // XXX this is not what I want. See e.g. https://www.c64-wiki.com/wiki/Character_set
+    // I want 0-127 to be the set of uppercase characters (etc), then 128-255 for lowercase.
+    // The reverse values don't interest me because I can just generate them at will.
+    // (This will result in double entries for certain graphic characters, but that doesn't
+    // really matter.)
     public class C64CharSet
     {
-        int[,] chars = new int[256, 64] {
+        int[,] bitmaps64 = new int[256, 64] {
             { // 0
                 0, 0, 1, 1, 1, 1, 0, 0,
                 0, 1, 1, 0, 0, 1, 1, 0,
@@ -2566,5 +2576,48 @@
             },
         };
 
+        Dictionary<char, int> charToBitmapIndex;
+
+        public C64CharSet()
+        {
+            charToBitmapIndex = CharToBitmapIndex();
+        }
+
+        public Dictionary<char,int> CharToBitmapIndex()
+        {
+            Dictionary<char, int> chars = new Dictionary<char, int> {
+                {'@', 0 },
+                {' ', 32 },
+            };
+            foreach(char c in "0123456789") {
+                chars[c] = ((int)c);  // should be 48, 49, ...
+            }
+            // TODO: characters like !@#$
+            foreach (char c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ") { 
+                chars[c] = ((int)c) - 64;  // ASCII: 65.., this charset: 1..,
+            };
+            foreach (char c in "abcdefghijklmnopqrstuvwxyz") {
+                //chars[c] = ((int)c) - 96;
+                // TODO/FIXME
+            };
+
+            return chars;
+        }
+
+        public int[] BitmapForIndex(int idx)
+        {
+            // apparently we cannot return a "nested" array, so I'll have to make one
+            int[] bits = new int[64];
+            for (int i = 0; i < 64; i++) {
+                bits[i] = bitmaps64[idx, i];
+            }
+            return bits;
+        }
+
+        public int[] BitmapForChar(char c)
+        {
+            int idx = charToBitmapIndex[c];
+            return BitmapForIndex(idx);
+        }
     }
 }
