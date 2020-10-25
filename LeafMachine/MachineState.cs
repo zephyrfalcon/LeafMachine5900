@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using LeafMachine;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace LeafMachine
 {
@@ -17,7 +18,7 @@ namespace LeafMachine
         public int bgColor;  // index into the palette (1..16)
 
         // a 40x25 grid of characters, much like the C64
-        public GraphicChar[,] chars = new GraphicChar[WIDTH,HEIGHT];  // TODO: must be regular chars!
+        public char[,] chars = new char[WIDTH,HEIGHT];  // TODO: must be regular chars!
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
         // Q: Do we really need to pass a GraphicsDeviceManager? what for?
@@ -30,7 +31,7 @@ namespace LeafMachine
             // clear the 40x25 grid
             for (int x = 0; x < 40; x++)
                 for (int y = 0; y < HEIGHT; y++)
-                    chars[x, y] = null;  // maybe EmptyChar or something?
+                    chars[x, y] = ' ';
 
             // set the foreground colors
             for (int x = 0; x < WIDTH; x++)
@@ -39,6 +40,11 @@ namespace LeafMachine
 
             // set the background color
             bgColor = 7;  // blue, in C64 palette
+        }
+
+        public void SetChar(int x, int y, char c)
+        {
+            chars[x, y] = c;
         }
 
         protected void SetC64Palette()

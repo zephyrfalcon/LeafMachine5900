@@ -45,10 +45,12 @@ namespace LeafMachine
             }
             else throw new System.Exception($"writexy: y must be an integer; got {ay.ToString()} instead");
 
-            // ...
+            // finally, set the values in MachineState.chars
             for (int i=0; i < text.Length; i++) {
-                char c = text[i];
-                // TODO: in grid, set character at position x,y
+                int realX = i + x;
+                if (realX < 0 || realX >= MachineState.WIDTH)
+                    throw new System.Exception($"writexy: string too long to be displayed");
+                state.SetChar(realX, y, text[i]);
             }
         }
 
