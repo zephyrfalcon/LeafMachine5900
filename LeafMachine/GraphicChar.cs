@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
+using System.Net;
 
 namespace LeafMachine
 {
@@ -22,8 +25,25 @@ namespace LeafMachine
      * an int[64] array, which would then be translated to foreground and background colors (sort of,
      * see the "demo". */
 
+    /* HiresChar:
+     * Built from an 8x8 array of bits (ints of 0 or 1 really). 
+     * When we plot this character, we specify a foreground color; the bits that have 1, will
+     * show up as that color; the bits that have 0, are considered transparent and will show
+     * up as the background color. 
+     */
     public class HiresChar : GraphicChar
     {
         private Texture2D image;
+        static Color fg = new Color(255, 255, 255, 255);
+        static Color bg = new Color(0, 0, 0, 0);
+        public HiresChar(GraphicsDevice graphics, int[] bits)
+        {
+            image = new Texture2D(graphics, 8, 8);
+            Color[] colors = new Color[8 * 8];
+            for (int i=0; i < 8*8; i++) {
+                colors[i] = (bits[i] == 1) ? fg : bg;
+            }
+            image.SetData(colors);
+        }
     }
 }
