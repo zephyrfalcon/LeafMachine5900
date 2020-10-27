@@ -6,8 +6,6 @@ namespace LeafMachine.Aphid
 {
     public class Tokenizer
     {
-        // rather basic version for now; simply splits the string on whitespace; does not take
-        // into account spaces inside string literals, etc.
         public static List<string> Tokenize(string data)
         {
             List<string> tokens = new List<string>();
@@ -20,17 +18,6 @@ namespace LeafMachine.Aphid
                     if (!s.StartsWith(';'))
                         tokens.Add(s);
                 }
-
-                /*
-                string[] parts = line.Split(delimiters, System.StringSplitOptions.RemoveEmptyEntries);
-                foreach (string part in parts) {
-                    // if we encounter a free-standing semicolon, then that plus all the text that follows
-                    // on that line, are considered a comment, and consequently ignored
-                    if (part == ";")
-                        break;
-                    tokens.Add(part);
-                }
-                */
             }
             return tokens;
         }
