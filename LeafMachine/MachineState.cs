@@ -2,6 +2,8 @@
 using LeafMachine;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using LeafMachine.CharSets;
 
 namespace LeafMachine
 {
@@ -12,6 +14,8 @@ namespace LeafMachine
         public const int HEIGHT = 25;
         public const int NUM_COLORS = 16;
 
+        GraphicsDeviceManager _graphics;
+
         public Color[] palette = new Color[NUM_COLORS+1];
         // 0 is bogus but will be referred to in images, meaning "background"/"transparent"
         // so 1..16 are the actual colors. for now, anyway.
@@ -21,11 +25,19 @@ namespace LeafMachine
         public char[,] chars = new char[WIDTH,HEIGHT];  // TODO: must be regular chars!
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
+        public Dictionary<char, GraphicChar> graphicChars;
+
         // Q: Do we really need to pass a GraphicsDeviceManager? what for?
         // we do use GraphicChar objects here, which hold actual images... or do we?
         // shouldn't we put something else as the character type for indexes [x,y]? a char or a string...
         public MachineState(GraphicsDeviceManager graphics)
         {
+            _graphics = graphics;
+
+            // load some character bitmaps as images, using the C64 charset for now
+            // we'll get back to this later
+            InitGraphicChars();
+
             SetC64Palette();  // for now, as a not-too-unreasonable default
 
             // clear the 40x25 grid
@@ -50,6 +62,15 @@ namespace LeafMachine
         public void SetColor(int x, int y, int c)
         {
             fgcolors[x, y] = c;
+        }
+
+        protected void InitGraphicChars()
+        {
+            graphicChars = new Dictionary<char, GraphicChar> { };
+            C64CharSet cs = new C64CharSet();
+            foreach (char c in cs.KnownChars()) {
+                graphicChars[c] = new HiresChar(_graphics, cs.BitmapForChar(c));
+            }
         }
 
         protected void SetC64Palette()

@@ -17,10 +17,9 @@ namespace LeafMachine
 
         public Machine()
         {
-            intp = new AphidInterpreter();
             _graphics = new GraphicsDeviceManager(this);
-            state = new MachineState(_graphics);
-            LoadBuiltinLeafWords(intp, state);
+
+            // NOTE: MachineState, AphidInterpreter etc are loaded in Initialize()
 
             // not sure about these
             Content.RootDirectory = "Content";
@@ -37,9 +36,18 @@ namespace LeafMachine
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
+            _graphics.PreferredBackBufferWidth = 320;
+            _graphics.PreferredBackBufferHeight = 200;
+            _graphics.ApplyChanges();
+
+            intp = new AphidInterpreter();
+            state = new MachineState(_graphics);
+            LoadBuiltinLeafWords(intp, state);
+
+            // test test...
+            state.SetChar(0, 0, 'A');
+            state.SetChar(1, 0, 'B');
         }
 
         protected override void LoadContent()
@@ -63,7 +71,17 @@ namespace LeafMachine
         {
             GraphicsDevice.Clear(state.palette[state.bgColor]);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            // plot characters
+            for (int x = 0; x < MachineState.WIDTH; x++)
+                for (int y = 0; y < MachineState.HEIGHT; y++) {
+                    char c = state.chars[x, y];
+                    GraphicChar gc = state.graphicChars[c];
+                    int colornum = state.fgcolors[x, y];
+                    Color color = state.palette[colornum];
+                    _spriteBatch.Draw(gc.GetImage(), new Vector2(x*8, y*8), color);
+                }
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

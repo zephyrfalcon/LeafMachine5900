@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace LeafMachine.CharSets
 {
@@ -2636,6 +2637,11 @@ namespace LeafMachine.CharSets
         {
             int idx = charToBitmapIndex[c];
             return BitmapForIndex(idx);
+        }
+
+        public char[] KnownChars()
+        {
+            return charToBitmapIndex.Keys.ToArray();
         }
     }
 }

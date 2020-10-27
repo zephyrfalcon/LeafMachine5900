@@ -7,7 +7,11 @@ namespace LeafMachine
 {
     abstract public class GraphicChar
     {
-
+        public virtual Texture2D GetImage() 
+        {
+            throw new System.Exception("not implemented");
+        }
+        // subject to change later, depending on type of GraphicChar...
     }
 
     /* It's not clear yet what these different classes actually *mean*.
@@ -36,14 +40,15 @@ namespace LeafMachine
         private Texture2D image;
         static Color fg = new Color(255, 255, 255, 255);
         static Color bg = new Color(0, 0, 0, 0);
-        public HiresChar(GraphicsDevice graphics, int[] bits)
+        public HiresChar(GraphicsDeviceManager graphics, int[] bits)
         {
-            image = new Texture2D(graphics, 8, 8);
+            image = new Texture2D(graphics.GraphicsDevice, 8, 8);
             Color[] colors = new Color[8 * 8];
             for (int i=0; i < 8*8; i++) {
                 colors[i] = (bits[i] == 1) ? fg : bg;
             }
             image.SetData(colors);
         }
+        public override Texture2D GetImage() { return image; }
     }
 }
