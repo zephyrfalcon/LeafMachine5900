@@ -13,8 +13,8 @@ namespace LeafMachine.Aphid
             string[] lines = data.Split('\n', System.StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines) {
                 MatchCollection results = Regex.Matches(line, "\"[^\"]*\"|;.*?(\\n|$)|\\S+", RegexOptions.Multiline);
-                string[] blah = results.Select(m => m.Value).ToArray();
-                foreach (string s in blah) {
+                string[] possibleTokens = results.Select(m => m.Value).ToArray();
+                foreach (string s in possibleTokens) {
                     if (!s.StartsWith(';'))
                         tokens.Add(s);
                 }
