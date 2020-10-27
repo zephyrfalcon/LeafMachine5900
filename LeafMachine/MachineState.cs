@@ -47,6 +47,11 @@ namespace LeafMachine
             chars[x, y] = c;
         }
 
+        public void SetColor(int x, int y, int c)
+        {
+            fgcolors[x, y] = c;
+        }
+
         protected void SetC64Palette()
         {
             // NOTE: these indexes are one up from the ones actually used by the C64
