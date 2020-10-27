@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using LeafMachine;
 
+// XXX really no point in having this around...
 
 namespace LeafMachineTests
 {
@@ -15,7 +16,7 @@ namespace LeafMachineTests
         [Test]
         public void Test1()
         {
-            MachineState state = new MachineState(null);
+            //MachineState state = new MachineState(null);
             // do stuff...
         }
     }

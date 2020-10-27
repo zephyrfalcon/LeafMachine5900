@@ -43,10 +43,26 @@ namespace LeafMachineTests
         }
 
         [Test]
-        public void TestComments()
+        public void TestComments1()
         {
             List<string> tokens = Tokenizer.Tokenize("1 2 ; nonsense here\n  3 4");
             List<string> expected = new List<string> { "1", "2", "3", "4" };
+            Assert.AreEqual(expected, tokens);
+        }
+
+        [Test]
+        public void TestComments2()
+        {
+            List<string> tokens = Tokenizer.Tokenize("1 2 ; more nonsense here");
+            List<string> expected = new List<string> { "1", "2" };
+            Assert.AreEqual(expected, tokens);
+        }
+
+        [Test]
+        public void TestStringsWithWhitespace()
+        {
+            List<string> tokens = Tokenizer.Tokenize("1 \"i like cookies\" 2");
+            List<string> expected = new List<string> { "1", "\"i like cookies\"", "2" };
             Assert.AreEqual(expected, tokens);
         }
     }

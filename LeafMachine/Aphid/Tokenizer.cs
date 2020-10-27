@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace LeafMachine.Aphid
 {
@@ -12,6 +14,14 @@ namespace LeafMachine.Aphid
             char[] delimiters = { ' ', '\n', '\t', '\r' };
             string[] lines = data.Split('\n', System.StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines) {
+                MatchCollection results = Regex.Matches(line, "\"[^\"]*\"|;.*?(\\n|$)|\\S+", RegexOptions.Multiline);
+                string[] blah = results.Select(m => m.Value).ToArray();
+                foreach (string s in blah) {
+                    if (!s.StartsWith(';'))
+                        tokens.Add(s);
+                }
+
+                /*
                 string[] parts = line.Split(delimiters, System.StringSplitOptions.RemoveEmptyEntries);
                 foreach (string part in parts) {
                     // if we encounter a free-standing semicolon, then that plus all the text that follows
@@ -20,6 +30,7 @@ namespace LeafMachine.Aphid
                         break;
                     tokens.Add(part);
                 }
+                */
             }
             return tokens;
         }
