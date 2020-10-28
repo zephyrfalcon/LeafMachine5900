@@ -12,8 +12,10 @@ namespace LeafMachine
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private RenderTarget2D target;
         private MachineState state;
         private AphidInterpreter intp;
+        int scale = 2;
 
         public Machine()
         {
@@ -37,8 +39,8 @@ namespace LeafMachine
         protected override void Initialize()
         {
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = 320;
-            _graphics.PreferredBackBufferHeight = 200;
+            _graphics.PreferredBackBufferWidth = 320*scale;   // scaling factor here, we should be able to set
+            _graphics.PreferredBackBufferHeight = 200*scale;  // this manually later
             _graphics.ApplyChanges();
 
             intp = new AphidInterpreter();
@@ -48,11 +50,14 @@ namespace LeafMachine
             // test test...
             state.SetChar(0, 0, 'A');
             state.SetChar(1, 0, 'B');
+            state.SetChar(39, 24, '!');
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            target = new RenderTarget2D(GraphicsDevice, MachineState.WIDTH*8, MachineState.HEIGHT*8);
+            GraphicsDevice.SetRenderTarget(target);
 
             // TODO: use this.Content to load your game content here
         }
@@ -69,6 +74,9 @@ namespace LeafMachine
 
         protected override void Draw(GameTime gameTime)
         {
+            // draw to the target
+            GraphicsDevice.SetRenderTarget(target);
+
             GraphicsDevice.Clear(state.palette[state.bgColor]);
 
             _spriteBatch.Begin();
@@ -81,6 +89,13 @@ namespace LeafMachine
                     Color color = state.palette[colornum];
                     _spriteBatch.Draw(gc.GetImage(), new Vector2(x*8, y*8), color);
                 }
+            _spriteBatch.End();
+
+            // now draw the target to a scaled rectangle
+            GraphicsDevice.SetRenderTarget(null);
+
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(target, new Rectangle(0, 0, MachineState.WIDTH*8*scale, MachineState.HEIGHT*8*scale), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
