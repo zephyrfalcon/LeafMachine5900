@@ -23,14 +23,12 @@ namespace LeafMachine.Aphid
         }
         public AphidType Pop()
         {
-            if (stack.Count > 0)
-            {
+            if (stack.Count > 0) {
                 AphidType x = this.stack.ElementAt(stack.Count - 1);
                 stack.RemoveAt(stack.Count - 1);
                 return x;
             }
-            else
-            {
+            else {
                 throw new Exception("stack underflow");
             }
         }
