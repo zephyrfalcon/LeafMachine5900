@@ -5,9 +5,14 @@ namespace LeafMachine
     public static class LeafMachine
     {
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            using (var game = new Machine())
+            string mainfile = "";
+            if (args.Length > 0) {
+                mainfile = System.IO.Path.GetFullPath(args[0]);
+            }
+
+            using (var game = new Machine(mainfile))
                 game.Run();
         }
     }

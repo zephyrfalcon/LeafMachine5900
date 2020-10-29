@@ -16,10 +16,12 @@ namespace LeafMachine
         private MachineState state;
         private AphidInterpreter intp;
         int scale = 2;
+        string mainfile = "";
 
-        public Machine()
+        public Machine(string mainfile)
         {
             _graphics = new GraphicsDeviceManager(this);
+            this.mainfile = mainfile;
 
             // NOTE: MachineState, AphidInterpreter etc are loaded in Initialize()
 
@@ -39,18 +41,23 @@ namespace LeafMachine
         protected override void Initialize()
         {
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = 320*scale;   // scaling factor here, we should be able to set
-            _graphics.PreferredBackBufferHeight = 200*scale;  // this manually later
+            _graphics.PreferredBackBufferWidth = 320 * scale;   // scaling factor here, we should be able to set
+            _graphics.PreferredBackBufferHeight = 200 * scale;  // this manually later
             _graphics.ApplyChanges();
 
             intp = new AphidInterpreter();
             state = new MachineState(_graphics);
             LoadBuiltinLeafWords(intp, state);
 
-            // test test...
-            state.SetChar(0, 0, 'A');
-            state.SetChar(1, 0, 'B');
-            state.SetChar(39, 24, '!');
+            if (this.mainfile == "") {
+                // test test...
+                state.SetChar(0, 0, 'A');
+                state.SetChar(1, 0, 'B');
+                state.SetChar(39, 24, '!');
+            } else {
+                intp.RunFile(this.mainfile);
+            }
+
         }
 
         protected override void LoadContent()

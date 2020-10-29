@@ -70,6 +70,12 @@ namespace LeafMachine.Aphid
             values.ForEach(x => x.Execute(this));
         }
 
+        public void RunFile(string filename)
+        {
+            string code = System.IO.File.ReadAllText(filename);
+            Run(code);
+        }
+
         public AphidType Lookup(string s)
         {
             AphidType result = null;
