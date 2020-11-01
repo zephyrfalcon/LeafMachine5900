@@ -15,6 +15,7 @@ namespace LeafMachine
         private RenderTarget2D target;
         private MachineState state;
         private AphidInterpreter intp;
+        private Effect fullScreenShader;
         int scale = 2;
         string mainfile = "";
 
@@ -62,6 +63,7 @@ namespace LeafMachine
 
         protected override void LoadContent()
         {
+            fullScreenShader = Content.Load<Effect>("grayscale");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             target = new RenderTarget2D(GraphicsDevice, MachineState.WIDTH*8, MachineState.HEIGHT*8);
             GraphicsDevice.SetRenderTarget(target);
@@ -86,7 +88,7 @@ namespace LeafMachine
 
             GraphicsDevice.Clear(state.palette[state.bgColor]);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             // plot characters
             for (int x = 0; x < MachineState.WIDTH; x++)
                 for (int y = 0; y < MachineState.HEIGHT; y++) {
@@ -101,7 +103,7 @@ namespace LeafMachine
             // now draw the target to a scaled rectangle
             GraphicsDevice.SetRenderTarget(null);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(effect: fullScreenShader);
             _spriteBatch.Draw(target, new Rectangle(0, 0, MachineState.WIDTH*8*scale, MachineState.HEIGHT*8*scale), Color.White);
             _spriteBatch.End();
 
