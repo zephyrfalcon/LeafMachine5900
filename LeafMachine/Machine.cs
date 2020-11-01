@@ -63,7 +63,8 @@ namespace LeafMachine
 
         protected override void LoadContent()
         {
-            fullScreenShader = Content.Load<Effect>("grayscale");
+            fullScreenShader = Content.Load<Effect>("crt-lottes-mg");  // does not work, everything black
+            //fullScreenShader.Parameters["shape"].SetValue((float)3.0);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             target = new RenderTarget2D(GraphicsDevice, MachineState.WIDTH*8, MachineState.HEIGHT*8);
             GraphicsDevice.SetRenderTarget(target);
@@ -103,7 +104,7 @@ namespace LeafMachine
             // now draw the target to a scaled rectangle
             GraphicsDevice.SetRenderTarget(null);
 
-            _spriteBatch.Begin(effect: fullScreenShader);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, effect: fullScreenShader);
             _spriteBatch.Draw(target, new Rectangle(0, 0, MachineState.WIDTH*8*scale, MachineState.HEIGHT*8*scale), Color.White);
             _spriteBatch.End();
 
