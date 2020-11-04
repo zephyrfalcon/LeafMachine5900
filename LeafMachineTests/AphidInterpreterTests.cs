@@ -111,7 +111,7 @@ namespace LeafMachineTests
         [Test]
         public void TestStrToChars()
         {
-            Check("\"abc\" str>chars", "[ 'a' 'b' 'c' ]");
+            Check("\"abc\" str>chars", "[ \"a\" \"b\" \"c\" ]");
         }
 
     }

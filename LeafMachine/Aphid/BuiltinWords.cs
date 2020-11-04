@@ -54,10 +54,10 @@ namespace LeafMachine.Aphid
             if (x is AphidString) {
                 string s1 = x.ToString();
                 string s2 = s1.Substring(1, s1.Length - 2);
-                Char[] chars = s2.ToCharArray();
+                Char[] chars = s2.ToCharArray();  // maybe fix later to handle Unicode better?
                 List<AphidType> achars = new List<AphidType> { };
                 foreach (Char c in chars) {
-                    achars.Add(new AphidChar(c));
+                    achars.Add(new AphidString(c.ToString()));
                 }
                 aip.stack.Push(new AphidList(achars));
             }
