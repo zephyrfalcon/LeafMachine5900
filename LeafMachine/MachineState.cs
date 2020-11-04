@@ -22,10 +22,10 @@ namespace LeafMachine
         public int bgColor;  // index into the palette (1..16)
 
         // a 40x25 grid of characters, much like the C64
-        public char[,] chars = new char[WIDTH,HEIGHT];  // TODO: must be regular chars!
+        public string[,] chars = new string[WIDTH,HEIGHT];  // letters or names like "a", "heart", etc
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
-        public Dictionary<char, GraphicChar> graphicChars;
+        public Dictionary<string, GraphicChar> graphicChars;
 
         // Q: Do we really need to pass a GraphicsDeviceManager? what for?
         // we do use GraphicChar objects here, which hold actual images... or do we?
@@ -43,7 +43,7 @@ namespace LeafMachine
             // clear the 40x25 grid
             for (int x = 0; x < 40; x++)
                 for (int y = 0; y < HEIGHT; y++)
-                    chars[x, y] = ' ';
+                    chars[x, y] = " ";
 
             // set the foreground colors
             for (int x = 0; x < WIDTH; x++)
@@ -54,9 +54,9 @@ namespace LeafMachine
             bgColor = 7;  // blue, in C64 palette
         }
 
-        public void SetChar(int x, int y, char c)
+        public void SetChar(int x, int y, string name)
         {
-            chars[x, y] = c;
+            chars[x, y] = name;
         }
 
         public void SetColor(int x, int y, int c)
@@ -66,10 +66,10 @@ namespace LeafMachine
 
         protected void InitGraphicChars()
         {
-            graphicChars = new Dictionary<char, GraphicChar> { };
+            graphicChars = new Dictionary<string, GraphicChar> { };
             C64CharSet cs = new C64CharSet();
-            foreach (char c in cs.KnownChars()) {
-                graphicChars[c] = new HiresChar(_graphics, cs.BitmapForChar(c));
+            foreach (string name in cs.KnownChars()) {
+                graphicChars[name] = new HiresChar(_graphics, cs.BitmapForChar(name));
             }
         }
 

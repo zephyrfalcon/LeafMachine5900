@@ -51,9 +51,9 @@ namespace LeafMachine
 
             if (this.mainfile == "") {
                 // test test...
-                state.SetChar(0, 0, 'A');
-                state.SetChar(1, 0, 'B');
-                state.SetChar(39, 24, '!');
+                state.SetChar(0, 0, "A");
+                state.SetChar(1, 0, "B");
+                state.SetChar(39, 24, "!");
             } else {
                 intp.RunFile(this.mainfile);
             }
@@ -90,8 +90,8 @@ namespace LeafMachine
             // plot characters
             for (int x = 0; x < MachineState.WIDTH; x++)
                 for (int y = 0; y < MachineState.HEIGHT; y++) {
-                    char c = state.chars[x, y];
-                    GraphicChar gc = state.graphicChars[c];
+                    string charname = state.chars[x, y];
+                    GraphicChar gc = state.graphicChars[charname];
                     int colornum = state.fgcolors[x, y];
                     Color color = state.palette[colornum];
                     _spriteBatch.Draw(gc.GetImage(), new Vector2(x*8, y*8), color);

@@ -2579,45 +2579,48 @@ namespace LeafMachine.CharSets
             },
         };
 
-        Dictionary<char, int> charToBitmapIndex;
+        Dictionary<string, int> charToBitmapIndex;
 
         public C64CharSet()
         {
             charToBitmapIndex = CharToBitmapIndex();
         }
 
-        public Dictionary<char,int> CharToBitmapIndex()
+        public Dictionary<string,int> CharToBitmapIndex()
         {
-            Dictionary<char, int> chars = new Dictionary<char, int> {
-                { '@', 0 },
-                { '[', 27 },
-                { ']', 29 },
-                { ' ', 32 },
-                { '!', 33 },
-                { '"', 34 },
-                { '#', 35 },
-                { '$', 36 },
-                { '%', 37 },
-                { '&', 38 },
-                { '\'', 39 },
-                { '(', 40 },
-                { ')', 41 },
-                { '*', 42 },
-                { '+', 43 },
-                { ',', 44 },
-                { '-', 45 },
-                { '.', 46 },
-                { '/', 47 },
+            Dictionary<string, int> chars = new Dictionary<string, int> {
+                { "@", 0 },
+                { "[", 27 },
+                { "]", 29 },
+                { " ", 32 },
+                { "!", 33 },
+                { "\"", 34 },
+                { "#", 35 },
+                { "$", 36 },
+                { "%", 37 },
+                { "&", 38 },
+                { "'", 39 },
+                { "(", 40 },
+                { ")", 41 },
+                { "*", 42 },
+                { "+", 43 },
+                { ",", 44 },
+                { "-", 45 },
+                { ".", 46 },
+                { "/", 47 },
+                { "spade", 65 },
+                { "heart", 83 },
+                { "club", 88 },
+                { "diamond", 90 },
             };
             foreach(char c in "0123456789") {
-                chars[c] = ((int)c);  // should be 48, 49, ...
+                chars[c.ToString()] = ((int)c);  // should be 48, 49, ...
             }
-            // TODO: characters like !@#$
             foreach (char c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ") { 
-                chars[c] = ((int)c) - 64;  // ASCII: 65.., this charset: 1..,
+                chars[c.ToString()] = ((int)c) - 64;  // ASCII: 65.., this charset: 1..,
             };
             foreach (char c in "abcdefghijklmnopqrstuvwxyz") {
-                chars[c] = ((int)c) - 96 + 128;  // ASCII: 97.., this charset: 129..,
+                chars[c.ToString()] = ((int)c) - 96 + 128;  // ASCII: 97.., this charset: 129..,
             };
 
             return chars;
@@ -2633,13 +2636,13 @@ namespace LeafMachine.CharSets
             return bits;
         }
 
-        public int[] BitmapForChar(char c)
+        public int[] BitmapForChar(string name)
         {
-            int idx = charToBitmapIndex[c];
+            int idx = charToBitmapIndex[name];
             return BitmapForIndex(idx);
         }
 
-        public char[] KnownChars()
+        public string[] KnownChars()
         {
             return charToBitmapIndex.Keys.ToArray();
         }

@@ -50,7 +50,7 @@ namespace LeafMachine
                 int realX = i + x;
                 if (realX < 0 || realX >= MachineState.WIDTH)
                     throw new System.Exception($"writexy: string too long to be displayed");
-                state.SetChar(realX, y, text[i]);
+                state.SetChar(realX, y, text[i].ToString());
                 state.SetColor(realX, y, color);
             }
         }
