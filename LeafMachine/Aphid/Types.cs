@@ -170,5 +170,17 @@ namespace LeafMachine.Aphid.Types
 
     }
 
+    public class AphidNull : AphidType
+    {
+        public AphidNull() { }
+        public override string ToString()
+        {
+            return "null";
+        }
+        public override void Execute(AphidInterpreter aip)
+        {
+            aip.stack.Push(this);
+        }
+    }
 
 }

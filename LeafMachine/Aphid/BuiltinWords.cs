@@ -64,6 +64,11 @@ namespace LeafMachine.Aphid
             else throw new System.Exception($"str>chars: Not a string: {x.ToString()}");
         }
 
+        public void Null(AphidInterpreter aip)
+        {
+            aip.stack.Push(new AphidNull());
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -75,6 +80,7 @@ namespace LeafMachine.Aphid
                 { "]", RightBracket },
                 { "exec", Exec },
                 { "str>chars", StrToChars },
+                { "null", Null },
             };
             return bw;
         }

@@ -53,6 +53,13 @@ namespace LeafMachineTests
             aip.Run("1 2 { dup } exec");
             Assert.AreEqual(aip.stack.SimpleRepr(), "1 2 2");
         }
+
+        [Test]
+        public void TestNull()
+        {
+            aip.Run("null");
+            Assert.IsTrue(aip.stack.TOS() is AphidNull);
+        }
     }
 
     public class StackWordTests {
@@ -112,6 +119,12 @@ namespace LeafMachineTests
         public void TestStrToChars()
         {
             Check("\"abc\" str>chars", "[ \"a\" \"b\" \"c\" ]");
+        }
+
+        [Test]
+        public void TestNull()
+        {
+            Check("null", "null");
         }
 
     }
