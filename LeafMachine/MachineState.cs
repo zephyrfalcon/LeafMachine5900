@@ -75,23 +75,22 @@ namespace LeafMachine
 
         protected void SetC64Palette()
         {
-            // NOTE: these indexes are one up from the ones actually used by the C64
             palette[1] = new Color(0, 0, 0);  // black
             palette[2] = new Color(255, 255, 255);  // white
-            palette[3] = new Color(136, 0, 0);  // red
-            palette[4] = new Color(170, 255, 238);  // cyan
-            palette[5] = new Color(204, 68, 204);  // purple
-            palette[6] = new Color(0, 204, 85);  // green
-            palette[7] = new Color(0, 0, 170);  // blue
-            palette[8] = new Color(238, 238, 119);  // yellow
-            palette[9] = new Color(221, 136, 85);  // orange
-            palette[10] = new Color(102, 68, 0);  // brown
-            palette[11] = new Color(255, 119, 119);  // pink
-            palette[12] = new Color(51, 51, 51);  // dark gray
-            palette[13] = new Color(119, 119, 119);  // med gray
-            palette[14] = new Color(170, 255, 102);  // light green
-            palette[15] = new Color(0, 136, 255);  // light blue
-            palette[16] = new Color(187, 187, 187);  // light gray
+            palette[3] = new Color(157, 67, 57);  // red
+            palette[4] = new Color(110, 200, 206);  // cyan
+            palette[5] = new Color(163, 55, 183);  // purple
+            palette[6] = new Color(80, 185, 75);  // green
+            palette[7] = new Color(86, 29, 172);  // blue
+            palette[8] = new Color(206, 229, 120);  // yellow
+            palette[9] = new Color(160, 104, 33);  // orange
+            palette[10] = new Color(105, 84, 0);  // brown
+            palette[11] = new Color(204, 124, 116);  // pink
+            palette[12] = new Color(96, 96, 96);  // dark gray
+            palette[13] = new Color(138, 138, 138);  // med gray
+            palette[14] = new Color(154, 244, 145);  // light green
+            palette[15] = new Color(145, 108, 224);  // light blue
+            palette[16] = new Color(179, 179, 179);  // light gray
         }
     }
 }
