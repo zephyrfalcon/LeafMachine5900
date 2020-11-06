@@ -13,7 +13,7 @@ namespace LeafMachine.Aphid
     public class AphidInterpreter
     {
         private List<Stack> stacks;
-        private Dictionary<string, AphidType> words;  // should this be: AphidWord?
+        private Dictionary<string, AphidWord> words;  // should this be: AphidWord?
         private Dictionary<string, AphidType> variables;
 
         public AphidInterpreter()
@@ -52,7 +52,7 @@ namespace LeafMachine.Aphid
         protected void LoadBuiltins()
         {
             BuiltinWords bw = new BuiltinWords();
-            words = new Dictionary<string, AphidType> { };
+            words = new Dictionary<string, AphidWord> { };
             foreach (KeyValuePair<string, DelAphidBuiltinWord> entry in bw.GetBuiltinWords()) {
                 LoadBuiltin(entry.Key, new AphidBuiltinWord(entry.Key, entry.Value));
             }
@@ -78,9 +78,9 @@ namespace LeafMachine.Aphid
             Run(code);
         }
 
-        public AphidType Lookup(string s)
+        public AphidWord Lookup(string s)
         {
-            AphidType result = null;
+            AphidWord result = null;
             bool found = this.words.TryGetValue(s, out result);
             if (found) return result; 
             else throw new Exception($"word not found: {s}");
