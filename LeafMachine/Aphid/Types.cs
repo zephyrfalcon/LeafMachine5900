@@ -82,6 +82,7 @@ namespace LeafMachine.Aphid.Types
         }
 
         public override string ToString() { return value; }
+        public string GetValue() { return value; }  // may or may not remain the same as ToString()
 
         public override void Execute(AphidInterpreter aip)
         {

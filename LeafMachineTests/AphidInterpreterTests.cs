@@ -60,6 +60,15 @@ namespace LeafMachineTests
             aip.Run("null");
             Assert.IsTrue(aip.stack.TOS() is AphidNull);
         }
+
+        [Test]
+        public void TestVariables()
+        {
+            aip.Run("42 :foo setvar");
+            Assert.AreEqual(aip.GetVar("foo").ToString(), "42");
+            aip.Run(":foo getvar");
+            Assert.AreEqual(aip.stack.TOS().ToString(), "42");
+        }
     }
 
     public class StackWordTests {

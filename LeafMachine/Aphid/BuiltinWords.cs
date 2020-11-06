@@ -2,6 +2,7 @@
 using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeafMachine.Aphid
 {
@@ -69,6 +70,32 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidNull());
         }
 
+        public void SetVar(AphidInterpreter aip)
+        {
+            // ( value :name -- )
+            AphidType name = aip.stack.Pop();
+            AphidType value = aip.stack.Pop();
+
+            if (name is AphidSymbol) {
+                string s = (name as AphidSymbol).GetValue();
+                aip.SetVar(s, value);
+            }
+            else throw new Exception($"setvar: symbol expected, got {name.ToString()} instead");
+        }
+
+        public void GetVar(AphidInterpreter aip)
+        {
+            // ( :name -- value )
+            AphidType name = aip.stack.Pop();
+
+            if (name is AphidSymbol) {
+                string s = (name as AphidSymbol).GetValue();
+                AphidType value = aip.GetVar(s);  // we assume the variable exists
+                aip.stack.Push(value);
+            }
+            else throw new Exception($"getvar: symbol expected, got {name.ToString()} instead");
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -81,6 +108,8 @@ namespace LeafMachine.Aphid
                 { "exec", Exec },
                 { "str>chars", StrToChars },
                 { "null", Null },
+                { "setvar", SetVar },
+                { "getvar", GetVar },
             };
             return bw;
         }

@@ -13,11 +13,13 @@ namespace LeafMachine.Aphid
     public class AphidInterpreter
     {
         private List<Stack> stacks;
-        private Dictionary<string, AphidType> words;
+        private Dictionary<string, AphidType> words;  // should this be: AphidWord?
+        private Dictionary<string, AphidType> variables;
 
         public AphidInterpreter()
         {
             stacks = new List<Stack> { new Stack() };
+            variables = new Dictionary<string, AphidType> { };
             LoadBuiltins();
         }
 
@@ -87,6 +89,16 @@ namespace LeafMachine.Aphid
         public void Reset()
         {
             stacks.Clear();
+        }
+
+        public void SetVar(string name, AphidType x)
+        {
+            variables[name] = x;
+        }
+
+        public AphidType GetVar(string name)
+        {
+            return variables[name];
         }
     }
 }
