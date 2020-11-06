@@ -1,2 +1,7 @@
 ; colors.aphid
 
+[ 1 "BLACK"
+  2 "WHITE"
+  3 "RED"
+] :colors setvar
+
