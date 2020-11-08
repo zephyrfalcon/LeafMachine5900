@@ -28,5 +28,14 @@ namespace LeafMachine
             else throw new System.Exception($"{context}: list expected, got {x.ToString()} instead");
         }
 
+        public static int ExpectColor(string context, AphidType x)
+        {
+            int color = ExpectInteger(context, x);
+            if (color > 0 && color <= MachineState.NUM_COLORS) {
+                return color;
+            }
+            else throw new System.Exception($"{context}: color must be a value between 1 and {MachineState.NUM_COLORS}; got {color} instead");
+        }
+
     }
 }

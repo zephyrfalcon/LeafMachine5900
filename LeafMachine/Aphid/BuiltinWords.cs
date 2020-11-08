@@ -98,21 +98,9 @@ namespace LeafMachine.Aphid
 
         public void Plus(AphidInterpreter aip)
         {
-            AphidType x = aip.stack.Pop();
-            AphidType y = aip.stack.Pop();
-            int ix, iy;
-
-            if (x is AphidInteger) {
-                ix = (x as AphidInteger).AsInteger();
-            }
-            else throw new Exception($"+: integer expected, got {x.ToString()} instead");
-
-            if (y is AphidInteger) {
-                iy = (y as AphidInteger).AsInteger();
-            }
-            else throw new Exception($"+: integer expected, got {y.ToString()} instead");
-
-            AphidInteger z = new AphidInteger(ix + iy);
+            int x = Expect.ExpectInteger("+", aip.stack.Pop());
+            int y = Expect.ExpectInteger("+", aip.stack.Pop());
+            AphidInteger z = new AphidInteger(x + y);
             aip.stack.Push(z);
         }
 
@@ -141,18 +129,14 @@ namespace LeafMachine.Aphid
         public void Pack(AphidInterpreter aip)
         {
             // ( ...N items... N -- [...N items...] )
-            AphidType an = aip.stack.Pop();
-            if (an is AphidInteger) {
-                int n = (an as AphidInteger).AsInteger();
-                List<AphidType> list = new List<AphidType> { };
-                for (int i=0; i < n; i++) {
-                    AphidType x = aip.stack.Pop();
-                    list.Add(x);
-                }
-                list.Reverse();
-                aip.stack.Push(new AphidList(list));
+            int n = Expect.ExpectInteger("pack", aip.stack.Pop());
+            List<AphidType> list = new List<AphidType> { };
+            for (int i = 0; i < n; i++) {
+                AphidType x = aip.stack.Pop();
+                list.Add(x);
             }
-            else throw new Exception($"pack: integer expected, got {an.ToString()} instead");
+            list.Reverse();
+            aip.stack.Push(new AphidList(list));
         }
 
         public void Unpack(AphidInterpreter aip)

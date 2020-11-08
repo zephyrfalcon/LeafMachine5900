@@ -19,17 +19,8 @@ namespace LeafMachine
             string text = "";
             int color, x, y;
 
-            if (atext is AphidString) {
-                text = (atext as AphidString).AsString();
-            }
-            else throw new System.Exception($"writexy: text must be string, got {atext.ToString()} instead");
-
-            if (acolor is AphidInteger) {
-                color = (acolor as AphidInteger).AsInteger();
-                if (color < 1 || color > MachineState.NUM_COLORS)
-                    throw new System.Exception($"writexy: color must be a value between 1 and 16; got {color} instead");
-            }
-            else throw new System.Exception($"writexy: color must be integer 1..16, got {acolor.ToString()} instead");
+            text = Expect.ExpectString("writexy", atext);
+            color = Expect.ExpectColor("writexy", acolor);
 
             if (ax is AphidInteger) {
                 x = (ax as AphidInteger).AsInteger();
@@ -58,15 +49,8 @@ namespace LeafMachine
         public void SetBG(AphidInterpreter aip, MachineState state)
         {
             // ( color -- )
-            AphidType acolor = aip.stack.Pop();
-
-            if (acolor is AphidInteger) {
-                int color = (acolor as AphidInteger).AsInteger();
-                if (color < 1 || color > MachineState.NUM_COLORS)
-                    throw new System.Exception($"setbg: color must be a value between 1 and 16; got {color} instead");
-                state.bgColor = color;
-            }
-            else throw new System.Exception($"setbg: integer expected, got {acolor.ToString()} instead");
+            int color = Expect.ExpectColor("setbg", aip.stack.Pop());
+            state.bgColor = color;
         }
 
         /* built-in words */

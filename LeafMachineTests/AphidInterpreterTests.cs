@@ -176,7 +176,7 @@ namespace LeafMachineTests
         [Test]
         public void TestFourRev()
         {
-            Check(":a :b :c :d 4rev", "d c b a");
+            Check(":a :b :c :d 4rev", "d c b a");  // FIXME
         }
 
         [Test]
