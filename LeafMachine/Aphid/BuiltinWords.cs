@@ -121,7 +121,6 @@ namespace LeafMachine.Aphid
             // ( list block -- )
             // For each element in <list>, push it on the stack, then execute <block>.
             AphidType block = aip.stack.Pop();
-            AphidType list = aip.stack.Pop();
             AphidBlock blk;
             AphidList lst;
 
@@ -131,10 +130,7 @@ namespace LeafMachine.Aphid
             // TODO: allow a symbol to look up and use a built-in word?
             else throw new Exception($"for-each: block expected, got {block.ToString()} instead");
 
-            if (list is AphidList) {
-                lst = (list as AphidList);
-            }
-            else throw new Exception($"for-each: list expected, got {list.ToString()} instead");
+            lst = Expect.ExpectAphidList("for-each", aip.stack.Pop());
 
             lst.AsList().ForEach(x => {
                 aip.stack.Push(x);
@@ -162,12 +158,8 @@ namespace LeafMachine.Aphid
         public void Unpack(AphidInterpreter aip)
         {
             // ( list -- ...elements of list... )
-            AphidType alist = aip.stack.Pop();
-
-            if (alist is AphidList) {
-                (alist as AphidList).AsList().ForEach(x => aip.stack.Push(x));
-            }
-            else throw new Exception($"unpack: list expected, got {alist.ToString()} instead");
+            AphidList list = Expect.ExpectAphidList("unpack", aip.stack.Pop());
+            list.AsList().ForEach(x => aip.stack.Push(x));
         }
 
         public void ThreeRev(AphidInterpreter aip)
@@ -197,7 +189,12 @@ namespace LeafMachine.Aphid
         public void Rev(AphidInterpreter aip)
         {
             // ( ...N items... N -- ...N items in reverse order... )
-            
+            int n = Expect.ExpectInteger("rev", aip.stack.Pop());
+            List<AphidType> items = new List<AphidType>();
+            for (int i = 0; i < n; i++) {
+                items.Add(aip.stack.Pop());
+            }
+            items.ForEach(x => aip.stack.Push(x));
         }
 
         /* built-in words */

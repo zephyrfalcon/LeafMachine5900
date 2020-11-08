@@ -179,5 +179,11 @@ namespace LeafMachineTests
             Check(":a :b :c :d 4rev", "d c b a");
         }
 
+        [Test]
+        public void TestRev()
+        {
+            Check("10 11 12 13 3 rev", "10 13 12 11");
+        }
+
     }
 }
