@@ -121,6 +121,10 @@ namespace LeafMachine.Aphid.Types
             string s = String.Join(' ', values.Select(x => x.ToString()));
             return $"[ {s} ]";
         }
+        public List<AphidType> AsList()
+        {
+            return values;
+        }
     }
 
     public class AphidBlock : AphidType

@@ -116,6 +116,41 @@ namespace LeafMachine.Aphid
             aip.stack.Push(z);
         }
 
+        public void ForEach(AphidInterpreter aip)
+        {
+            // ( list block -- )
+            // For each element in <list>, push it on the stack, then execute <block>.
+            AphidType block = aip.stack.Pop();
+            AphidType list = aip.stack.Pop();
+            AphidBlock blk;
+            AphidList lst;
+
+            if (block is AphidBlock) {
+                blk = (block as AphidBlock);
+            }
+            else throw new Exception($"for-each: block expected, got {block.ToString()} instead");
+
+            if (list is AphidList) {
+                lst = (list as AphidList);
+            }
+            else throw new Exception($"for-each: list expected, got {list.ToString()} instead");
+
+            lst.AsList().ForEach(x => {
+                aip.stack.Push(x);
+                blk.Run(aip);
+            });
+        }
+
+        public void Pack(AphidInterpreter aip)
+        {
+            // ( ...N items... N -- [...N items...] )
+        }
+
+        public void Unpack(AphidInterpreter aip)
+        {
+            // ( list -- ...elements of list... )
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -131,6 +166,7 @@ namespace LeafMachine.Aphid
                 { "setvar", SetVar },
                 { "getvar", GetVar },
                 { "+", Plus },
+                { "for-each", ForEach },
             };
             return bw;
         }

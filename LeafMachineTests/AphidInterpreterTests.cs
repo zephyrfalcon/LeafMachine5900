@@ -143,5 +143,13 @@ namespace LeafMachineTests
             Check("-3 +", "0");  // 3 is still on the stack
         }
 
+        [Test]
+        public void TestForEach()
+        {
+            Check("[ 4 5 6 ] { } for-each", "4 5 6");  // just put the items on the stack
+            aip.stack.Clear();
+            Check("[ 1 2 3 ] { 1 + } for-each", "2 3 4"); // ditto but add 1 to them first
+        }
+
     }
 }
