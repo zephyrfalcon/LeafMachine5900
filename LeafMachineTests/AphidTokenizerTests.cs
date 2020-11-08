@@ -14,8 +14,8 @@ namespace LeafMachineTests
         [Test]
         public void TestBasics()
         {
-            string s1 = "  1 2 3   dup drop  döf 'x' ";
-            List<string> values = new List<string> { "1", "2", "3", "dup", "drop", "döf", "'x'" };
+            string s1 = "  1 2 -3   dup drop  döf 'x' ";
+            List<string> values = new List<string> { "1", "2", "-3", "dup", "drop", "döf", "'x'" };
             List<string> tokens = Tokenizer.Tokenize(s1);
             Assert.AreEqual(tokens, values);
 

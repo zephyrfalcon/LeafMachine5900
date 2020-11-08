@@ -8,7 +8,7 @@ namespace LeafMachine.Aphid
 {
     public class Parser
     {
-        static string re_integer = "\\d+";
+        static string re_integer = "-?\\d+";
         static string re_string = "\".*?\"";
 
         public static List<AphidType> Parse(List<string> tokens)

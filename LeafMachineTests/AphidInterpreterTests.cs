@@ -140,6 +140,7 @@ namespace LeafMachineTests
         public void TestPlus()
         {
             Check("1 2 +", "3");
+            Check("-3 +", "0");  // 3 is still on the stack
         }
 
     }
