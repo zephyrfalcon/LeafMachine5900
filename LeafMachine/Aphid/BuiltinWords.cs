@@ -24,10 +24,11 @@ namespace LeafMachine.Aphid
 
         public void Swap(AphidInterpreter aip)
         {
-            AphidType a = aip.stack.Pop();
+            // ( a b -- b a )
             AphidType b = aip.stack.Pop();
-            aip.stack.Push(a);
+            AphidType a = aip.stack.Pop();
             aip.stack.Push(b);
+            aip.stack.Push(a);
         }
 
         public void Over(AphidInterpreter aip)
@@ -40,6 +41,28 @@ namespace LeafMachine.Aphid
             aip.stack.Push(n1);
             // TODO: can be written more efficiently by not doing the pop-and-push-again dance
             // but by inspecting the TOS-1 and pushing that...
+        }
+
+        public void Rol(AphidInterpreter aip)
+        {
+            // ( n1 n2 n3 -- n2 n3 n1 )
+            AphidType n3 = aip.stack.Pop();
+            AphidType n2 = aip.stack.Pop();
+            AphidType n1 = aip.stack.Pop();
+            aip.stack.Push(n2);
+            aip.stack.Push(n3);
+            aip.stack.Push(n1);
+        }
+
+        public void Ror(AphidInterpreter aip)
+        {
+            // ( n1 n2 n3 -- n3 n1 n2 )
+            AphidType n3 = aip.stack.Pop();
+            AphidType n2 = aip.stack.Pop();
+            AphidType n1 = aip.stack.Pop();
+            aip.stack.Push(n3);
+            aip.stack.Push(n1);
+            aip.stack.Push(n2);
         }
 
         public void LeftBracket(AphidInterpreter aip)
@@ -201,6 +224,8 @@ namespace LeafMachine.Aphid
                 { "drop", Drop },
                 { "swap", Swap },
                 { "over", Over },
+                { "rol", Rol },
+                { "ror", Ror },
                 { "[", LeftBracket },
                 { "]", RightBracket },
                 { "exec", Exec },

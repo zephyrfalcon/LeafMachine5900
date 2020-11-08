@@ -113,6 +113,18 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestRol()
+        {
+            Check("1 2 3 rol", "2 3 1");
+        }
+
+        [Test]
+        public void TestRor()
+        {
+            Check("1 2 3 ror", "3 1 2");
+        }
+
+        [Test]
         public void TestBrackets()
         {
             Check("1 2 [ 4 5 ]", "1 2 [ 4 5 ]");
