@@ -96,6 +96,26 @@ namespace LeafMachine.Aphid
             else throw new Exception($"getvar: symbol expected, got {name.ToString()} instead");
         }
 
+        public void Plus(AphidInterpreter aip)
+        {
+            AphidType x = aip.stack.Pop();
+            AphidType y = aip.stack.Pop();
+            int ix, iy;
+
+            if (x is AphidInteger) {
+                ix = (x as AphidInteger).AsInteger();
+            }
+            else throw new Exception($"+: integer expected, got {x.ToString()} instead");
+
+            if (y is AphidInteger) {
+                iy = (y as AphidInteger).AsInteger();
+            }
+            else throw new Exception($"+: integer expected, got {y.ToString()} instead");
+
+            AphidInteger z = new AphidInteger(ix + iy);
+            aip.stack.Push(z);
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -110,6 +130,7 @@ namespace LeafMachine.Aphid
                 { "null", Null },
                 { "setvar", SetVar },
                 { "getvar", GetVar },
+                { "+", Plus },
             };
             return bw;
         }

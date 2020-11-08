@@ -136,5 +136,11 @@ namespace LeafMachineTests
             Check("null", "null");
         }
 
+        [Test]
+        public void TestPlus()
+        {
+            Check("1 2 +", "3");
+        }
+
     }
 }
