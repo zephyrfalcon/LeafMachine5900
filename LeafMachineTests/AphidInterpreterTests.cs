@@ -151,5 +151,15 @@ namespace LeafMachineTests
             Check("[ 1 2 3 ] { 1 + } for-each", "2 3 4"); // ditto but add 1 to them first
         }
 
+        [Test]
+        public void TestPack()
+        {
+            Check("0 10 11 12 3 pack", "0 [ 10 11 12 ]");
+            aip.stack.Clear();
+            Check("1 2 3 0 pack", "1 2 3 [ ]");  // `0 pack` simply produces an empty list and leave the rest of the stack untouched
+            aip.stack.Clear();
+            Check("1 2 3 -1 pack", "1 2 3 [ ]"); // same for a negative number
+        }
+
     }
 }

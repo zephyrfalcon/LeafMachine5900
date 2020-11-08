@@ -11,13 +11,15 @@ namespace LeafMachine.Aphid.Types
         // should this be abstract?
 
         /* NOTE:
-         * Execute() is what happens when a get an object of this type back after being parser.
+         * Execute() is what happens when a get an object of this type back after being parsed.
          * In many cases, this means it will be pushed onto the stack, but for some types,
          * other things will happen (e.g. words get executed, etc.)
          * (It really needs a better name...)
          */
 
         public virtual void Execute(AphidInterpreter aip)
+            // Execute() is what happens when we encounter this type *in code*. Often, that means
+            // it's pushed on the stack.
         {
             throw new System.Exception("not implemented");
         }

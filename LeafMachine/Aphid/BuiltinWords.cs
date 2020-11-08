@@ -145,6 +145,18 @@ namespace LeafMachine.Aphid
         public void Pack(AphidInterpreter aip)
         {
             // ( ...N items... N -- [...N items...] )
+            AphidType an = aip.stack.Pop();
+            if (an is AphidInteger) {
+                int n = (an as AphidInteger).AsInteger();
+                List<AphidType> list = new List<AphidType> { };
+                for (int i=0; i < n; i++) {
+                    AphidType x = aip.stack.Pop();
+                    list.Add(x);
+                }
+                list.Reverse();
+                aip.stack.Push(new AphidList(list));
+            }
+            else throw new Exception($"pack: integer expected, got {an.ToString()} instead");
         }
 
         public void Unpack(AphidInterpreter aip)
@@ -168,6 +180,7 @@ namespace LeafMachine.Aphid
                 { "getvar", GetVar },
                 { "+", Plus },
                 { "for-each", ForEach },
+                { "pack", Pack },
             };
             return bw;
         }
