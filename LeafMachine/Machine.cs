@@ -44,6 +44,7 @@ namespace LeafMachine
             _graphics.PreferredBackBufferWidth = 320 * scale;   // scaling factor here, we should be able to set
             _graphics.PreferredBackBufferHeight = 200 * scale;  // this manually later
             _graphics.ApplyChanges();
+            this.Window.Title = "LEAF-5900";
 
             intp = new AphidInterpreter();
             state = new MachineState(_graphics);
@@ -55,6 +56,7 @@ namespace LeafMachine
                 state.SetChar(1, 0, "B");
                 state.SetChar(39, 24, "!");
             } else {
+                this.Window.Title += $" :: {System.IO.Path.GetFileName(this.mainfile)}";
                 intp.RunFile(this.mainfile);
             }
 

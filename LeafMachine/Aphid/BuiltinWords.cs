@@ -128,6 +128,7 @@ namespace LeafMachine.Aphid
             if (block is AphidBlock) {
                 blk = (block as AphidBlock);
             }
+            // TODO: allow a symbol to look up and use a built-in word?
             else throw new Exception($"for-each: block expected, got {block.ToString()} instead");
 
             if (list is AphidList) {
