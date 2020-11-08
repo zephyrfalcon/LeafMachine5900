@@ -107,6 +107,12 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestOver()
+        {
+            Check("1 2 over", "1 2 1");
+        }
+
+        [Test]
         public void TestBrackets()
         {
             Check("1 2 [ 4 5 ]", "1 2 [ 4 5 ]");

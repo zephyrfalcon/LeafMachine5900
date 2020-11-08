@@ -37,5 +37,9 @@ namespace LeafMachine
             else throw new System.Exception($"{context}: color must be a value between 1 and {MachineState.NUM_COLORS}; got {color} instead");
         }
 
+        // TODO:
+        // ExpectX, ExpectY
+        // ExpectSymbol
+        // ExpectBlock
     }
 }

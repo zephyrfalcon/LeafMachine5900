@@ -30,6 +30,18 @@ namespace LeafMachine.Aphid
             aip.stack.Push(b);
         }
 
+        public void Over(AphidInterpreter aip)
+        {
+            // ( n1 n2 -- n1 n2 n1 )
+            AphidType n2 = aip.stack.Pop();
+            AphidType n1 = aip.stack.Pop();
+            aip.stack.Push(n1);
+            aip.stack.Push(n2);
+            aip.stack.Push(n1);
+            // TODO: can be written more efficiently by not doing the pop-and-push-again dance
+            // but by inspecting the TOS-1 and pushing that...
+        }
+
         public void LeftBracket(AphidInterpreter aip)
         {
             aip.PushStack();
@@ -188,6 +200,7 @@ namespace LeafMachine.Aphid
                 { "dup", Dup },
                 { "drop", Drop },
                 { "swap", Swap },
+                { "over", Over },
                 { "[", LeftBracket },
                 { "]", RightBracket },
                 { "exec", Exec },
