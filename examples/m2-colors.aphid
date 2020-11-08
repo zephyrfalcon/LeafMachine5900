@@ -3,8 +3,22 @@
 [ [ 1 "BLACK" ]
   [ 2 "WHITE" ]
   [ 3 "RED" ]
+  [ 4 "CYAN" ]
+  [ 5 "PURPLE" ]
+  [ 6 "GREEN" ]
+  [ 7 "BLUE" ]
+  [ 8 "YELLOW" ]
+  [ 9 "ORANGE" ]
+  [ 10 "BROWN" ]
+  [ 11 "PINK" ]
+  [ 12 "DARK GRAY" ]
+  [ 13 "MED GRAY" ]
+  [ 14 "LIGHT GREEN" ]
+  [ 15 "LIGHT BLUE" ]
+  [ 16 "LIGHT GRAY" ]
 ] :colors setvar
 
+1 setbg
 :colors getvar { 
   ; # [ number name ]
   unpack                ; # number name
@@ -13,5 +27,4 @@
   1                     ; # name number number 1
   4rev                  ; # 1 number number name
   writexy
-  ;; x y color text writexy
 } for-each

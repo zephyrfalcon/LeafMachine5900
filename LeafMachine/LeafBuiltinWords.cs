@@ -55,12 +55,27 @@ namespace LeafMachine
             }
         }
 
+        public void SetBG(AphidInterpreter aip, MachineState state)
+        {
+            // ( color -- )
+            AphidType acolor = aip.stack.Pop();
+
+            if (acolor is AphidInteger) {
+                int color = (acolor as AphidInteger).AsInteger();
+                if (color < 1 || color > MachineState.NUM_COLORS)
+                    throw new System.Exception($"setbg: color must be a value between 1 and 16; got {color} instead");
+                state.bgColor = color;
+            }
+            else throw new System.Exception($"setbg: integer expected, got {acolor.ToString()} instead");
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
         {
             Dictionary<string, DelAphidLeafBuiltinWord> bw = new Dictionary<string, DelAphidLeafBuiltinWord> {
                 { "writexy", WriteXY },
+                { "setbg", SetBG },
             };
             return bw;
         }
