@@ -167,5 +167,17 @@ namespace LeafMachineTests
             Check("[ 1 2 3 ] unpack", "1 2 3");
         }
 
+        [Test]
+        public void TestThreeRev()
+        {
+            Check("1 2 3 4 3rev", "1 4 3 2");
+        }
+
+        [Test]
+        public void TestFourRev()
+        {
+            Check(":a :b :c :d 4rev", "d c b a");
+        }
+
     }
 }

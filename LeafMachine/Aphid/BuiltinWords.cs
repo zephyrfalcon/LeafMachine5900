@@ -170,6 +170,36 @@ namespace LeafMachine.Aphid
             else throw new Exception($"unpack: list expected, got {alist.ToString()} instead");
         }
 
+        public void ThreeRev(AphidInterpreter aip)
+        {
+            // ( a b c -- c b a )
+            AphidType a = aip.stack.Pop();
+            AphidType b = aip.stack.Pop();
+            AphidType c = aip.stack.Pop();
+            aip.stack.Push(a);
+            aip.stack.Push(b);
+            aip.stack.Push(c);
+        }
+
+        public void FourRev(AphidInterpreter aip)
+        {
+            // ( a b c d -- d c b a )
+            AphidType a = aip.stack.Pop();
+            AphidType b = aip.stack.Pop();
+            AphidType c = aip.stack.Pop();
+            AphidType d = aip.stack.Pop();
+            aip.stack.Push(a);
+            aip.stack.Push(b);
+            aip.stack.Push(c);
+            aip.stack.Push(d);
+        }
+
+        public void Rev(AphidInterpreter aip)
+        {
+            // ( ...N items... N -- ...N items in reverse order... )
+            
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -188,6 +218,9 @@ namespace LeafMachine.Aphid
                 { "for-each", ForEach },
                 { "pack", Pack },
                 { "unpack", Unpack },
+                { "3rev", ThreeRev },
+                { "4rev", FourRev },
+                { "rev", Rev },
             };
             return bw;
         }

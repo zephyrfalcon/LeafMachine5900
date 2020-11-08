@@ -1,7 +1,17 @@
 ; colors.aphid
 
-[ 1 "BLACK"
-  2 "WHITE"
-  3 "RED"
+[ [ 1 "BLACK" ]
+  [ 2 "WHITE" ]
+  [ 3 "RED" ]
 ] :colors setvar
 
+:colors getvar { 
+  ; # [ number name ]
+  unpack                ; # number name
+  swap                  ; # name number
+  dup                   ; # name number number
+  1                     ; # name number number 1
+  4rev                  ; # 1 number number name
+  writexy
+  ;; x y color text writexy
+} for-each

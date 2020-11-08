@@ -38,6 +38,14 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestWordsStartingWithNumbers()
+        {
+            List<AphidType> values = Parser.TokenizeAndParse("1 3rev 4");
+            Assert.IsTrue(values.Count == 3);
+            Assert.AreEqual(values[1].ToString(), "3rev");
+        }
+
+        [Test]
         public void TestBlocks()
         {
             List<AphidType> values = Parser.TokenizeAndParse("{ 3 4 }");
