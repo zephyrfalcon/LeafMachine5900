@@ -162,6 +162,12 @@ namespace LeafMachine.Aphid
         public void Unpack(AphidInterpreter aip)
         {
             // ( list -- ...elements of list... )
+            AphidType alist = aip.stack.Pop();
+
+            if (alist is AphidList) {
+                (alist as AphidList).AsList().ForEach(x => aip.stack.Push(x));
+            }
+            else throw new Exception($"unpack: list expected, got {alist.ToString()} instead");
         }
 
         /* built-in words */
@@ -181,6 +187,7 @@ namespace LeafMachine.Aphid
                 { "+", Plus },
                 { "for-each", ForEach },
                 { "pack", Pack },
+                { "unpack", Unpack },
             };
             return bw;
         }

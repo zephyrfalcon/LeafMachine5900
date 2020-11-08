@@ -161,5 +161,11 @@ namespace LeafMachineTests
             Check("1 2 3 -1 pack", "1 2 3 [ ]"); // same for a negative number
         }
 
+        [Test]
+        public void TestUnpack()
+        {
+            Check("[ 1 2 3 ] unpack", "1 2 3");
+        }
+
     }
 }
