@@ -58,9 +58,26 @@ namespace LeafMachine.Aphid
         }
 
         public AphidType Nth(int n)
+            // get the n-th element of the stack, starting at the top, from 1.
+            // (so the top of the stack is 1, the one under that is 2, etc.)
         {
-            throw new Exception("to be implemented");
+            if (n > stack.Count)
+                throw new Exception("stack underflow");
+            if (n <= 0)
+                throw new Exception($"cannot access stack with negative index");
+            return this.stack.ElementAt(stack.Count - n);
         }
+
+        public void DeleteNth(int n)
+        {
+            if (n > stack.Count)
+                throw new Exception("stack underflow");
+            if (n <= 0)
+                throw new Exception($"cannot access stack with negative index");
+            this.stack.RemoveAt(stack.Count - n);
+        }
+
+        // TODO: insert before or after Nth
 
         // simple stack representation meant for testing
         public string SimpleRepr()

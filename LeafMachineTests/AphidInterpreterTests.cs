@@ -125,6 +125,12 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestNip()
+        {
+            Check("1 2 3 nip", "1 3");
+        }
+
+        [Test]
         public void TestBrackets()
         {
             Check("1 2 [ 4 5 ]", "1 2 [ 4 5 ]");

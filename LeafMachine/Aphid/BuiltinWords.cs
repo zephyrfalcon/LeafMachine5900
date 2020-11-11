@@ -65,6 +65,12 @@ namespace LeafMachine.Aphid
             aip.stack.Push(n2);
         }
 
+        public void Nip(AphidInterpreter aip)
+        {
+            // ( a b -- b )
+            aip.stack.DeleteNth(2);
+        }
+
         public void LeftBracket(AphidInterpreter aip)
         {
             aip.PushStack();
@@ -226,6 +232,7 @@ namespace LeafMachine.Aphid
                 { "over", Over },
                 { "rol", Rol },
                 { "ror", Ror },
+                { "nip", Nip },
                 { "[", LeftBracket },
                 { "]", RightBracket },
                 { "exec", Exec },
