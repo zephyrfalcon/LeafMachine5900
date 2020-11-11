@@ -75,6 +75,24 @@ namespace LeafMachine.Aphid.Types
         }
     }
 
+    public class AphidUserDefinedWord : AphidWord
+    {
+        AphidBlock code;
+        public AphidUserDefinedWord(string aname, AphidBlock ablock)
+        {
+            name = aname;
+            code = ablock;
+        }
+        public override string ToString()
+        {
+            return $"<{name}>";
+        }
+        public override void Run(AphidInterpreter aip)
+        {
+            code.Run(aip);
+        }
+    }
+
     public class AphidSymbol : AphidType
     {
         string value = null;

@@ -209,5 +209,12 @@ namespace LeafMachineTests
             Check("10 11 12 13 3 rev", "10 13 12 11");
         }
 
+        [Test]
+        public void TestDefWord()
+        {
+            Check("{ swap drop } :my-nip defword " +
+                "1 2 3 my-nip", "1 3");
+        }
+
     }
 }

@@ -37,9 +37,25 @@ namespace LeafMachine
             else throw new System.Exception($"{context}: color must be a value between 1 and {MachineState.NUM_COLORS}; got {color} instead");
         }
 
+        public static string ExpectSymbol(string context, AphidType x)
+        {
+            if (x is AphidSymbol) {
+                return (x as AphidSymbol).GetValue();
+            }
+            else throw new System.Exception($"{context}: symbol expected, got {x.ToString()} instead");
+        }
+
+        public static AphidBlock ExpectAphidBlock(string context, AphidType x)
+        {
+            if (x is AphidBlock) {
+                return (x as AphidBlock);
+            }
+            else throw new System.Exception($"{context}: block expected, got {x.ToString()} instead");
+        }
+
+
         // TODO:
         // ExpectX, ExpectY
-        // ExpectSymbol
         // ExpectBlock
     }
 }

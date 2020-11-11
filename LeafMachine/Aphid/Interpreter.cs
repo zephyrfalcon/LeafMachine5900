@@ -54,11 +54,11 @@ namespace LeafMachine.Aphid
             BuiltinWords bw = new BuiltinWords();
             words = new Dictionary<string, AphidWord> { };
             foreach (KeyValuePair<string, DelAphidBuiltinWord> entry in bw.GetBuiltinWords()) {
-                LoadBuiltin(entry.Key, new AphidBuiltinWord(entry.Key, entry.Value));
+                LoadWord(entry.Key, new AphidBuiltinWord(entry.Key, entry.Value));
             }
         }
 
-        public void LoadBuiltin(string name, AphidWord word)
+        public void LoadWord(string name, AphidWord word)
         {
             // TODO: make sure we don't have duplicates
             if (words.ContainsKey(name))

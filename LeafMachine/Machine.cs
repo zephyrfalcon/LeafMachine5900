@@ -34,7 +34,7 @@ namespace LeafMachine
         {
             LeafBuiltinWords bw = new LeafBuiltinWords();
             foreach(KeyValuePair<string, DelAphidLeafBuiltinWord> entry in bw.GetBuiltinWords()) {
-                aip.LoadBuiltin(entry.Key, new AphidLeafBuiltinWord(state, entry.Key, entry.Value));
+                aip.LoadWord(entry.Key, new AphidLeafBuiltinWord(state, entry.Key, entry.Value));
             }
         }
 

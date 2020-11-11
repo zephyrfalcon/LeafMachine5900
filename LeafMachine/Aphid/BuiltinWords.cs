@@ -10,6 +10,9 @@ namespace LeafMachine.Aphid
 
     public class BuiltinWords
     {
+
+        #region stack_manipulation
+
         public void Dup(AphidInterpreter aip)
         {
             AphidType x = aip.stack.TOS();
@@ -70,6 +73,8 @@ namespace LeafMachine.Aphid
             // ( a b -- b )
             aip.stack.DeleteNth(2);
         }
+
+        #endregion
 
         public void LeftBracket(AphidInterpreter aip)
         {
@@ -222,6 +227,15 @@ namespace LeafMachine.Aphid
             items.ForEach(x => aip.stack.Push(x));
         }
 
+        public void DefWord(AphidInterpreter aip)
+        {
+            // ( block :name -- )
+            string name = Expect.ExpectSymbol("defword", aip.stack.Pop());
+            AphidBlock block = Expect.ExpectAphidBlock("defword", aip.stack.Pop());
+            AphidUserDefinedWord word = new AphidUserDefinedWord(name, block);
+            aip.LoadWord(name, word);
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -247,6 +261,7 @@ namespace LeafMachine.Aphid
                 { "3rev", ThreeRev },
                 { "4rev", FourRev },
                 { "rev", Rev },
+                { "defword", DefWord },
             };
             return bw;
         }
