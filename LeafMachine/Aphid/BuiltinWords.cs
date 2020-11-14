@@ -227,6 +227,17 @@ namespace LeafMachine.Aphid
             items.ForEach(x => aip.stack.Push(x));
         }
 
+        public void Pick(AphidInterpreter aip)
+        {
+            // ( ...N items... N -- <Nth item> )
+            // where we start counting at 1, so the TOS is 1, the item under that is 2, etc
+            int n = Expect.ExpectInteger("pick", aip.stack.Pop());
+            if (aip.stack.Size() < n)
+                throw new Exception($"pick: stack underflow, at least {n} elements expected");
+            AphidType x = aip.stack.Nth(n);
+            aip.stack.Push(x);
+        }
+
         public void DefWord(AphidInterpreter aip)
         {
             // ( block :name -- )
@@ -262,6 +273,7 @@ namespace LeafMachine.Aphid
                 { "4rev", FourRev },
                 { "rev", Rev },
                 { "defword", DefWord },
+                { "pick", Pick },
             };
             return bw;
         }

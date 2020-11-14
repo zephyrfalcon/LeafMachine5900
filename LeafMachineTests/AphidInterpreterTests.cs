@@ -216,5 +216,11 @@ namespace LeafMachineTests
                 "1 2 3 my-nip", "1 3");
         }
 
+        [Test]
+        public void TestPick()
+        {
+            Check("10 11 12 13 3 pick", "10 11 12 13 11");
+        }
+
     }
 }
