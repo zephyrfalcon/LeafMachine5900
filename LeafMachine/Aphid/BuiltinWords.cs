@@ -227,9 +227,34 @@ namespace LeafMachine.Aphid
             items.ForEach(x => aip.stack.Push(x));
         }
 
+        public void Roll(AphidInterpreter aip)
+        {
+            // ( ...N items... N -- ...N items rotated "to the left"... )
+            // negative values rotate "to the right", and 0 is a no-op
+            int n = Expect.ExpectInteger("roll", aip.stack.Pop());
+            if (n == 0) return; // no-op
+            List<AphidType> items = new List<AphidType>();
+            if (n < 0) {
+                n = -n;
+                for (int i = 0; i < n; i++)
+                    items.Add(aip.stack.Pop());
+                AphidType x = items[0];
+                items.RemoveAt(0);
+                items.Add(x);
+            } else if (n > 0) {
+                for (int i = 0; i < n; i++)
+                    items.Add(aip.stack.Pop());
+                AphidType x = items[items.Count - 1];
+                items.RemoveAt(items.Count - 1);
+                items.Insert(0, x);
+            }
+            items.Reverse();
+            items.ForEach(x => aip.stack.Push(x));
+        }
+
         public void Pick(AphidInterpreter aip)
         {
-            // ( ...N items... N -- <Nth item> )
+            // ( ...items... N -- <Nth item> )
             // where we start counting at 1, so the TOS is 1, the item under that is 2, etc
             int n = Expect.ExpectInteger("pick", aip.stack.Pop());
             if (aip.stack.Size() < n)
@@ -274,6 +299,7 @@ namespace LeafMachine.Aphid
                 { "rev", Rev },
                 { "defword", DefWord },
                 { "pick", Pick },
+                { "roll", Roll },
             };
             return bw;
         }

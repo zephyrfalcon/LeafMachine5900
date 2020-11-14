@@ -222,5 +222,12 @@ namespace LeafMachineTests
             Check("10 11 12 13 3 pick", "10 11 12 13 11");
         }
 
+        [Test]
+        public void TestRoll()
+        {
+            Check("1 2 3 4 3 roll", "1 3 4 2");
+            aip.stack.Clear();
+            Check("1 2 3 4 -3 roll", "1 4 2 3");
+        }
     }
 }
