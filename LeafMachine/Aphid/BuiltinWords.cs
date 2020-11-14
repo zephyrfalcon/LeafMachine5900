@@ -74,6 +74,16 @@ namespace LeafMachine.Aphid
             aip.stack.DeleteNth(2);
         }
 
+        public void Tuck(AphidInterpreter aip)
+        {
+            // ( a b -- b a b )
+            AphidType b = aip.stack.Pop();
+            AphidType a = aip.stack.Pop();
+            aip.stack.Push(b);
+            aip.stack.Push(a);
+            aip.stack.Push(b);
+        }
+
         #endregion
 
         public void LeftBracket(AphidInterpreter aip)
@@ -283,6 +293,7 @@ namespace LeafMachine.Aphid
                 { "rol", Rol },
                 { "ror", Ror },
                 { "nip", Nip },
+                { "tuck", Tuck },
                 { "[", LeftBracket },
                 { "]", RightBracket },
                 { "exec", Exec },
@@ -294,8 +305,8 @@ namespace LeafMachine.Aphid
                 { "for-each", ForEach },
                 { "pack", Pack },
                 { "unpack", Unpack },
-                { "3rev", ThreeRev },
-                { "4rev", FourRev },
+                { "3rev", ThreeRev },  // maybe redundant
+                { "4rev", FourRev },   // maybe redundant
                 { "rev", Rev },
                 { "defword", DefWord },
                 { "pick", Pick },

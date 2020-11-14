@@ -131,6 +131,12 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestTuck()
+        {
+            Check("1 2 tuck", "2 1 2");
+        }
+
+        [Test]
         public void TestBrackets()
         {
             Check("1 2 [ 4 5 ]", "1 2 [ 4 5 ]");
