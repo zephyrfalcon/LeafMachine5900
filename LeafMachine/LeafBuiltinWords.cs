@@ -53,6 +53,14 @@ namespace LeafMachine
             state.bgColor = color;
         }
 
+        public void Tix(AphidInterpreter aip, MachineState state)
+        {
+            // ( -- tix )
+            aip.stack.Push(new AphidInteger(state.tix));
+            // TODO: instead of endlessly creating new AphidInteger objects for this, we *could* just
+            // reuse an existing one... from Aphid's POV they are immutable anyway.
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
@@ -60,6 +68,7 @@ namespace LeafMachine
             Dictionary<string, DelAphidLeafBuiltinWord> bw = new Dictionary<string, DelAphidLeafBuiltinWord> {
                 { "writexy", WriteXY },
                 { "setbg", SetBG },
+                { "tix", Tix },
             };
             return bw;
         }

@@ -16,16 +16,18 @@ namespace LeafMachine
 
         GraphicsDeviceManager _graphics;
 
-        public Color[] palette = new Color[NUM_COLORS+1];
+        public Color[] palette = new Color[NUM_COLORS + 1];
         // 0 is bogus but will be referred to in images, meaning "background"/"transparent"
         // so 1..16 are the actual colors. for now, anyway.
         public int bgColor;  // index into the palette (1..16)
 
         // a 40x25 grid of characters, much like the C64
-        public string[,] chars = new string[WIDTH,HEIGHT];  // letters or names like "a", "heart", etc
+        public string[,] chars = new string[WIDTH, HEIGHT];  // letters or names like "a", "heart", etc
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
         public Dictionary<string, GraphicChar> graphicChars;
+
+        public int tix = 0;  // number of tix (1/60th of a second) passed since we started
 
         // Q: Do we really need to pass a GraphicsDeviceManager? what for?
         // we do use GraphicChar objects here, which hold actual images... or do we?
