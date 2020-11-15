@@ -206,7 +206,12 @@ namespace LeafMachineTests
         [Test]
         public void TestFourRev()
         {
-            Check(":a :b :c :d 4rev", "d c b a");  // FIXME
+            Check(":a :b :c :d 4rev", "d c b a");  // FIXME?
+            // There's no bug here... a symbol literal like :a is Execute()d, which strips the
+            // leading colon and puts that symbol (minus the colon) on the stack. So when we
+            // display it *as data on the stack*, it does not have a colon. It's not code, that's
+            // why it differs from displaying a block, which *does* contain code and therefore
+            // may also contain un-Execute()d symbol literals.
         }
 
         [Test]

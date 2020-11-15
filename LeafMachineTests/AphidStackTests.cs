@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;  // avoid collision with NUnit.Framework.List
+using NUnit.Framework;
 using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
 
@@ -39,6 +40,19 @@ namespace LeafMachineTests
 
             Stack s2 = new Stack();
             Assert.AreEqual(s2.SimpleRepr(), "");
+
+            Stack s3 = new Stack();
+            s3.Push(new AphidInteger(1));
+            s3.Push(new AphidSymbol(":foo"));
+            Assert.AreEqual(s3.SimpleRepr(), "1 :foo");
+            List<AphidType> list = new List<AphidType> { new AphidString("bah"), new AphidSymbol("bar") };
+            // NOTE: You'd think this should be :bar instead, but we don't put symbol literals in lists, usually;
+            // it's data, not code (unless it's in a block).
+            s3.Push(new AphidList(list));
+            Assert.AreEqual(s3.SimpleRepr(), "1 :foo [ \"bah\" bar ]");
+            List<AphidType> code = new List<AphidType> { new AphidInteger(3), new AphidSymbol(":quux"), new AphidSymbol("setvar") };
+            s3.Push(new AphidBlock(code));
+            Assert.AreEqual(s3.SimpleRepr(), "1 :foo [ \"bah\" bar ] { 3 :quux setvar }");
         }
     }
 }
