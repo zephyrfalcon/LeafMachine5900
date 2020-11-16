@@ -172,6 +172,17 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidInteger(c));
         }
 
+        public void Rem(AphidInterpreter aip)
+        {
+            // ( a b -- a%b )
+            // Divides a/b, using integer division, putting the remainder on the stack.
+            // (Like the % in many other languages, like C, Javascript and Python.)
+            int b = Expect.ExpectInteger("rem", aip.stack.Pop());
+            int a = Expect.ExpectInteger("rem", aip.stack.Pop());
+            int c = a % b;
+            aip.stack.Push(new AphidInteger(c));
+        }
+
         #endregion
 
         public void ForEach(AphidInterpreter aip)
@@ -324,6 +335,7 @@ namespace LeafMachine.Aphid
                 { "getvar", GetVar },
                 { "+", Plus },
                 { "/", Divide },
+                { "rem", Rem },
                 { "for-each", ForEach },
                 { "pack", Pack },
                 { "unpack", Unpack },

@@ -184,6 +184,22 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void Testrem()
+        {
+            Check("10 3 rem", "1");
+            aip.stack.Clear();
+            Check("11 3 rem", "2");
+            aip.stack.Clear();
+            Check("10 5 rem", "0");
+            aip.stack.Clear();
+            Check("-21 4 rem", "-1");
+            aip.stack.Clear();
+            Check("-10 3 rem", "-1");
+            aip.stack.Clear();
+            Check("10 -3 rem", "1");  // for some reason; let's not worry about it right now
+        }
+
+        [Test]
         public void TestForEach()
         {
             Check("[ 4 5 6 ] { } for-each", "4 5 6");  // just put the items on the stack
