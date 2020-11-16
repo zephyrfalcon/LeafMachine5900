@@ -93,6 +93,11 @@ namespace LeafMachine
 
             // TODO: Add your update logic here
 
+            // if an updater is defined, execute it
+            if (state.updater != null) {
+                state.updater.Run(this.intp);
+            }
+
             base.Update(gameTime);
         }
 

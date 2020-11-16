@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using LeafMachine.CharSets;
+using LeafMachine.Aphid.Types;
 
 namespace LeafMachine
 {
@@ -28,6 +29,8 @@ namespace LeafMachine
         public Dictionary<string, GraphicChar> graphicChars;
 
         public int tix = 0;  // number of tix (1/60th of a second) passed since we started
+
+        public AphidWord updater = null;
 
         // Q: Do we really need to pass a GraphicsDeviceManager? what for?
         // we do use GraphicChar objects here, which hold actual images... or do we?
@@ -73,6 +76,11 @@ namespace LeafMachine
             foreach (string name in cs.KnownChars()) {
                 graphicChars[name] = new HiresChar(_graphics, cs.BitmapForChar(name));
             }
+        }
+
+        public void SetUpdater(AphidWord newUpdater)
+        {
+            updater = newUpdater;
         }
 
         protected void SetC64Palette()

@@ -1,0 +1,10 @@
+; m2.9-tix.aphid
+; Show the number of tix.
+
+{
+    0 0 15
+    tix int>str
+    writexy
+} :show-tix defword
+
+:show-tix set-updater

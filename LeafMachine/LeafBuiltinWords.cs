@@ -61,6 +61,14 @@ namespace LeafMachine
             // reuse an existing one... from Aphid's POV they are immutable anyway.
         }
 
+        public void SetUpdater(AphidInterpreter aip, MachineState state)
+        {
+            // ( name -- )
+            string name = Expect.ExpectSymbol("set-updater", aip.stack.Pop());
+            AphidWord word = aip.Lookup(name);
+            state.SetUpdater(word);
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
@@ -69,6 +77,7 @@ namespace LeafMachine
                 { "writexy", WriteXY },
                 { "setbg", SetBG },
                 { "tix", Tix },
+                { "set-updater", SetUpdater },
             };
             return bw;
         }
