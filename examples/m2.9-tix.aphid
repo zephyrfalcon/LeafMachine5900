@@ -2,8 +2,13 @@
 ; Show the number of tix.
 
 {
+    ; show tix
     0 0 15
     tix int>str
+    writexy
+    ; show seconds
+    0 1 15
+    tix 60 / int>str
     writexy
 } :show-tix defword
 
