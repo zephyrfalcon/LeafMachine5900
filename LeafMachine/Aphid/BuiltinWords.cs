@@ -282,6 +282,13 @@ namespace LeafMachine.Aphid
             aip.LoadWord(name, word);
         }
 
+        public void IntToStr(AphidInterpreter aip)
+        {
+            // ( integer -- string )
+            int i = Expect.ExpectInteger("int>str", aip.stack.Pop());
+            aip.stack.Push(new AphidString(i.ToString()));
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -311,6 +318,7 @@ namespace LeafMachine.Aphid
                 { "defword", DefWord },
                 { "pick", Pick },
                 { "roll", Roll },
+                { "int>str", IntToStr },
             };
             return bw;
         }

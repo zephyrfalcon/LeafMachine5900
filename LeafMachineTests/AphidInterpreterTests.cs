@@ -240,5 +240,11 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("1 2 3 4 -3 roll", "1 4 2 3");
         }
+
+        [Test]
+        public void TestIntToStr()
+        {
+            Check("42 int>str", "\"42\"");
+        }
     }
 }
