@@ -152,6 +152,8 @@ namespace LeafMachine.Aphid
             else throw new Exception($"getvar: symbol expected, got {name.ToString()} instead");
         }
 
+        #region arithmetic
+
         public void Plus(AphidInterpreter aip)
         {
             int x = Expect.ExpectInteger("+", aip.stack.Pop());
@@ -159,6 +161,18 @@ namespace LeafMachine.Aphid
             AphidInteger z = new AphidInteger(x + y);
             aip.stack.Push(z);
         }
+
+        public void Divide(AphidInterpreter aip)
+        {
+            // ( a b -- a/b )
+            // Divides a/b, using integer division.
+            int b = Expect.ExpectInteger("/", aip.stack.Pop());
+            int a = Expect.ExpectInteger("/", aip.stack.Pop());
+            int c = a / b;
+            aip.stack.Push(new AphidInteger(c));
+        }
+
+        #endregion
 
         public void ForEach(AphidInterpreter aip)
         {
@@ -309,6 +323,7 @@ namespace LeafMachine.Aphid
                 { "setvar", SetVar },
                 { "getvar", GetVar },
                 { "+", Plus },
+                { "/", Divide },
                 { "for-each", ForEach },
                 { "pack", Pack },
                 { "unpack", Unpack },

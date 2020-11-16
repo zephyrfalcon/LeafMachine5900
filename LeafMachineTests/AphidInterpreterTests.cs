@@ -174,6 +174,16 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestDivide()
+        {
+            Check("10 3 /", "3");
+            aip.stack.Clear();
+            Check("11 3 /", "3");
+            aip.stack.Clear();
+            Check("-4 -2 /", "2");
+        }
+
+        [Test]
         public void TestForEach()
         {
             Check("[ 4 5 6 ] { } for-each", "4 5 6");  // just put the items on the stack
