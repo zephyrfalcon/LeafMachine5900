@@ -282,5 +282,11 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("false { :a } { :b } if", "b");
         }
+
+        [Test]
+        public void TestIntEquals()
+        {
+            Check("3 4 int= 5 5 int=", "false true");
+        }
     }
 }

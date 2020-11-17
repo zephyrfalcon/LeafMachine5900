@@ -335,6 +335,14 @@ namespace LeafMachine.Aphid
             else falseBlock.Run(aip);
         }
 
+        public void IntEquals(AphidInterpreter aip)
+        {
+            // ( a b == bool )
+            int b = Expect.ExpectInteger("int=", aip.stack.Pop());
+            int a = Expect.ExpectInteger("int=", aip.stack.Pop());
+            aip.stack.Push(new AphidBool(a == b));
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -370,6 +378,7 @@ namespace LeafMachine.Aphid
                 { "roll", Roll },
                 { "int>str", IntToStr },
                 { "if", If },
+                { "int=", IntEquals },
             };
             return bw;
         }
