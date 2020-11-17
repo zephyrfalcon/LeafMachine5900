@@ -324,6 +324,17 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidBool(false));
         }
 
+        public void If(AphidInterpreter aip)
+        {
+            // ( bool true-block false-block -- ? )
+            AphidBlock falseBlock = Expect.ExpectAphidBlock("if", aip.stack.Pop());
+            AphidBlock trueBlock = Expect.ExpectAphidBlock("if", aip.stack.Pop());
+            bool condition = Expect.ExpectBool("if", aip.stack.Pop());
+            if (condition)
+                trueBlock.Run(aip);
+            else falseBlock.Run(aip);
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -358,6 +369,7 @@ namespace LeafMachine.Aphid
                 { "pick", Pick },
                 { "roll", Roll },
                 { "int>str", IntToStr },
+                { "if", If },
             };
             return bw;
         }

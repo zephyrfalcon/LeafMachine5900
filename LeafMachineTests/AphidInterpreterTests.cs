@@ -272,5 +272,15 @@ namespace LeafMachineTests
         {
             Check("42 int>str", "\"42\"");
         }
+
+        [Test]
+        public void TestIf()
+        {
+            // `if` can be used to execute code but can also leave stuff on the stack, which is what
+            // we're doing here, since I don't have comparison words at this point yet :)
+            Check("true { 4 } { 6 } if", "4");
+            aip.stack.Clear();
+            Check("false { :a } { :b } if", "b");
+        }
     }
 }
