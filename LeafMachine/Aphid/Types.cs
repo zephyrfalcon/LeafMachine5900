@@ -208,4 +208,25 @@ namespace LeafMachine.Aphid.Types
         }
     }
 
+    public class AphidBool : AphidType
+    {
+        bool value;
+        public AphidBool(bool aBool)
+        {
+            value = aBool;
+        }
+        public override string ToString()
+        {
+            return value ? "true" : "false";
+        }
+        public override void Execute(AphidInterpreter aip)
+        {
+            aip.stack.Push(this);
+        }
+        public bool IsTrue()
+        {
+            return value;
+        }
+    }
+
 }

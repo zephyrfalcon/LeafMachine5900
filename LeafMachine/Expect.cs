@@ -53,6 +53,13 @@ namespace LeafMachine
             else throw new System.Exception($"{context}: block expected, got {x.ToString()} instead");
         }
 
+        public static bool ExpectBool(string context, AphidType x)
+        {
+            if (x is AphidBool)
+                return (x as AphidBool).IsTrue();
+            else throw new System.Exception($"{context}: bool expected, got {x.ToString()} instead");
+        }
+
 
         // TODO:
         // ExpectX, ExpectY

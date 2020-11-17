@@ -314,6 +314,16 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidString(i.ToString()));
         }
 
+        public void True(AphidInterpreter aip)
+        {
+            aip.stack.Push(new AphidBool(true));
+        }
+
+        public void False(AphidInterpreter aip)
+        {
+            aip.stack.Push(new AphidBool(false));
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -331,6 +341,8 @@ namespace LeafMachine.Aphid
                 { "exec", Exec },
                 { "str>chars", StrToChars },
                 { "null", Null },
+                { "true", True },
+                { "false", False },
                 { "setvar", SetVar },
                 { "getvar", GetVar },
                 { "+", Plus },
