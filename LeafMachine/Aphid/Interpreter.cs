@@ -21,6 +21,7 @@ namespace LeafMachine.Aphid
             stacks = new List<Stack> { new Stack() };
             variables = new Dictionary<string, AphidType> { };
             LoadBuiltins();
+            LoadPrelude();
         }
 
         // We normally only work with the topmost Stack, which for convenience can be referred to
@@ -56,6 +57,11 @@ namespace LeafMachine.Aphid
             foreach (KeyValuePair<string, DelAphidBuiltinWord> entry in bw.GetBuiltinWords()) {
                 LoadWord(entry.Key, new AphidBuiltinWord(entry.Key, entry.Value));
             }
+        }
+
+        protected void LoadPrelude()
+        {
+            Run(Prelude.code);
         }
 
         public void LoadWord(string name, AphidWord word)
