@@ -343,6 +343,14 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidBool(a == b));
         }
 
+        public void IntGreaterThan(AphidInterpreter aip)
+        {
+            // ( a b == bool )
+            int b = Expect.ExpectInteger("int=", aip.stack.Pop());
+            int a = Expect.ExpectInteger("int=", aip.stack.Pop());
+            aip.stack.Push(new AphidBool(a > b));
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -379,6 +387,7 @@ namespace LeafMachine.Aphid
                 { "int>str", IntToStr },
                 { "if", If },
                 { "int=", IntEquals },
+                { "int>", IntGreaterThan },
             };
             return bw;
         }

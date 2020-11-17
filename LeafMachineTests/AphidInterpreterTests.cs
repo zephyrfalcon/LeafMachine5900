@@ -288,5 +288,11 @@ namespace LeafMachineTests
         {
             Check("3 4 int= 5 5 int=", "false true");
         }
+
+        [Test]
+        public void TestIntGreaterThan()
+        {
+            Check("3 4 int>  4 4 int>  5 4 int>", "false false true");
+        }
     }
 }
