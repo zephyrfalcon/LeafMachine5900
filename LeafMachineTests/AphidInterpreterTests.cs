@@ -302,5 +302,13 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("\"abc def\" length", "7");
         }
+
+        [Test]
+        public void TestAt()
+        {
+            Check("[ :a :b :c ] 0 at", "a");
+            aip.stack.Clear();
+            Check("\"abc\" 1 at", "\"b\"");
+        }
     }
 }

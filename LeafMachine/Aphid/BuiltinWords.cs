@@ -364,6 +364,22 @@ namespace LeafMachine.Aphid
             else throw new Exception($"length: list or string expected, got {x.ToString()} instead");
         }
 
+        public void At(AphidInterpreter aip)
+        {
+            // ( list|string index -- value )
+            int idx = Expect.ExpectInteger("at", aip.stack.Pop());  // may change in future if we support dicts
+            AphidType x = aip.stack.Pop();
+            if (x is AphidList) {
+                aip.stack.Push((x as AphidList).AsList()[idx]);
+            }
+            else if (x is AphidString) {
+                string s = (x as AphidString).AsString();
+                string c = s[idx].ToString();
+                aip.stack.Push(new AphidString(c));
+            }
+            else throw new Exception($"length: list or string expected, got {x.ToString()} instead");
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -402,6 +418,7 @@ namespace LeafMachine.Aphid
                 { "int=", IntEquals },
                 { "int>", IntGreaterThan },
                 { "length", Length },
+                { "at", At },
             };
             return bw;
         }
