@@ -1,0 +1,47 @@
+; m3-colors.aphid
+
+[ [ 1 "BLACK" ]
+  [ 2 "WHITE" ]
+  [ 3 "RED" ]
+  [ 4 "CYAN" ]
+  [ 5 "PURPLE" ]
+  [ 6 "GREEN" ]
+  [ 7 "BLUE" ]
+  [ 8 "YELLOW" ]
+  [ 9 "ORANGE" ]
+  [ 10 "BROWN" ]
+  [ 11 "PINK" ]
+  [ 12 "DARK GRAY" ]
+  [ 13 "MED GRAY" ]
+  [ 14 "LIGHT GREEN" ]
+  [ 15 "LIGHT BLUE" ]
+  [ 16 "LIGHT GRAY" ]
+] :colors setvar
+
+; write-color ( number name -- )
+{ swap                  ; name number
+  dup                   ; name number number
+  1                     ; name number number 1
+  4 rev                 ; 1 number number name
+  writexy 
+} :write-color defword
+
+1 setbg
+; :colors getvar { 
+;   ; # [ number name ]
+;   unpack                ; # number name
+;   write-color
+; } for-each
+
+{ } :nop defword
+
+; the color we're currently processing
+1 :current-color setvar
+
+{
+  tix                            ; tix
+  60 rem                         ; tix%60
+  0 int=                         ; <true if tix%60 == 0>
+  { 
+  } when
+} :color-updater defword

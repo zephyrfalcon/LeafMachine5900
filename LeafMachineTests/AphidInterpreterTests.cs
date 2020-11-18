@@ -294,5 +294,13 @@ namespace LeafMachineTests
         {
             Check("3 4 int>  4 4 int>  5 4 int>", "false false true");
         }
+
+        [Test]
+        public void TestLength()
+        {
+            Check("[ 1 2 3 ] length", "3");
+            aip.stack.Clear();
+            Check("\"abc def\" length", "7");
+        }
     }
 }

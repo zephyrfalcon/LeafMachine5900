@@ -351,6 +351,19 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidBool(a > b));
         }
 
+        public void Length(AphidInterpreter aip)
+        {
+            // ( list|string -- length )
+            AphidType x = aip.stack.Pop();
+            if (x is AphidList) {
+                aip.stack.Push(new AphidInteger((x as AphidList).AsList().Count));
+            }
+            else if (x is AphidString) {
+                aip.stack.Push(new AphidInteger((x as AphidString).AsString().Length));
+            }
+            else throw new Exception($"length: list or string expected, got {x.ToString()} instead");
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -388,6 +401,7 @@ namespace LeafMachine.Aphid
                 { "if", If },
                 { "int=", IntEquals },
                 { "int>", IntGreaterThan },
+                { "length", Length },
             };
             return bw;
         }
