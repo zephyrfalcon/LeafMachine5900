@@ -26,22 +26,38 @@
   writexy 
 } :write-color defword
 
-1 setbg
-; :colors getvar { 
-;   ; # [ number name ]
-;   unpack                ; # number name
-;   write-color
-; } for-each
-
 { } :nop defword
 
-; the color we're currently processing
-1 :current-color setvar
+; the element of 'colors' that we are currently processing
+0 :current-index setvar
 
-{
-  tix                            ; tix
-  60 rem                         ; tix%60
-  0 int=                         ; <true if tix%60 == 0>
-  { 
+{ tix                  ; tix
+  60 rem               ; tix%60
+  0 int=               ; [true if tix%60 == 0]
+} :second-passed? defword
+
+{ :current-index getvar          ; index
+  1 +                            ; index+1
+  :current-index setvar
+} :inc-current-index defword
+
+{ 1 23 16 "(Press Esc to exit)" writexy } :end-message defword
+
+{ ;; if a second has passed, display the next color
+  second-passed?
+  { :colors getvar              ; colors
+    :current-index getvar       ; colors index
+    at                          ; [ number name ]
+    unpack                      ; number name
+    write-color                 
+    inc-current-index
   } when
+  ;; if we have processed all colors, change updater to 'nop'
+  :current-index getvar         ; index
+  15 int>                       ; [true if index > 15]
+  { :nop set-updater } when
 } :color-updater defword
+
+1 setbg
+end-message
+:color-updater set-updater
