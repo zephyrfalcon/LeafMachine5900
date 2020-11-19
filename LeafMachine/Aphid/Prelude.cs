@@ -20,6 +20,15 @@
 
 { } :nop defword
 
+; tix-passed? ( n -- [true if tix%n == 0, false otherwise] )
+{ tix              ; n tix
+  swap             ; tix n
+  rem              ; tix%n
+  0 int=           ; bool
+} :tix-passed? defword
+
+{ 60 tix-passed? } :second-passed? defword
+
 ";
     }
 }

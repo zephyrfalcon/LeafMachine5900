@@ -31,10 +31,10 @@
 1 :current-bg setvar
 ;; XXX there should really be a word to get the current background color...
 
-{ tix                  ; tix
-  60 rem               ; tix%60
-  0 int=               ; [true if tix%60 == 0]
-} :second-passed? defword
+;{ tix                  ; tix
+;  60 rem               ; tix%60
+;  0 int=               ; [true if tix%60 == 0]
+;} :second-passed? defword
 
 { :current-index getvar          ; index
   1 +                            ; index+1
