@@ -1,0 +1,71 @@
+; m3.1-colors.aphid
+
+[ [ 1 "BLACK" ]
+  [ 2 "WHITE" ]
+  [ 3 "RED" ]
+  [ 4 "CYAN" ]
+  [ 5 "PURPLE" ]
+  [ 6 "GREEN" ]
+  [ 7 "BLUE" ]
+  [ 8 "YELLOW" ]
+  [ 9 "ORANGE" ]
+  [ 10 "BROWN" ]
+  [ 11 "PINK" ]
+  [ 12 "DARK GRAY" ]
+  [ 13 "MED GRAY" ]
+  [ 14 "LIGHT GREEN" ]
+  [ 15 "LIGHT BLUE" ]
+  [ 16 "LIGHT GRAY" ]
+] :colors setvar
+
+; write-color ( number name -- )
+{ swap                  ; name number
+  dup                   ; name number number
+  1                     ; name number number 1
+  4 rev                 ; 1 number number name
+  writexy 
+} :write-color defword
+
+; the element of 'colors' that we are currently processing
+0 :current-index setvar
+1 :current-bg setvar
+;; XXX there should really be a word to get the current background color...
+
+{ tix                  ; tix
+  60 rem               ; tix%60
+  0 int=               ; [true if tix%60 == 0]
+} :second-passed? defword
+
+{ :current-index getvar          ; index
+  1 +                            ; index+1
+  :current-index setvar
+} :inc-current-index defword
+
+{ 1 23 16 "(Press Esc to exit)" writexy } :end-message defword
+
+{ ;; if a second has passed, display the next color
+  second-passed?
+  { :colors getvar              ; colors
+    :current-index getvar       ; colors index
+    at                          ; [ number name ]
+    unpack                      ; number name
+    write-color                 
+    inc-current-index
+  } when
+  ;; if we have processed all colors, change updater to 'bg-updater'
+  :current-index getvar         ; index
+  15 int>                       ; [true if index > 15]
+  { :bg-updater set-updater } when
+} :color-updater defword
+
+{
+  second-passed?
+  { :current-bg inc
+    :current-bg getvar 16 int> { 1 :current-bg setvar } when
+    :current-bg getvar setbg
+  } when
+} :bg-updater defword
+
+1 setbg
+end-message
+:color-updater set-updater

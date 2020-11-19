@@ -18,6 +18,8 @@
 ; dec ( variable-name -- )
 { dup getvar -1 + swap setvar } :dec defword
 
+{ } :nop defword
+
 ";
     }
 }
