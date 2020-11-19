@@ -40,6 +40,7 @@
   1 +                            ; index+1
   :current-index setvar
 } :inc-current-index defword
+;; XXX can be done with ' :current-index inc ' since >M3.1
 
 { 1 23 16 "(Press Esc to exit)" writexy } :end-message defword
 

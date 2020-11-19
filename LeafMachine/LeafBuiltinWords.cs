@@ -53,6 +53,12 @@ namespace LeafMachine
             state.bgColor = color;
         }
 
+        public void GetBG(AphidInterpreter aip, MachineState state)
+        {
+            // ( -- color )
+            aip.stack.Push(new AphidInteger(state.bgColor));
+        }
+
         public void Tix(AphidInterpreter aip, MachineState state)
         {
             // ( -- tix )
@@ -76,6 +82,7 @@ namespace LeafMachine
             Dictionary<string, DelAphidLeafBuiltinWord> bw = new Dictionary<string, DelAphidLeafBuiltinWord> {
                 { "writexy", WriteXY },
                 { "setbg", SetBG },
+                { "getbg", GetBG },
                 { "tix", Tix },
                 { "set-updater", SetUpdater },
             };
