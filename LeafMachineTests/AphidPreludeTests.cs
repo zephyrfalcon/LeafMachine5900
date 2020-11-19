@@ -30,5 +30,17 @@ namespace LeafMachineTests
             Check("false { 44 } when", "");
         }
 
+        [Test]
+        public void TestInc()
+        {
+            Check("3 :foo setvar  :foo inc  :foo getvar", "4");
+        }
+
+        [Test]
+        public void TestDec()
+        {
+            Check("42 :bar setvar  :bar dec  :bar getvar", "41");
+        }
+
     }
 }
