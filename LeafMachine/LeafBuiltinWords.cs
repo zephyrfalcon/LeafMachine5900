@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
+using Microsoft.Xna.Framework.Input;
 
 namespace LeafMachine
 {
@@ -75,6 +76,17 @@ namespace LeafMachine
             state.SetUpdater(word);
         }
 
+        public void KeyDown(AphidInterpreter aip, MachineState state)
+        {
+            // ( symbol -- bool )
+            // Returns true if the given key (represented as a symbol :#foo) is down, false otherwise
+            string name = Expect.ExpectSymbol("key-down?", aip.stack.Pop());
+            if (name.StartsWith('#')) 
+                name = name.Substring(1);
+            Keys k = state.keycodes.NameToKey(name);
+            aip.stack.Push(new AphidBool(Keyboard.GetState().IsKeyDown(k)));
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
@@ -85,6 +97,7 @@ namespace LeafMachine
                 { "getbg", GetBG },
                 { "tix", Tix },
                 { "set-updater", SetUpdater },
+                { "key-down?", KeyDown },
             };
             return bw;
         }
