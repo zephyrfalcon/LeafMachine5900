@@ -1,0 +1,37 @@
+; m4-cursor.aphid
+;; This works, but right now (2020-11-20) the repeat rate is just the unrestricted
+;; default MonoGame repeat rate, which is abysmal. Needs fixed.
+
+0 :x setvar
+0 :y setvar
+
+7 setbg  ; blue background
+
+{ :x getvar :y getvar 15 " " setxy } :remove-cursor defword
+{ :x getvar :y getvar 15 "ring-closed" setxy } :plot-cursor defword
+
+{
+  plot-cursor
+  :#cursor-right key-down? { 
+      remove-cursor
+      :x inc
+      :x getvar 39 int> { 39 :x setvar } when
+  } when
+  :#cursor-left key-down? {
+      remove-cursor
+      :x dec
+      :x getvar 0 int< { 0 :x setvar } when
+  } when
+  :#cursor-down key-down? { 
+      remove-cursor
+      :y inc
+      :y getvar 24 int> { 24 :y setvar } when
+  } when
+  :#cursor-up key-down? {
+      remove-cursor
+      :y dec
+      :y getvar 0 int< { 0 :y setvar } when
+  } when
+} :move-cursor defword
+
+:move-cursor set-updater

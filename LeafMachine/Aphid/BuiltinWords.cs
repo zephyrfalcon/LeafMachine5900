@@ -346,10 +346,19 @@ namespace LeafMachine.Aphid
         public void IntGreaterThan(AphidInterpreter aip)
         {
             // ( a b == bool )
-            int b = Expect.ExpectInteger("int=", aip.stack.Pop());
-            int a = Expect.ExpectInteger("int=", aip.stack.Pop());
+            int b = Expect.ExpectInteger("int>", aip.stack.Pop());
+            int a = Expect.ExpectInteger("int>", aip.stack.Pop());
             aip.stack.Push(new AphidBool(a > b));
         }
+
+        public void IntLessThan(AphidInterpreter aip)
+        {
+            // ( a b == bool )
+            int b = Expect.ExpectInteger("int<", aip.stack.Pop());
+            int a = Expect.ExpectInteger("int<", aip.stack.Pop());
+            aip.stack.Push(new AphidBool(a < b));
+        }
+
 
         public void Length(AphidInterpreter aip)
         {
@@ -426,6 +435,7 @@ namespace LeafMachine.Aphid
                 { "if", If },
                 { "int=", IntEquals },
                 { "int>", IntGreaterThan },
+                { "int<", IntLessThan },
                 { "length", Length },
                 { "at", At },
                 { "symbol=", SymbolEquals },

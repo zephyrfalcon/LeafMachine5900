@@ -2612,6 +2612,8 @@ namespace LeafMachine.CharSets
                 { "heart", 83 },
                 { "club", 88 },
                 { "diamond", 90 },
+                { "ring-closed", 81 },
+                { "ring-hollow", 87 },
             };
             foreach(char c in "0123456789") {
                 chars[c.ToString()] = ((int)c);  // should be 48, 49, ...

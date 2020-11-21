@@ -37,6 +37,25 @@ namespace LeafMachine
             else throw new System.Exception($"{context}: color must be a value between 1 and {MachineState.NUM_COLORS}; got {color} instead");
         }
 
+        public static int ExpectXCoordinate(string context, AphidType thing)
+        {
+            int x = ExpectInteger(context, thing);
+            if (x >= 0 && x < MachineState.WIDTH) {
+                return x;
+            }
+            else throw new System.Exception($"{context}: X-coordinate must be a value between 0 and {MachineState.WIDTH}; got {x} instead");
+        }
+
+
+        public static int ExpectYCoordinate(string context, AphidType x)
+        {
+            int y = ExpectInteger(context, x);
+            if (y >= 0 && y < MachineState.HEIGHT) {
+                return y;
+            }
+            else throw new System.Exception($"{context}: Y-coordinate must be a value between 0 and {MachineState.HEIGHT}; got {y} instead");
+        }
+
         public static string ExpectSymbol(string context, AphidType x)
         {
             if (x is AphidSymbol) {
@@ -63,6 +82,5 @@ namespace LeafMachine
 
         // TODO:
         // ExpectX, ExpectY
-        // ExpectBlock
     }
 }

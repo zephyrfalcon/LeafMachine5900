@@ -47,6 +47,19 @@ namespace LeafMachine
             }
         }
 
+        public void SetXY(AphidInterpreter aip, MachineState state)
+        {
+            // ( x y fgcolor charname -- )
+            // Plot the given character at (x,y) in the given color.
+            string charname = Expect.ExpectString("setxy", aip.stack.Pop());
+            int fgcolor = Expect.ExpectColor("setxy", aip.stack.Pop());
+            int y = Expect.ExpectYCoordinate("setxy", aip.stack.Pop());
+            int x = Expect.ExpectXCoordinate("setxy", aip.stack.Pop());
+
+            state.SetChar(x, y, charname);
+            state.SetColor(x, y, fgcolor);
+        }
+
         public void SetBG(AphidInterpreter aip, MachineState state)
         {
             // ( color -- )
@@ -93,6 +106,7 @@ namespace LeafMachine
         {
             Dictionary<string, DelAphidLeafBuiltinWord> bw = new Dictionary<string, DelAphidLeafBuiltinWord> {
                 { "writexy", WriteXY },
+                { "setxy", SetXY },
                 { "setbg", SetBG },
                 { "getbg", GetBG },
                 { "tix", Tix },
