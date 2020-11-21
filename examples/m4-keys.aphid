@@ -1,0 +1,12 @@
+; m4-keys.aphid
+
+7 setbg  ; blue background
+
+1 22 16 "Press and hold X" writexy
+1 23 16 "to change the background color" writexy
+
+{
+  :#x key-down? { 1 setbg } { 7 setbg } if
+} :catch-x defword
+
+:catch-x set-updater
