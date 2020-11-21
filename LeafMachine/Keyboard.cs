@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace LeafMachine
 {
-    public static class KeyCodes
+    public class KeyCodes
     {
-        public static Dictionary<Keys, string> keys = new Dictionary<Keys, string> {
+        private Dictionary<Keys, string> keys = new Dictionary<Keys, string> {
             // letters
             { Keys.A, "a" },
             { Keys.B, "b" },
@@ -63,7 +63,7 @@ namespace LeafMachine
             { Keys.Up, "cursor-up" },
             { Keys.Down, "cursor-down" },
             // other
-            { Keys.Escape, "esc" },
+            { Keys.Escape, "escape" },
             { Keys.Back, "backspace" },
             { Keys.Delete, "delete" },
             { Keys.Insert, "insert" },
@@ -78,5 +78,25 @@ namespace LeafMachine
             { Keys.LeftAlt, "left-alt" },
             { Keys.LeftWindows, "left-windows" },
         };
+
+        private Dictionary<string, Keys> symbols;
+
+        public KeyCodes()
+        {
+            symbols = new Dictionary<string, Keys> { };
+            foreach(KeyValuePair<Keys,string> kv in keys) {
+                symbols.Add(kv.Value, kv.Key);
+            }
+        }
+
+        public string KeyToName(Keys k)
+        {
+            return keys[k];
+        }
+
+        public Keys NameToKey(string name)
+        {
+            return symbols[name];
+        }
     }
 }
