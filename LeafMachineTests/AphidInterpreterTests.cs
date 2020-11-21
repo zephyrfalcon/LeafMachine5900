@@ -310,5 +310,13 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("\"abc\" 1 at", "\"b\"");
         }
+
+        [Test]
+        public void TestSymbolEquals()
+        {
+            Check(":foo :foo symbol=", "true");
+            aip.stack.Clear();
+            Check(":foo :bar symbol=", "false");
+        }
     }
 }

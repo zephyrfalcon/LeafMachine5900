@@ -17,6 +17,9 @@ namespace LeafMachine
 
         GraphicsDeviceManager _graphics;
 
+        // the keycodes are not really "state" but we do need to access them through here
+        public KeyCodes keycodes;
+
         public Color[] palette = new Color[NUM_COLORS + 1];
         // 0 is bogus but will be referred to in images, meaning "background"/"transparent"
         // so 1..16 are the actual colors. for now, anyway.
@@ -30,7 +33,7 @@ namespace LeafMachine
 
         public int tix = 0;  // number of tix (1/60th of a second) passed since we started
 
-        public AphidWord updater = null;
+        public AphidWord updater = null;  // if set, will be called by Machine.Update()
 
         // Q: Do we really need to pass a GraphicsDeviceManager? what for?
         // we do use GraphicChar objects here, which hold actual images... or do we?
@@ -38,6 +41,7 @@ namespace LeafMachine
         public MachineState(GraphicsDeviceManager graphics)
         {
             _graphics = graphics;
+            keycodes = new KeyCodes();
 
             // load some character bitmaps as images, using the C64 charset for now
             // we'll get back to this later

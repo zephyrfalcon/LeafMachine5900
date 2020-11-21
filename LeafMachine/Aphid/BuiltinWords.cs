@@ -380,6 +380,15 @@ namespace LeafMachine.Aphid
             else throw new Exception($"length: list or string expected, got {x.ToString()} instead");
         }
 
+        public void SymbolEquals(AphidInterpreter aip)
+        {
+            // ( symbol1 symbol2 -- bool )
+            // True if the two symbols are equal, false otherwise
+            string s2 = Expect.ExpectSymbol("symbol=", aip.stack.Pop());
+            string s1 = Expect.ExpectSymbol("symbol=", aip.stack.Pop());
+            aip.stack.Push(new AphidBool(s1 == s2));
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -419,6 +428,7 @@ namespace LeafMachine.Aphid
                 { "int>", IntGreaterThan },
                 { "length", Length },
                 { "at", At },
+                { "symbol=", SymbolEquals },
             };
             return bw;
         }
