@@ -34,4 +34,13 @@
   } when
 } :move-cursor defword
 
+;; There's a lot of repetition here; once we have a dictionary type, we could
+;; put key => block values in it, and have a special word handle the call
+;; to key-down? and the lookup.
+
+;; There's ALSO a lot of repetition with getting and setting variables, it's
+;; a bit cumbersome, so maybe it's time for the first shorthands. Also maybe
+;; a word that "caps" a variable (or value? then it would be like min/max, but
+;; I'd like better names, really)
+
 :move-cursor set-updater

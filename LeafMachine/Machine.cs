@@ -75,23 +75,9 @@ namespace LeafMachine
         protected override void Update(GameTime gameTime)
         {
             state.tix++;
-            //Console.WriteLine(tix);
-            //Console.WriteLine(gameTime.ElapsedGameTime.TotalMilliseconds);  // always 1/60th of a second
-            //Console.WriteLine(gameTime.TotalGameTime.TotalMilliseconds);
-            // let's say I want to do something every second... or 4x per second... etc...
-            // what do I need to store?
-            // I can rephrase this as "do something every N milliseconds"
-            // but I still need a concept of <have X ms passed since I last checked, in this context>?
-            // the problem is that we can have many different "contexts" for many different purposes...
-            // we can also store the number of tix, which is the number of times Update() has been called...
-            // then you can do stuff like if (tix % 4 == 0) ... to do something every 4 tix, or
-            // if (tix % 15 == 0) ... to do something 4x per second, etc.
-            // I wonder if this might be enough, initially. Also for special characters later like spinners...
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
 
             // if an updater is defined, execute it
             if (state.updater != null) {
