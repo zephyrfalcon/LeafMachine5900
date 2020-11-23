@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System;
 
 namespace LeafMachine
 {
@@ -99,4 +100,103 @@ namespace LeafMachine
             return symbols[name];
         }
     }
+
+    public class KeyboardHandler
+
+        // NOTE: VERY MUCH A WORK IN PROGRESS.
+    {
+        long tix = 0;
+        // when we press and hold a key...
+        int repeatWait = 25;  // it takes this many tix to start repeating
+        int repeatRate = 6;  // after the first repeat, the keys will show up after this many tix
+        int repeatCoolDown = 30;  // during a repeat, if this many tix pass, the repeat is considered to be finished
+        Keys lastKeyPressed;
+        int tixSinceInitialKeypress = 0;
+        int tixSinceLastKeypress = 0;
+        bool isInitialKeyPress = false;
+        bool debug = false;
+
+        public KeyboardHandler()
+        {
+        }
+
+        public void Update()
+        {
+            tix++;
+            if (isInitialKeyPress) tixSinceInitialKeypress++;
+            else tixSinceLastKeypress++;
+        }
+
+        public void ResetRepeatState(Keys newKey)
+        {
+            lastKeyPressed = newKey;
+            isInitialKeyPress = true;
+            tixSinceInitialKeypress = 0;
+            tixSinceLastKeypress = 0;
+        }
+
+        // we need something more, like the equivalent of "GetKey" or w/e, which returns a key (or
+        // multiple keys) that have been pressed
+        // probably based on Keyboard.GetState().GetPressedKeys()
+        // we also need a way to combine modifier keys with "regular" keys... and consider them
+        // "one key combination"
+
+        // appears to work, but does not take modifier keys (Shift, Ctrl, etc) into account, since those
+        // are considered different keys
+        public bool HasBeenPressed(Keys key)
+        {
+            bool keyDown = Keyboard.GetState().IsKeyDown(key);
+            if (keyDown) {
+                if (debug) Console.WriteLine($"Was {key} pressed? {keyDown}");
+                // key was not pressed in the previous 'tick'
+                if (key == lastKeyPressed) {
+                    if (debug) Console.WriteLine($"Key {key} is lastKeyPressed! {lastKeyPressed}");
+                    if (isInitialKeyPress) {
+                        if (debug) Console.WriteLine("An initial key press!");
+                        if (tixSinceInitialKeypress > repeatWait) {
+                            if (debug) Console.WriteLine($"Enough time has passed for the initial wait! {tixSinceInitialKeypress}");
+                            // enough time has passed since the previous, initial keypress
+                            isInitialKeyPress = false;
+                            tixSinceLastKeypress = 0;  // start counting
+                            return true;
+                        }
+                        else {
+                            if (debug) Console.WriteLine($"Not enough time has passed for the initial wait! {tixSinceLastKeypress}");
+                            // not enough time has passed since the previous, initial keypress
+                            return false;
+                        }
+                    }
+                    else {
+                        // this is a repeat
+                        if (tixSinceLastKeypress > repeatCoolDown) {
+                            // we've waited too long between keypresses, this will be treated like a new keypress
+                            ResetRepeatState(key);
+                            return true;
+                        }
+                        if (tixSinceLastKeypress > repeatRate) {
+                            if (debug) Console.WriteLine($"Enough time has passed since the last repeat! {tixSinceLastKeypress}");
+                            // enough time has passed since the last keypress
+                            tixSinceLastKeypress = 0;  // reset repeat counter
+                            return true;
+                        }
+                        else {
+                            if (debug) Console.WriteLine($"Not enough time has passed since the last repeat! {tixSinceLastKeypress}");
+                            // not enough time has passed since the last keypress
+                            return false;
+                        }
+                    }
+                }
+                else {
+                    // this is not the same key that was last pressed
+                    // all 'repeat' state gets reset
+                    ResetRepeatState(key);
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
 }

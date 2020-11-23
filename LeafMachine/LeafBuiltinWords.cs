@@ -97,7 +97,7 @@ namespace LeafMachine
             if (name.StartsWith('#')) 
                 name = name.Substring(1);
             Keys k = state.keycodes.NameToKey(name);
-            aip.stack.Push(new AphidBool(Keyboard.GetState().IsKeyDown(k)));
+            aip.stack.Push(new AphidBool(state.kbhandler.HasBeenPressed(k)));
         }
 
         /* built-in words */

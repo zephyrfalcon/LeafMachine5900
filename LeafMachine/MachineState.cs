@@ -19,6 +19,7 @@ namespace LeafMachine
 
         // the keycodes are not really "state" but we do need to access them through here
         public KeyCodes keycodes;
+        public KeyboardHandler kbhandler;
 
         public Color[] palette = new Color[NUM_COLORS + 1];
         // 0 is bogus but will be referred to in images, meaning "background"/"transparent"
@@ -42,6 +43,7 @@ namespace LeafMachine
         {
             _graphics = graphics;
             keycodes = new KeyCodes();
+            kbhandler = new KeyboardHandler();
 
             // load some character bitmaps as images, using the C64 charset for now
             // we'll get back to this later

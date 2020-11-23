@@ -15,6 +15,7 @@ namespace LeafMachine
         private RenderTarget2D target;
         private MachineState state;
         private AphidInterpreter intp;
+
         // do these need to go into MachineState?
         int scale = 2;
         string mainfile = "";
@@ -75,6 +76,9 @@ namespace LeafMachine
         protected override void Update(GameTime gameTime)
         {
             state.tix++;
+            state.kbhandler.Update(); 
+            // KeyboardHandler is not being used by the built-in words yet... it's not part of MachineState
+            // ...should it be?
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
