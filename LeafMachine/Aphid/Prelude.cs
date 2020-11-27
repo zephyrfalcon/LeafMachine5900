@@ -29,6 +29,8 @@
 
 { 60 tix-passed? } :second-passed? defword
 
+{ random 1 + } :random1 defword
+
 ";
     }
 }

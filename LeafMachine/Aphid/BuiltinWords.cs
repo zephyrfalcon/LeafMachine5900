@@ -10,6 +10,7 @@ namespace LeafMachine.Aphid
 
     public class BuiltinWords
     {
+        static Random rnd = new Random();
 
         #region stack_manipulation
 
@@ -398,6 +399,30 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidBool(s1 == s2));
         }
 
+        public void Random(AphidInterpreter aip)
+        {
+            // ( n -- [random number >= 0 and < n] )
+            int n = Expect.ExpectInteger("random", aip.stack.Pop());
+            aip.stack.Push(new AphidInteger(rnd.Next(0, n)));
+        }
+
+        public void And(AphidInterpreter aip)
+        {
+            // ( block1 block2 -- bool )
+            // the blocks are expected to leave a boolean on the stack.
+            // shortcut behavior: block2 is not executed if block1 leaves `false` on the stack.
+            AphidBlock block2 = Expect.ExpectAphidBlock("and", aip.stack.Pop());
+            AphidBlock block1 = Expect.ExpectAphidBlock("and", aip.stack.Pop());
+            block1.Run(aip);
+            bool b1 = Expect.ExpectBool("and (code block 1)", aip.stack.Pop());
+            if (b1) {
+                block2.Run(aip);
+                bool b2 = Expect.ExpectBool("and (code block 2)", aip.stack.Pop());
+                aip.stack.Push(new AphidBool(b2));
+            }
+            else aip.stack.Push(new AphidBool(false));
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -439,6 +464,8 @@ namespace LeafMachine.Aphid
                 { "length", Length },
                 { "at", At },
                 { "symbol=", SymbolEquals },
+                { "random", Random },
+                { "and", And },
             };
             return bw;
         }

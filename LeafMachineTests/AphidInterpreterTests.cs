@@ -318,5 +318,15 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check(":foo :bar symbol=", "false");
         }
+
+        [Test]
+        public void TestAnd()
+        {
+            Check("{ 0 1 int= } { 2 2 int= } and", "false");
+            aip.stack.Clear();
+            Check("{ 1 1 int= } { 2 3 int= } and", "false");
+            aip.stack.Clear();
+            Check("{ 1 1 int= } { 2 2 int= } and", "true");
+        }
     }
 }
