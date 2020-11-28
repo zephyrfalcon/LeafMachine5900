@@ -328,5 +328,11 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("{ 1 1 int= } { 2 2 int= } and", "true");
         }
+
+        [Test]
+        public void TestDict()
+        {
+            Check("[ :a 1 :b 2 :c 3 ] dict", "[ a 1 b 2 c 3 ]d");
+        }
     }
 }

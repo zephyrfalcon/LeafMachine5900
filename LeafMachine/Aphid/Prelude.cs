@@ -31,6 +31,7 @@
 
 { random 1 + } :random1 defword
 
+{ ] dict } :]d defword  ;; maybe... or `]!`
 ";
     }
 }

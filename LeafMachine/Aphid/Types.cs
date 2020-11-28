@@ -291,6 +291,16 @@ namespace LeafMachine.Aphid.Types
         }
         // TODO: what is the string representation of a dictionary??
         // is the order of keys deterministic? or more like Python?
+        public override string ToString()
+        {
+            List<string> parts = new List<string> { "[" };
+            foreach(KeyValuePair<IDictionaryKey,AphidType> kv in data) {
+                parts.Add(kv.Key.ToString());
+                parts.Add(kv.Value.ToString());
+            }
+            parts.Add("]d");
+            return String.Join(' ', parts.Select(x => x.ToString()));
+        }
     }
 
 }

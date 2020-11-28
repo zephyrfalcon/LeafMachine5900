@@ -423,6 +423,28 @@ namespace LeafMachine.Aphid
             else aip.stack.Push(new AphidBool(false));
         }
 
+        public void Dict(AphidInterpreter aip)
+        {
+            // ( list -- dict )
+            // The list is expected to have an even number of elements, alternating between
+            // key and value. E.g. [ :a 1 :b 2 ... ]
+            AphidList alist = Expect.ExpectAphidList("dict", aip.stack.Pop());
+            List<AphidType> list = alist.AsList();
+            if (list.Count % 2 != 0)
+                throw new Exception($"dict: source list must have an even number of elements (got {list.Count} instead)");
+            AphidDictionary d = new AphidDictionary();
+            for (int i = 0; i < list.Count; i += 2) {
+                AphidType key = list[i];
+                AphidType value = list[i + 1];
+                if (key is IDictionaryKey) {
+                    d.Add(key as IDictionaryKey, value);
+                } else {
+                    throw new Exception($"dict: not a valid dictionary key: {key.ToString()}");
+                }
+            }
+            aip.stack.Push(d);
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -466,6 +488,7 @@ namespace LeafMachine.Aphid
                 { "symbol=", SymbolEquals },
                 { "random", Random },
                 { "and", And },
+                { "dict", Dict },
             };
             return bw;
         }
