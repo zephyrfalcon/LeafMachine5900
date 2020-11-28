@@ -6,6 +6,11 @@ using System;
 
 namespace LeafMachine.Aphid.Types
 {
+    public interface IDictionaryKey
+    {
+        int GetHashCode();
+    }
+
     public class AphidType
     {
         // should this be abstract?
@@ -31,9 +36,18 @@ namespace LeafMachine.Aphid.Types
         // NOTE: ToString() is (currently) really only used for tests, to have a readable
         // string representation. No assumptions should be made, e.g. re-parsing the
         // value returned by ToString() does not necessarily produce the same object.
+
+        public override bool Equals(object o)
+        {
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return 0;
+        }
     }
 
-    public class AphidInteger : AphidType
+    public class AphidInteger : AphidType, IDictionaryKey
     {
         private int value = 0;
         public AphidInteger() { }
@@ -44,6 +58,13 @@ namespace LeafMachine.Aphid.Types
             aip.stack.Push(this);
         }
         public int AsInteger() { return value; }
+        public override int GetHashCode() { return value;  }
+        public override bool Equals(object o)
+        {
+            if (o is AphidInteger)
+                return this.value == (o as AphidInteger).AsInteger();
+            else return false;
+        }
     }
 
     public abstract class AphidWord : AphidType
@@ -93,7 +114,7 @@ namespace LeafMachine.Aphid.Types
         }
     }
 
-    public class AphidSymbol : AphidType
+    public class AphidSymbol : AphidType, IDictionaryKey
     {
         string value = null;
         public AphidSymbol(string s)
@@ -116,6 +137,16 @@ namespace LeafMachine.Aphid.Types
                 AphidType x = aip.Lookup(this.value);
                 x.Run(aip);
             }
+        }
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
+        public override bool Equals(object o)
+        {
+            if (o is AphidSymbol)
+                return this.value == (o as AphidSymbol).GetValue();
+            return base.Equals(o);
         }
     }
 
@@ -178,7 +209,7 @@ namespace LeafMachine.Aphid.Types
         }
     }
 
-    public class AphidString : AphidType
+    public class AphidString : AphidType, IDictionaryKey
     {
         private string value = "";
         public AphidString() { value = ""; }
@@ -192,7 +223,16 @@ namespace LeafMachine.Aphid.Types
             aip.stack.Push(this);
         }
         public string AsString() { return value; }
-
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
+        public override bool Equals(object o)
+        {
+            if (o is AphidString)
+                return this.value == (o as AphidString).AsString();
+            return base.Equals(o);
+        }
     }
 
     public class AphidNull : AphidType
@@ -226,6 +266,28 @@ namespace LeafMachine.Aphid.Types
         public bool IsTrue()
         {
             return value;
+        }
+    }
+
+    public class AphidDictionary : AphidType
+    {
+        private Dictionary<IDictionaryKey, AphidType> data; 
+
+        public AphidDictionary()
+        {
+            data = new Dictionary<IDictionaryKey, AphidType>();
+        }
+        public void Add(IDictionaryKey key, AphidType value)
+        {
+            data[key] = value;
+        }
+        public List<IDictionaryKey> Keys()
+        {
+            return new List<IDictionaryKey>(data.Keys);
+        }
+        public Dictionary<IDictionaryKey,AphidType> GetDict()
+        {
+            return data;
         }
     }
 
