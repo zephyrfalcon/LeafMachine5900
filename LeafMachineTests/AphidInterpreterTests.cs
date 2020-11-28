@@ -332,7 +332,9 @@ namespace LeafMachineTests
         [Test]
         public void TestDict()
         {
-            Check("[ :a 1 :b 2 :c 3 ] dict", "[ a 1 b 2 c 3 ]d");
+            Check("[ :a 1 :b 2 :c 3 ] dict", "[ a 1 b 2 c 3 ]!");
+            aip.stack.Clear();
+            Check("[ :d 4 :e 5 ]!", "[ d 4 e 5 ]!");  // from prelude
         }
     }
 }

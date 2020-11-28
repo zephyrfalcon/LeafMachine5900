@@ -298,7 +298,7 @@ namespace LeafMachine.Aphid.Types
                 parts.Add(kv.Key.ToString());
                 parts.Add(kv.Value.ToString());
             }
-            parts.Add("]d");
+            parts.Add("]!");
             return String.Join(' ', parts.Select(x => x.ToString()));
         }
     }
