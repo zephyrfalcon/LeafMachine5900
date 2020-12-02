@@ -7,7 +7,11 @@ namespace LeafMachine.CharSets
 {
     abstract public class CharSet
     {
+        // the actual bitmaps as int[64] arrays (values must be 0 or 1). 
+        // array size may differ per charset.
         protected int[,] bitmaps64;
+
+        // maps characters ("a") or names ("arrow-up") to index in bitmaps64
         protected Dictionary<string, int> charToBitmapIndex;
 
         public virtual int[,] GetBitmaps()

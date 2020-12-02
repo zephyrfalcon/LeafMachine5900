@@ -2583,15 +2583,6 @@ namespace LeafMachine.CharSets
             return bitmaps64;
         }
 
-
-        //Dictionary<string, int> charToBitmapIndex;
-
-        //public C64CharSet()
-        //{
-        //    bitmaps64 = GetBitmaps();
-        //    charToBitmapIndex = CharToBitmapIndex();
-        //}
-
         public override Dictionary<string, int> CharToBitmapIndex()
         {
             Dictionary<string, int> chars = new Dictionary<string, int> {
