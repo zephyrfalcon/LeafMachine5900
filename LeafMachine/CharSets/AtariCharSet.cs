@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace LeafMachine.CharSets
 {
-    public class AtariCharSet: CharSet
+    public class AtariCharSet
     {
         int[,] bitmaps64 = new int[128, 64] {
             { // 0
@@ -1290,7 +1290,7 @@ namespace LeafMachine.CharSets
             },
         };
 
-        //Dictionary<string, int> charToBitmapIndex;
+        Dictionary<string, int> charToBitmapIndex;
 
         public AtariCharSet()
         {

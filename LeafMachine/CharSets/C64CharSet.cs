@@ -14,9 +14,11 @@ namespace LeafMachine.CharSets
     // The reverse values don't interest me because I can just generate them at will.
     // (This will result in double entries for certain graphic characters, but that doesn't
     // really matter.)
-    public class C64CharSet: CharSet
+    public class C64CharSet : CharSet
     {
-        int[,] bitmaps64 = new int[256, 64] {
+        public override int[,] GetBitmaps()
+        {
+            int[,] bitmaps64 = new int[256, 64] {
             { // 0
                 0, 0, 1, 1, 1, 1, 0, 0,
                 0, 1, 1, 0, 0, 1, 1, 0,
@@ -2578,15 +2580,19 @@ namespace LeafMachine.CharSets
                 0, 0, 0, 0, 1, 1, 1, 1,
             },
         };
+            return bitmaps64;
+        }
+
 
         //Dictionary<string, int> charToBitmapIndex;
 
-        public C64CharSet()
-        {
-            charToBitmapIndex = CharToBitmapIndex();
-        }
+        //public C64CharSet()
+        //{
+        //    bitmaps64 = GetBitmaps();
+        //    charToBitmapIndex = CharToBitmapIndex();
+        //}
 
-        public Dictionary<string,int> CharToBitmapIndex()
+        public override Dictionary<string, int> CharToBitmapIndex()
         {
             Dictionary<string, int> chars = new Dictionary<string, int> {
                 { "@", 0 },
@@ -2617,10 +2623,10 @@ namespace LeafMachine.CharSets
                 { "diagonal-top-left-bottom-right", 77 },
                 { "diagonal-top-right-bottom-left", 78 },
             };
-            foreach(char c in "0123456789") {
+            foreach (char c in "0123456789") {
                 chars[c.ToString()] = ((int)c);  // should be 48, 49, ...
             }
-            foreach (char c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ") { 
+            foreach (char c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
                 chars[c.ToString()] = ((int)c) - 64;  // ASCII: 65.., this charset: 1..,
             };
             foreach (char c in "abcdefghijklmnopqrstuvwxyz") {
@@ -2630,25 +2636,5 @@ namespace LeafMachine.CharSets
             return chars;
         }
 
-        public int[] BitmapForIndex(int idx)
-        {
-            // apparently we cannot return a "nested" array, so I'll have to make one
-            int[] bits = new int[64];
-            for (int i = 0; i < 64; i++) {
-                bits[i] = bitmaps64[idx, i];
-            }
-            return bits;
-        }
-
-        public int[] BitmapForChar(string name)
-        {
-            int idx = charToBitmapIndex[name];
-            return BitmapForIndex(idx);
-        }
-
-        public string[] KnownChars()
-        {
-            return charToBitmapIndex.Keys.ToArray();
-        }
     }
 }
