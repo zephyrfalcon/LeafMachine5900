@@ -5,9 +5,11 @@ using System.Linq;
 
 namespace LeafMachine.CharSets
 {
-    public class AtariCharSet
+    public class AtariCharSet: CharSet
     {
-        int[,] bitmaps64 = new int[128, 64] {
+        public override int[,] GetBitmaps()
+        {
+            int[,] bitmaps64 = new int[128, 64] {
             { // 0
                 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1289,15 +1291,10 @@ namespace LeafMachine.CharSets
                 0, 0, 0, 0, 0, 0, 0, 0,
             },
         };
-
-        Dictionary<string, int> charToBitmapIndex;
-
-        public AtariCharSet()
-        {
-            charToBitmapIndex = CharToBitmapIndex();
+            return bitmaps64;
         }
 
-        public Dictionary<string, int> CharToBitmapIndex()
+        public override Dictionary<string, int> CharToBitmapIndex()
         {
             Dictionary<string, int> chars = new Dictionary<string, int> {
                 // FIXME
@@ -1344,27 +1341,5 @@ namespace LeafMachine.CharSets
 
             return chars;
         }
-
-        public int[] BitmapForIndex(int idx)
-        {
-            // apparently we cannot return a "nested" array, so I'll have to make one
-            int[] bits = new int[64];
-            for (int i = 0; i < 64; i++) {
-                bits[i] = bitmaps64[idx, i];
-            }
-            return bits;
-        }
-
-        public int[] BitmapForChar(string name)
-        {
-            int idx = charToBitmapIndex[name];
-            return BitmapForIndex(idx);
-        }
-
-        public string[] KnownChars()
-        {
-            return charToBitmapIndex.Keys.ToArray();
-        }
-
     }
 }
