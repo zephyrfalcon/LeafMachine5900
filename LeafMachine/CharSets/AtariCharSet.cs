@@ -1297,46 +1297,39 @@ namespace LeafMachine.CharSets
         public override Dictionary<string, int> CharToBitmapIndex()
         {
             Dictionary<string, int> chars = new Dictionary<string, int> {
-                // FIXME
-                { "@", 0 },
-                { "[", 27 },
-                { "]", 29 },
-                { " ", 32 },
-                { "!", 33 },
-                { "\"", 34 },
-                { "#", 35 },
-                { "$", 36 },
-                { "%", 37 },
-                { "&", 38 },
-                { "'", 39 },
-                { "(", 40 },
-                { ")", 41 },
-                { "*", 42 },
-                { "+", 43 },
-                { ",", 44 },
-                { "-", 45 },
-                { ".", 46 },
-                { "/", 47 },
-                { "spade", 65 },
-                { "heart", 83 },
-                { "club", 88 },
-                { "diamond", 90 },
-                { "ring-closed", 81 },
-                { "ring-hollow", 87 },
-                { "diagonal-top-left-bottom-right", 77 },
-                { "diagonal-top-right-bottom-left", 78 },
+                { "[", 59 },
+                { "\\", 60 },
+                { "]", 61 },
+                { "^", 62 },
+                { "_", 63 },
+                { "spade", 123 },
+                { "heart", 64 },
+                { "club", 80 },
+                { "diamond", 96 },
+                { "ring-closed", 84 },
+                { "arrow-up", 92 },
+                { "arrow-down", 93 },
+                { "arrow-left", 94 },
+                { "arrow-right", 95 },
+                { "diagonal-top-left-bottom-right", 71 },
+                { "diagonal-top-right-bottom-left", 70 },
             };
+            string stuff = "!\"#$%&'()*+,-./";
+            for (int i = 0; i < stuff.Length; i++) {
+                chars[stuff[i].ToString()] = i + 1;
+            }
+            string stuff2 = ":;<=>?@";
+            for (int i = 0; i < stuff2.Length; i++) {
+                chars[stuff2[i].ToString()] = i + 26;
+            }
             foreach (char c in "0123456789") {
-                // FIXME
-                chars[c.ToString()] = ((int)c);  // should be 48, 49, ...
+                chars[c.ToString()] = ((int)c) - 48 + 16;  // start at 16
             }
             foreach (char c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
-                // FIXME
-                chars[c.ToString()] = ((int)c) - 64;  // ASCII: 65.., this charset: 1..,
+                chars[c.ToString()] = ((int)c) - 65 + 33;  // ASCII: 65.., this charset: 33..,
             };
             foreach (char c in "abcdefghijklmnopqrstuvwxyz") {
-                // FIXME
-                chars[c.ToString()] = ((int)c) - 96 + 128;  // ASCII: 97.., this charset: 129..,
+                chars[c.ToString()] = ((int)c);  // ASCII: 97.., this charset: 97..,
             };
 
             return chars;
