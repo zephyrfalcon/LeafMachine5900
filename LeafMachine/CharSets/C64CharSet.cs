@@ -14,7 +14,7 @@ namespace LeafMachine.CharSets
     // The reverse values don't interest me because I can just generate them at will.
     // (This will result in double entries for certain graphic characters, but that doesn't
     // really matter.)
-    public class C64CharSet
+    public class C64CharSet: CharSet
     {
         int[,] bitmaps64 = new int[256, 64] {
             { // 0
@@ -2579,7 +2579,7 @@ namespace LeafMachine.CharSets
             },
         };
 
-        Dictionary<string, int> charToBitmapIndex;
+        //Dictionary<string, int> charToBitmapIndex;
 
         public C64CharSet()
         {
