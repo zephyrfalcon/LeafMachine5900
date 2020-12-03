@@ -31,6 +31,8 @@ namespace LeafMachine
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
         public Dictionary<string, GraphicChar> graphicChars;
+        public GraphicCharSetManager gcsmgr;
+        public string defaultCharSet = "c64";
 
         public int tix = 0;  // number of tix (1/60th of a second) passed since we started
 
@@ -77,6 +79,11 @@ namespace LeafMachine
 
         protected void InitGraphicChars()
         {
+            gcsmgr = new GraphicCharSetManager();
+            gcsmgr.Add("c64", new GraphicCharSet(_graphics, new C64CharSet()));
+            gcsmgr.Add("atari", new GraphicCharSet(_graphics, new AtariCharSet()));
+
+            // FIXME: the following will soon be redundant/obsolete
             graphicChars = new Dictionary<string, GraphicChar> { };
             C64CharSet cs = new C64CharSet();
             foreach (string name in cs.KnownChars()) {

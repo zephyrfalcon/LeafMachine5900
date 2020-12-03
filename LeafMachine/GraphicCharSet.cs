@@ -6,6 +6,9 @@ namespace LeafMachine
 {
     /* A GraphicCharSet holds a CharSet instance and will keep a dictionary of actual *images* (in Texture2D
        form), keyed by character/name.
+
+       TODO: It should be possible to dynamically add characters, to both the CharSet and the GraphicCharSet.
+       Images should be generated automagically.
     */
     public class GraphicCharSet
     {
@@ -23,6 +26,11 @@ namespace LeafMachine
         public GraphicChar Get(string name)
         {
             return graphicChars[name];
+        }
+
+        public CharSet GetCharSet()
+        {
+            return charset;
         }
 
         private void Init()
