@@ -26,12 +26,14 @@ namespace LeafMachine
         // so 1..16 are the actual colors. for now, anyway.
         public int bgColor;  // index into the palette (1..16)
 
+        // FIXME: chars should no longer be represented by simple string names; at the very least,
+        // they are a combination of charset and charname. (For now, we still get away with this
+        // setup because the defaultCharSet is set to "c64" and cannot be changed. Yet.)
         // a 40x25 grid of characters, much like the C64
         public string[,] chars = new string[WIDTH, HEIGHT];  // letters or names like "a", "heart", etc
         public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
 
-        public Dictionary<string, GraphicChar> graphicChars;
-        public GraphicCharSetManager gcsmgr;
+        public GraphicCharSetManager gcsmanager;
         public string defaultCharSet = "c64";
 
         public int tix = 0;  // number of tix (1/60th of a second) passed since we started
@@ -79,16 +81,10 @@ namespace LeafMachine
 
         protected void InitGraphicChars()
         {
-            gcsmgr = new GraphicCharSetManager();
-            gcsmgr.Add("c64", new GraphicCharSet(_graphics, new C64CharSet()));
-            gcsmgr.Add("atari", new GraphicCharSet(_graphics, new AtariCharSet()));
-
-            // FIXME: the following will soon be redundant/obsolete
-            graphicChars = new Dictionary<string, GraphicChar> { };
-            C64CharSet cs = new C64CharSet();
-            foreach (string name in cs.KnownChars()) {
-                graphicChars[name] = new HiresChar(_graphics, cs.BitmapForChar(name));
-            }
+            gcsmanager = new GraphicCharSetManager();
+            gcsmanager.Add("c64", new GraphicCharSet(_graphics, new C64CharSet()));
+            gcsmanager.Add("atari", new GraphicCharSet(_graphics, new AtariCharSet()));
+            // TODO: add a GraphicCharSet for user-defined chars
         }
 
         public void SetUpdater(AphidWord newUpdater)

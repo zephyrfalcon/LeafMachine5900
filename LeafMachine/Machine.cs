@@ -103,7 +103,7 @@ namespace LeafMachine
             for (int x = 0; x < MachineState.WIDTH; x++)
                 for (int y = 0; y < MachineState.HEIGHT; y++) {
                     string charname = state.chars[x, y];
-                    GraphicChar gc = state.graphicChars[charname];
+                    GraphicChar gc = state.gcsmanager.Get(state.defaultCharSet, charname); // state.graphicChars[charname];
                     int colornum = state.fgcolors[x, y];
                     Color color = state.palette[colornum];
                     _spriteBatch.Draw(gc.GetImage(), new Vector2(x*8, y*8), color);
