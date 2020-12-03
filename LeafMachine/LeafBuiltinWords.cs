@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
 using Microsoft.Xna.Framework.Input;
@@ -100,6 +101,16 @@ namespace LeafMachine
             aip.stack.Push(new AphidBool(state.kbhandler.HasBeenPressed(k)));
         }
 
+        public void SetDefaultCharset(AphidInterpreter aip, MachineState state)
+        {
+            // ( :name -- )
+            string name = Expect.ExpectSymbol("set-default-charset", aip.stack.Pop());
+            // XXX TODO: check if this a known charset name and complain if it isn't
+            if (!state.gcsmanager.KnownCharSetNames().Contains(name))
+                throw new Exception($"set-default-charset: Unknown charset name: {name}");
+            state.defaultCharSet = name;
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
@@ -112,6 +123,7 @@ namespace LeafMachine
                 { "tix", Tix },
                 { "set-updater", SetUpdater },
                 { "key-down?", KeyDown },
+                { "set-default-charset", SetDefaultCharset },
             };
             return bw;
         }

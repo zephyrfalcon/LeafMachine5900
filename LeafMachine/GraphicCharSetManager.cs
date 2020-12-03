@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LeafMachine
 {
@@ -23,6 +24,11 @@ namespace LeafMachine
         {
             GraphicCharSet gcs = graphicCharSets[setname];
             return gcs.Get(charname);
+        }
+
+        public List<string> KnownCharSetNames()
+        {
+            return graphicCharSets.Keys.ToList();
         }
     }
 }
