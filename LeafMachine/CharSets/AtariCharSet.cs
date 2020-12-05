@@ -1297,6 +1297,7 @@ namespace LeafMachine.CharSets
         public override Dictionary<string, int> CharToBitmapIndex()
         {
             Dictionary<string, int> chars = new Dictionary<string, int> {
+                { " ", 0 },
                 { "[", 59 },
                 { "\\", 60 },
                 { "]", 61 },
