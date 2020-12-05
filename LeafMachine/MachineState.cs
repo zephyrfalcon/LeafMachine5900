@@ -8,6 +8,18 @@ using LeafMachine.Aphid.Types;
 
 namespace LeafMachine
 {
+    public class CharInfo
+    {
+        public string charset;
+        public string charname;
+        public int fgcolor;
+        public CharInfo(string acharset, string acharname, int acolor)
+        {
+            charset = acharset;
+            charname = acharname;
+            fgcolor = acolor;
+        }
+    }
 
     public class MachineState
     {
@@ -30,8 +42,9 @@ namespace LeafMachine
         // they are a combination of charset and charname. (For now, we still get away with this
         // setup because the defaultCharSet is set to "c64" and cannot be changed. Yet.)
         // a 40x25 grid of characters, much like the C64
-        public string[,] chars = new string[WIDTH, HEIGHT];  // letters or names like "a", "heart", etc
-        public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
+        //public string[,] chars = new string[WIDTH, HEIGHT];  // letters or names like "a", "heart", etc
+        //public int[,] fgcolors = new int[WIDTH, HEIGHT];  // foreground colors => palette keys
+        public CharInfo[,] chars = new CharInfo[WIDTH, HEIGHT];
 
         public GraphicCharSetManager gcsmanager;
         public string defaultCharSet = "c64";
@@ -58,12 +71,13 @@ namespace LeafMachine
             // clear the 40x25 grid
             for (int x = 0; x < 40; x++)
                 for (int y = 0; y < HEIGHT; y++)
-                    chars[x, y] = " ";
+                    chars[x, y] = new CharInfo("c64", " ", 15);
+                    //chars[x, y].charname = " ";
 
             // set the foreground colors
-            for (int x = 0; x < WIDTH; x++)
-                for (int y = 0; y < HEIGHT; y++)
-                    fgcolors[x, y] = 15;  // light blue, in C64 palette
+            //for (int x = 0; x < WIDTH; x++)
+            //    for (int y = 0; y < HEIGHT; y++)
+            //        fgcolors[x, y] = 15;  // light blue, in C64 palette
 
             // set the background color
             bgColor = 7;  // blue, in C64 palette
@@ -71,12 +85,12 @@ namespace LeafMachine
 
         public void SetChar(int x, int y, string name)
         {
-            chars[x, y] = name;
+            chars[x, y].charname = name;
         }
 
         public void SetColor(int x, int y, int c)
         {
-            fgcolors[x, y] = c;
+            chars[x, y].fgcolor = c;
         }
 
         protected void InitGraphicChars()
