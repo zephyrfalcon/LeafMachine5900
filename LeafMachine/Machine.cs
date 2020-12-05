@@ -102,8 +102,7 @@ namespace LeafMachine
             // plot characters
             for (int x = 0; x < MachineState.WIDTH; x++)
                 for (int y = 0; y < MachineState.HEIGHT; y++) {
-                    string charname = state.chars[x, y].charname;
-                    GraphicChar gc = state.gcsmanager.Get(state.chars[x,y].charset, charname); // state.graphicChars[charname];
+                    GraphicChar gc = state.gcsmanager.Get(state.chars[x,y].charset, state.chars[x,y].charname);
                     int colornum = state.chars[x,y].fgcolor;
                     Color color = state.palette[colornum];
                     _spriteBatch.Draw(gc.GetImage(), new Vector2(x*8, y*8), color);
