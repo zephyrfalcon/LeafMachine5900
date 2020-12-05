@@ -11,32 +11,14 @@ namespace LeafMachine
         public void WriteXY(AphidInterpreter aip, MachineState state)
         {
             // writexy ( x y color text -- )
-            AphidType atext = aip.stack.Pop();
-            AphidType acolor = aip.stack.Pop();  // color index
-            AphidType ay = aip.stack.Pop();
-            AphidType ax = aip.stack.Pop();
-
-            // lots of busywork here...
-
+            // Write the given text, in the default charset, starting at position (x, y).
             string text = "";
             int color, x, y;
 
-            text = Expect.ExpectString("writexy", atext);
-            color = Expect.ExpectColor("writexy", acolor);
-
-            if (ax is AphidInteger) {
-                x = (ax as AphidInteger).AsInteger();
-                if (x < 0 || x >= MachineState.WIDTH)
-                    throw new System.Exception($"writexy: x must be between 0 and {MachineState.WIDTH-1}");
-            }
-            else throw new System.Exception($"writexy: x must be an integer; got {ax.ToString()} instead");
-
-            if (ay is AphidInteger) {
-                y = (ay as AphidInteger).AsInteger();
-                if (y < 0 || y >= MachineState.HEIGHT)
-                    throw new System.Exception($"writexy: y must be between 0 and {MachineState.HEIGHT - 1}");
-            }
-            else throw new System.Exception($"writexy: y must be an integer; got {ay.ToString()} instead");
+            text = Expect.ExpectString("writexy", aip.stack.Pop());
+            color = Expect.ExpectColor("writexy", aip.stack.Pop());
+            y = Expect.ExpectYCoordinate("writexy", aip.stack.Pop());
+            x = Expect.ExpectXCoordinate("writexy", aip.stack.Pop());
 
             // finally, set the values in MachineState.chars
             for (int i=0; i < text.Length; i++) {
@@ -52,6 +34,7 @@ namespace LeafMachine
         {
             // ( x y fgcolor charname -- )
             // Plot the given character at (x,y) in the given color.
+            // Uses the default charset.
             string charname = Expect.ExpectString("setxy", aip.stack.Pop());
             int fgcolor = Expect.ExpectColor("setxy", aip.stack.Pop());
             int y = Expect.ExpectYCoordinate("setxy", aip.stack.Pop());

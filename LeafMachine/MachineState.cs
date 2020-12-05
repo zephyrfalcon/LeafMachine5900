@@ -73,7 +73,14 @@ namespace LeafMachine
 
         public void SetChar(int x, int y, string name)
         {
+            chars[x, y].charset = defaultCharSet;
             chars[x, y].charname = name;
+        }
+
+        public void SetChar(int x, int y, string charset, string charname)
+        {
+            chars[x, y].charset = charset;
+            chars[x, y].charname = charname;
         }
 
         public void SetColor(int x, int y, int c)
