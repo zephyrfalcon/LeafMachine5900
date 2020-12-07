@@ -7,7 +7,7 @@ namespace LeafMachine.CharSets
 {
     // NOTE: At this point, CharSets are meant for *hires characters* only!
     // I still need to figure out what to do with multicolor characters... The principe is the same,
-    // but the bitmaps aren't.
+    // but the bitmaps aren't. GraphicChar subclasses should deal with the various kinds of characters.
 
     abstract public class CharSet
     {
@@ -18,11 +18,13 @@ namespace LeafMachine.CharSets
         // maps characters ("a") or names ("arrow-up") to index in bitmaps64
         protected Dictionary<string, int> charToBitmapIndex;
 
+        // override in subclasses to provide the bitmaps of characters (e.g. C64, Atari, etc)
         public virtual int[,] InitBitmaps()
         {
             throw new System.Exception("not implemented");
         }
 
+        // override in subclasses to map characters/names to indexes in the bitmap64 array
         public virtual Dictionary<string, int> CharToBitmapIndex()
         {
             throw new System.Exception("not implemented");

@@ -23,13 +23,6 @@ namespace LeafMachine
             Init();
         }
 
-        public GraphicCharSet(GraphicsDeviceManager graphics, int size)  // FIXME: redundant
-        {
-            _graphics = graphics;
-            charset = new CustomCharSet(size);
-            Init();
-        }
-
         public GraphicChar Get(string name)
         {
             return graphicChars[name];
