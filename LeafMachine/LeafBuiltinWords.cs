@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
+using LeafMachine.CharSets;
 using Microsoft.Xna.Framework.Input;
 
 namespace LeafMachine
@@ -94,6 +95,34 @@ namespace LeafMachine
             state.defaultCharSet = name;
         }
 
+        public void SetChar(AphidInterpreter aip, MachineState state)
+        {
+            // ( bitmap charname charset -- )
+            string charset = Expect.ExpectSymbol("set-char", aip.stack.Pop());
+            string charname = Expect.ExpectString("set-char", aip.stack.Pop());
+            AphidList alist = Expect.ExpectAphidList("set-char", aip.stack.Pop());
+            List<AphidType> list = alist.AsList();
+            if (list.Count != 64)
+                throw new Exception($"set-char: bitmap must have 64 elements; got {list.Count} instead");
+            int[] bitmap = new int[64];
+            for (int i = 0; i < 64; i++) {
+                if (list[i] is AphidInteger) {
+                    bitmap[i] = (list[i] as AphidInteger).AsInteger();
+                    if (bitmap[i] != 0 && bitmap[i] != 1)
+                        throw new Exception("set-char: bitmap must consist of 0 and 1 only; got {bitmap[i]}");
+                }
+                else throw new Exception($"set-char: bitmap must consist of integers only; found {list[i]}");
+            }
+            GraphicCharSet gcs = state.gcsmanager.GetCharSet(charset);
+            CharSet cs = gcs.GetCharSet();
+            if (cs is CustomCharSet) {
+                CustomCharSet ccs = (cs as CustomCharSet);
+                ccs.AddBitmap(charname, bitmap);
+                gcs.AddGraphicChar(charname);
+            }
+            else throw new Exception("charset is not a CustomCharSet"); // FIXME later?
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
@@ -107,6 +136,7 @@ namespace LeafMachine
                 { "set-updater", SetUpdater },
                 { "key-down?", KeyDown },
                 { "set-default-charset", SetDefaultCharset },
+                { "set-char", SetChar },
             };
             return bw;
         }

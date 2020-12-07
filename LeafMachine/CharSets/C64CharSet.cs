@@ -5,8 +5,6 @@ using System.Linq;
 
 namespace LeafMachine.CharSets
 {
-    // XXX might want to derive from a superclass later...
-
     // NOTE: Let's just stick to bits and character mappings and such here; let's not actually
     // add Texture2Ds etc to this class.
 
@@ -16,7 +14,7 @@ namespace LeafMachine.CharSets
     // really matter.)
     public class C64CharSet : CharSet
     {
-        public override int[,] GetBitmaps()
+        public override int[,] InitBitmaps()
         {
             int[,] bitmaps64 = new int[256, 64] {
             { // 0
@@ -2588,6 +2586,7 @@ namespace LeafMachine.CharSets
             Dictionary<string, int> chars = new Dictionary<string, int> {
                 { "@", 0 },
                 { "[", 27 },
+                { "₤", 28 },
                 { "]", 29 },
                 { " ", 32 },
                 { "!", 33 },
@@ -2619,6 +2618,7 @@ namespace LeafMachine.CharSets
                 { "ring-hollow", 87 },
                 { "diagonal-top-left-bottom-right", 77 },
                 { "diagonal-top-right-bottom-left", 78 },
+                { "pound", 28 },  // alias
             };
             foreach (char c in "0123456789") {
                 chars[c.ToString()] = ((int)c);  // should be 48, 49, ...

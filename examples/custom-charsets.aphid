@@ -1,0 +1,19 @@
+; custom-charsets.aphid
+
+;; Create a custom character
+
+[ 0 0 1 1 1 1 1 0
+  0 1 0 0 0 0 0 1
+  0 1 0 1 1 1 0 1
+  0 1 0 1 0 0 0 1
+  0 1 0 1 1 1 0 1
+  0 1 0 0 0 0 0 1
+  0 0 1 1 1 1 1 0
+  0 0 0 0 0 0 0 0
+] "copyright" :user set-char
+
+:user set-default-charset
+
+1 1 15 "copyright" setxy
+:c64 set-default-charset
+3 1 15 "2020 Dirty Bird Software" writexy

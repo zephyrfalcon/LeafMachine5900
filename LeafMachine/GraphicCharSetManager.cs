@@ -30,5 +30,10 @@ namespace LeafMachine
         {
             return graphicCharSets.Keys.ToList();
         }
+
+        public GraphicCharSet GetCharSet(string name)
+        {
+            return graphicCharSets[name];
+        }
     }
 }

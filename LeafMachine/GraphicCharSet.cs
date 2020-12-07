@@ -23,6 +23,13 @@ namespace LeafMachine
             Init();
         }
 
+        public GraphicCharSet(GraphicsDeviceManager graphics, int size)  // FIXME: redundant
+        {
+            _graphics = graphics;
+            charset = new CustomCharSet(size);
+            Init();
+        }
+
         public GraphicChar Get(string name)
         {
             return graphicChars[name];
@@ -39,6 +46,14 @@ namespace LeafMachine
             foreach (string name in charset.KnownChars()) {
                 graphicChars[name] = new HiresChar(_graphics, charset.BitmapForChar(name));
             }
+        }
+
+        // If a character was added to the CharSet, call AddGraphicChar to make sure we have
+        // the appropriate GraphicChar for it. Can also be used to refresh existing chars
+        // if necessary.
+        public void AddGraphicChar(string charname)
+        {
+            graphicChars[charname] = new HiresChar(_graphics, charset.BitmapForChar(charname));
         }
     }
 }

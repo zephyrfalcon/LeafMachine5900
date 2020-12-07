@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace LeafMachine.CharSets
 {
+    // NOTE: At this point, CharSets are meant for *hires characters* only!
+    // I still need to figure out what to do with multicolor characters... The principe is the same,
+    // but the bitmaps aren't.
+
     abstract public class CharSet
     {
         // the actual bitmaps as int[64] arrays (values must be 0 or 1). 
@@ -14,7 +18,7 @@ namespace LeafMachine.CharSets
         // maps characters ("a") or names ("arrow-up") to index in bitmaps64
         protected Dictionary<string, int> charToBitmapIndex;
 
-        public virtual int[,] GetBitmaps()
+        public virtual int[,] InitBitmaps()
         {
             throw new System.Exception("not implemented");
         }
@@ -26,7 +30,7 @@ namespace LeafMachine.CharSets
 
         public CharSet()
         {
-            bitmaps64 = GetBitmaps();
+            bitmaps64 = InitBitmaps();
             charToBitmapIndex = CharToBitmapIndex();
         }
 
