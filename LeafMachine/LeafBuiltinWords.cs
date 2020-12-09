@@ -26,7 +26,7 @@ namespace LeafMachine
                 int realX = i + x;
                 if (realX < 0 || realX >= MachineState.WIDTH)
                     throw new System.Exception($"writexy: string too long to be displayed");
-                state.SetChar(realX, y, text[i].ToString());
+                state.SetChar(realX, y, state.currentCharSet, text[i].ToString());
                 state.SetColor(realX, y, color);
             }
         }
@@ -34,14 +34,13 @@ namespace LeafMachine
         public void SetXY(AphidInterpreter aip, MachineState state)
         {
             // ( x y fgcolor charname -- )
-            // Plot the given character at (x,y) in the given color.
-            // Uses the default charset.
+            // Plot the given character at (x,y) in the given color, using the current charset.
             string charname = Expect.ExpectString("setxy", aip.stack.Pop());
             int fgcolor = Expect.ExpectColor("setxy", aip.stack.Pop());
             int y = Expect.ExpectYCoordinate("setxy", aip.stack.Pop());
             int x = Expect.ExpectXCoordinate("setxy", aip.stack.Pop());
 
-            state.SetChar(x, y, charname);
+            state.SetChar(x, y, state.currentCharSet, charname);
             state.SetColor(x, y, fgcolor);
         }
 
@@ -88,13 +87,28 @@ namespace LeafMachine
         public void SetDefaultCharset(AphidInterpreter aip, MachineState state)
         {
             // ( :name -- )
+            // Set the default charset, where characters/names will be looked up if they
+            // are not found in the current charset.
             string name = Expect.ExpectSymbol("set-default-charset", aip.stack.Pop());
-            // XXX TODO: check if this a known charset name and complain if it isn't
+            // check if this a known charset name and complain if it isn't
             if (!state.gcsmanager.KnownCharSetNames().Contains(name))
                 throw new Exception($"set-default-charset: Unknown charset name: {name}");
             state.defaultCharSet = name;
         }
 
+        public void SetCurrentCharset(AphidInterpreter aip, MachineState state)
+        {
+            // ( :name -- )
+            // Set the current charset, i.e. the charset that will be used by setxy/writexy if we don't
+            // specify anything else.
+            string name = Expect.ExpectSymbol("set-current-charset", aip.stack.Pop());
+            // check if this a known charset name and complain if it isn't
+            if (!state.gcsmanager.KnownCharSetNames().Contains(name))
+                throw new Exception($"set-current-charset: Unknown charset name: {name}");
+            state.currentCharSet = name;
+        }
+
+        // TODO: refactor out code that deals with expecting a bitmap
         public void SetChar(AphidInterpreter aip, MachineState state)
         {
             // ( bitmap charname charset -- )
@@ -136,6 +150,7 @@ namespace LeafMachine
                 { "set-updater", SetUpdater },
                 { "key-down?", KeyDown },
                 { "set-default-charset", SetDefaultCharset },
+                { "set-current-charset", SetCurrentCharset },
                 { "set-char", SetChar },
             };
             return bw;

@@ -33,6 +33,7 @@ namespace LeafMachine
             return charset;
         }
 
+        // XXX consider making public in case we want to regenerate images for the whole CharSet
         private void Init()
         {
             graphicChars = new Dictionary<string, GraphicChar> { };

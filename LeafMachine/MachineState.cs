@@ -42,7 +42,11 @@ namespace LeafMachine
         public CharInfo[,] chars = new CharInfo[WIDTH, HEIGHT];
 
         public GraphicCharSetManager gcsmanager;
+
+        // we look up things in currentCharSet by default; it not found, fall back to
+        // defaultCharSet; if still not found, that's an error
         public string defaultCharSet = "c64";
+        public string currentCharSet = "user";
 
         public int tix = 0;  // number of tix (1/60th of a second) passed since we started
 
@@ -72,9 +76,27 @@ namespace LeafMachine
             bgColor = 7;  // blue, in C64 palette
         }
 
+        // Look up the given character/name in the given char set and return the associated
+        // GraphicChar object; if not found, try again in the default char set; if still not
+        // found, raise an exception.
+        public GraphicChar LookupChar(string charset, string name)
+        {
+            GraphicCharSet gcs1 = gcsmanager.GetCharSet(charset);
+            try {
+                return gcs1.Get(name);
+            } catch (KeyNotFoundException) {
+                GraphicCharSet gcs2 = gcsmanager.GetCharSet(defaultCharSet);
+                try {
+                    return gcs2.Get(name);
+                } catch (KeyNotFoundException) {
+                    throw new Exception($"Character/name not found in current or default charsets: {name}");
+                }
+            }
+        }
+
         public void SetChar(int x, int y, string name)
         {
-            chars[x, y].charset = defaultCharSet;
+            chars[x, y].charset = currentCharSet;
             chars[x, y].charname = name;
         }
 
