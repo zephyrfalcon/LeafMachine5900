@@ -26,7 +26,7 @@ namespace LeafMachine
                 int realX = i + x;
                 if (realX < 0 || realX >= MachineState.WIDTH)
                     throw new System.Exception($"writexy: string too long to be displayed");
-                state.SetChar(realX, y, state.currentCharSet, text[i].ToString());
+                state.SetChar(realX, y, text[i].ToString());
                 state.SetColor(realX, y, color);
             }
         }
@@ -40,7 +40,7 @@ namespace LeafMachine
             int y = Expect.ExpectYCoordinate("setxy", aip.stack.Pop());
             int x = Expect.ExpectXCoordinate("setxy", aip.stack.Pop());
 
-            state.SetChar(x, y, state.currentCharSet, charname);
+            state.SetChar(x, y, charname);
             state.SetColor(x, y, fgcolor);
         }
 

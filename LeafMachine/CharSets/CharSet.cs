@@ -57,6 +57,11 @@ namespace LeafMachine.CharSets
             return charToBitmapIndex.Keys.ToArray();
         }
 
+        public bool HasChar(string charname)
+        {
+            return charToBitmapIndex.ContainsKey(charname);
+        }
+
     }
 
 }

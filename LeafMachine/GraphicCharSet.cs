@@ -15,17 +15,20 @@ namespace LeafMachine
         GraphicsDeviceManager _graphics;
         CharSet charset;
         Dictionary<string, GraphicChar> graphicChars;
+        string name;
 
-        public GraphicCharSet(GraphicsDeviceManager graphics, CharSet aCharSet)
+        public GraphicCharSet(GraphicsDeviceManager graphics, CharSet aCharSet, string aname)
         {
             _graphics = graphics;
             charset = aCharSet;
+            name = aname;
             Init();
         }
 
-        public GraphicChar Get(string name)
+        public GraphicChar Get(string charname)
         {
-            return graphicChars[name];
+            //System.Console.WriteLine($"GraphicChar.Get: {name} '{charname}'");
+            return graphicChars[charname];
         }
 
         public CharSet GetCharSet()
@@ -48,6 +51,11 @@ namespace LeafMachine
         public void AddGraphicChar(string charname)
         {
             graphicChars[charname] = new HiresChar(_graphics, charset.BitmapForChar(charname));
+        }
+
+        public bool HasChar(string charname)
+        {
+            return graphicChars.ContainsKey(charname);
         }
     }
 }

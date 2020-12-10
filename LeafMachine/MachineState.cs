@@ -96,17 +96,29 @@ namespace LeafMachine
 
         public void SetChar(int x, int y, string name)
         {
-            chars[x, y].charset = currentCharSet;
+            if (gcsmanager.KnownCharSetNames().Contains(currentCharSet) && 
+                gcsmanager.GetCharSet(currentCharSet).HasChar(name)) {
+                chars[x, y].charset = currentCharSet;
+            }
+            else if (gcsmanager.KnownCharSetNames().Contains(defaultCharSet) && 
+                     gcsmanager.GetCharSet(defaultCharSet).HasChar(name)) {
+                chars[x, y].charset = defaultCharSet;
+            }
+            else throw new Exception($"character '{name}' not found in current or default charset");
             chars[x, y].charname = name;
         }
 
         public void SetChar(int x, int y, string charset, string charname)
         {
-            chars[x, y].charset = charset;
-            chars[x, y].charname = charname;
+            // ASSUMPTION: charname exists in charset
+            if (gcsmanager.KnownCharSetNames().Contains(charset) && gcsmanager.GetCharSet(charset).HasChar(charname)) {
+                chars[x, y].charset = charset;
+                chars[x, y].charname = charname;
+            }
+            else throw new Exception($"character '{charname}' not found in charset {charset}");
         }
 
-        public void SetColor(int x, int y, int c)
+            public void SetColor(int x, int y, int c)
         {
             chars[x, y].fgcolor = c;
         }
@@ -114,9 +126,9 @@ namespace LeafMachine
         protected void InitGraphicChars()
         {
             gcsmanager = new GraphicCharSetManager();
-            gcsmanager.Add("c64", new GraphicCharSet(_graphics, new C64CharSet()));
-            gcsmanager.Add("atari", new GraphicCharSet(_graphics, new AtariCharSet()));
-            gcsmanager.Add("user", new GraphicCharSet(_graphics, new CustomCharSet(1024)));
+            gcsmanager.Add("c64", new GraphicCharSet(_graphics, new C64CharSet(), "c64"));
+            gcsmanager.Add("atari", new GraphicCharSet(_graphics, new AtariCharSet(), "atari"));
+            gcsmanager.Add("user", new GraphicCharSet(_graphics, new CustomCharSet(1024), "user"));
         }
 
         public void SetUpdater(AphidWord newUpdater)
