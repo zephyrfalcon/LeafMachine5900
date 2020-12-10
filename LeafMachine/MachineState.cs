@@ -76,24 +76,10 @@ namespace LeafMachine
             bgColor = 7;  // blue, in C64 palette
         }
 
-        // Look up the given character/name in the given char set and return the associated
-        // GraphicChar object; if not found, try again in the default char set; if still not
-        // found, raise an exception.
-        public GraphicChar LookupChar(string charset, string name)
-        {
-            GraphicCharSet gcs1 = gcsmanager.GetCharSet(charset);
-            try {
-                return gcs1.Get(name);
-            } catch (KeyNotFoundException) {
-                GraphicCharSet gcs2 = gcsmanager.GetCharSet(defaultCharSet);
-                try {
-                    return gcs2.Get(name);
-                } catch (KeyNotFoundException) {
-                    throw new Exception($"Character/name not found in current or default charsets: {name}");
-                }
-            }
-        }
-
+        // Set character 'name' at the given position. Does not change the existing color for that position.
+        // 'name' is looked up in currentCharSet first; if it doesn't exist there, in defaultCharSet; and if
+        // it still isn't found, an exception is raised.
+        // NOTE: All code that uses this kind of fallback for character lookup, needs to use this method.
         public void SetChar(int x, int y, string name)
         {
             if (gcsmanager.KnownCharSetNames().Contains(currentCharSet) && 
