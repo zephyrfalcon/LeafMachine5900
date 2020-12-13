@@ -336,5 +336,12 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("[ :d 4 :e 5 ]!", "[ d 4 e 5 ]!");  // from prelude
         }
+
+        [Test]
+        public void TestReturnStack()
+        {
+            Check("1 2 3 pushr", "1 2");  // do not clear the stack afterwards
+            Check("swap 4 popr", "2 1 4 3");
+        }
     }
 }

@@ -445,6 +445,24 @@ namespace LeafMachine.Aphid
             aip.stack.Push(d);
         }
 
+        public void PushR(AphidInterpreter aip)
+        {
+            // ( x -- )
+            // RS: ( -- x )
+            // Pop the TOS and push it onto the return stack.
+            AphidType x = aip.stack.Pop();
+            aip.ReturnStack.Push(x);
+        }
+
+        public void PopR(AphidInterpreter aip)
+        {
+            // ( -- x)
+            // RS: ( x -- )
+            // Pop the TOS from the return stack and push it onto the data stack.
+            AphidType x = aip.ReturnStack.Pop();
+            aip.stack.Push(x);
+        }
+
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
         {
@@ -489,6 +507,8 @@ namespace LeafMachine.Aphid
                 { "random", Random },
                 { "and", And },
                 { "dict", Dict },
+                { "pushr", PushR },
+                { "popr", PopR },
             };
             return bw;
         }
