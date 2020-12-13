@@ -1,0 +1,39 @@
+; fading.aphid
+; Simple fading effects
+
+1 setbg
+
+; fade-in colors
+[ 1 12 13 16 2 ] :fade-in-colors setvar
+0 :fade-in-counter setvar
+
+; set-row-color ( row color -- )
+{ 
+  0 39 {
+                 ; row color x
+    3 pick       ; row color x row
+    3 pick       ; row color x row color
+    setfg        ; row color (stay on stack for the next iteration)
+  } for
+  drop drop  ; remove redundant row and color
+} :set-row-color defword
+
+12 1 set-row-color
+
+; write text in center (sort of)
+10 12 1 "SIMPLE FADE-IN EFFECT" writexy
+
+{
+  10 tix-passed? { 
+    12                            ; 12
+    :fade-in-colors getvar        ; 12 [colors...]
+    :fade-in-counter getvar       ; 12 [colors...] counter
+    at                            ; 12 color
+    set-row-color
+    :fade-in-counter inc
+    ; are we done?
+    :fade-in-counter getvar 4 int> { :nop set-updater } when
+  } when
+} :fade-in defword
+
+:fade-in set-updater

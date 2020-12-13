@@ -343,5 +343,13 @@ namespace LeafMachineTests
             Check("1 2 3 pushr", "1 2");  // do not clear the stack afterwards
             Check("swap 4 popr", "2 1 4 3");
         }
+
+        [Test]
+        public void TestFor()
+        {
+            Check("0 :counter setvar", "");
+            Check("1 10 { :counter getvar + :counter setvar } for", "");
+            Check(":counter getvar", "55");
+        }
     }
 }

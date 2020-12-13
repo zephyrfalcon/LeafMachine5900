@@ -208,6 +208,23 @@ namespace LeafMachine.Aphid
             });
         }
 
+        public void For(AphidInterpreter aip)
+        {
+            // ( begin end block -- ? )
+            // Loop from begin to end, inclusively, pushing the counter on the stack and executing
+            // block each time.
+            AphidBlock blk = Expect.ExpectAphidBlock("for", aip.stack.Pop());
+            int end = Expect.ExpectInteger("for", aip.stack.Pop());
+            int begin = Expect.ExpectInteger("for", aip.stack.Pop());
+            // for now, ignore situations where begin > end
+            if (end >= begin) {
+                for (int i = begin; i <= end; i++) {
+                    aip.stack.Push(new AphidInteger(i));
+                    blk.Run(aip);
+                }
+            }
+        }
+
         public void Pack(AphidInterpreter aip)
         {
             // ( ...N items... N -- [...N items...] )
@@ -488,6 +505,7 @@ namespace LeafMachine.Aphid
                 { "/", Divide },
                 { "rem", Rem },
                 { "for-each", ForEach },
+                { "for", For },
                 { "pack", Pack },
                 { "unpack", Unpack },
                 { "3rev", ThreeRev },  // maybe redundant

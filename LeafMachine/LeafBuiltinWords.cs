@@ -115,6 +115,25 @@ namespace LeafMachine
             aip.stack.Push(new AphidSymbol(state.currentCharSet));
         }
 
+        public void SetFG(AphidInterpreter aip, MachineState state)
+        {
+            // ( x y color -- )
+            // Set the foreground color for the given screen position.
+            int color = Expect.ExpectColor("setfg", aip.stack.Pop());
+            int y = Expect.ExpectYCoordinate("setfg", aip.stack.Pop());
+            int x = Expect.ExpectXCoordinate("setfg", aip.stack.Pop());
+            state.chars[x, y].fgcolor = color;
+        }
+
+        public void GetFG(AphidInterpreter aip, MachineState state)
+        {
+            // ( x y -- color )
+            // Get the foreground color for the given screen position.
+            int y = Expect.ExpectYCoordinate("getfg", aip.stack.Pop());
+            int x = Expect.ExpectXCoordinate("getfg", aip.stack.Pop());
+            aip.stack.Push(new AphidInteger(state.chars[x, y].fgcolor));
+        }
+
         // TODO: refactor out code that deals with expecting a bitmap
         public void SetChar(AphidInterpreter aip, MachineState state)
         {
@@ -160,6 +179,8 @@ namespace LeafMachine
                 { "set-current-charset", SetCurrentCharset },
                 { "set-char", SetChar },
                 { "current-charset", CurrentCharSet },
+                { "setfg", SetFG },
+                { "getfg", GetFG },
             };
             return bw;
         }
