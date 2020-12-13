@@ -108,6 +108,13 @@ namespace LeafMachine
             state.currentCharSet = name;
         }
 
+        public void CurrentCharSet(AphidInterpreter aip, MachineState state)
+        {
+            // ( -- :charset )
+            // Push the name of the current charset, as a symbol.
+            aip.stack.Push(new AphidSymbol(state.currentCharSet));
+        }
+
         // TODO: refactor out code that deals with expecting a bitmap
         public void SetChar(AphidInterpreter aip, MachineState state)
         {
@@ -152,6 +159,7 @@ namespace LeafMachine
                 { "set-default-charset", SetDefaultCharset },
                 { "set-current-charset", SetCurrentCharset },
                 { "set-char", SetChar },
+                { "current-charset", CurrentCharSet },
             };
             return bw;
         }

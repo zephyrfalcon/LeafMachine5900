@@ -16,3 +16,10 @@
 0 12 15 "ABCDEFGHIJKLMNOPQRSTUVWXYZ" writexy
 0 13 15 "abcdefghijklmnopqrstuvwxyz" writexy
 0 14 15 "0123456789 !@#$%&*()+-=[];:',.<>/?" writexy
+
+0 17 15 :c64 "We can mix" writexy*
+11 17 15 :atari "ATARI" writexy*
+17 17 15 :c64 "and C64 sets" writexy*
+; although it's a bit clumsy at this point, until I have better words
+; for this... should they be necessary!
+

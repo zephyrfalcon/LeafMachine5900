@@ -32,6 +32,23 @@
 { random 1 + } :random1 defword
 
 { ] dict } :]! defword
+
+; setxy* ( x y fgcolor charset charname -- )
+{ current-charset pushr
+  swap                      ; x y fgcolor charname charset
+  set-current-charset       ; x y fgcolor charname
+  setxy
+  popr set-current-charset
+} :setxy* defword
+
+; writexy* ( x y fgcolor charset charname -- )
+{ current-charset pushr
+  swap                      ; x y fgcolor charname charset
+  set-current-charset       ; x y fgcolor charname
+  writexy
+  popr set-current-charset
+} :writexy* defword
+
 ";
     }
 }
@@ -40,5 +57,5 @@
 
    - We can write a word `++` (or maybe, `inc`) that takes a variable name (so, a symbol)
      and adds 1 to it. Similar for `dec`. [done] 
-     Also `inc-by` and `dec-by`.
+     Also `inc-by` and `dec-by`. [TBD]
 */
