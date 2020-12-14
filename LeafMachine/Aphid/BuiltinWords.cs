@@ -241,6 +241,22 @@ namespace LeafMachine.Aphid
             }
         }
 
+        public void Map(AphidInterpreter aip)
+        {
+            // ( list block -- list' )
+            // For each element in list, push it onto the stack, then call the given block, which is
+            // expected to leave an item as well. Put this item into the new list.
+            AphidBlock blk = Expect.ExpectAphidBlock("map", aip.stack.Pop());
+            AphidList lst = Expect.ExpectAphidList("map", aip.stack.Pop());
+            List<AphidType> results = new List<AphidType>();
+            lst.AsList().ForEach(x => {
+                aip.stack.Push(x);
+                blk.Run(aip);
+                results.Add(aip.stack.Pop());
+            });
+            aip.stack.Push(new AphidList(results));
+        }
+
         public void Pack(AphidInterpreter aip)
         {
             // ( ...N items... N -- [...N items...] )
@@ -550,8 +566,11 @@ namespace LeafMachine.Aphid
                 { "*", Multiply },
                 { "/", Divide },
                 { "rem", Rem },
+
                 { "for-each", ForEach },
                 { "for", For },
+                { "map", Map },
+
                 { "pack", Pack },
                 { "unpack", Unpack },
                 { "3rev", ThreeRev },  // maybe redundant
@@ -560,7 +579,7 @@ namespace LeafMachine.Aphid
                 { "defword", DefWord },
                 { "pick", Pick },
                 { "roll", Roll },
-                { "int>str", IntToStr },
+                { "int>str", IntToStr },  // should be replaced by general 'to-string' word
                 { "if", If },
                 { "int=", IntEquals },
                 { "int>", IntGreaterThan },

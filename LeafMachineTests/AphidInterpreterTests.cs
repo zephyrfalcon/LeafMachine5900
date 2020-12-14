@@ -380,5 +380,11 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("-4 -5 *", "20");
         }
+
+        [Test]
+        public void TestMap()
+        {
+            Check("[ 1 2 3 ] { 1 + } map", "[ 2 3 4 ]");
+        }
     }
 }
