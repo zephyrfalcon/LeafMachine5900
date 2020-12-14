@@ -341,6 +341,12 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestNot()
+        {
+            Check("true not", "false");
+        }
+
+        [Test]
         public void TestDict()
         {
             Check("[ :a 1 :b 2 :c 3 ] dict", "[ a 1 b 2 c 3 ]!");

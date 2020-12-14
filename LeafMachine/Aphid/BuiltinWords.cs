@@ -473,6 +473,13 @@ namespace LeafMachine.Aphid
             }
         }
 
+        public void Not(AphidInterpreter aip)
+        {
+            // ( bool -- !bool )
+            bool b = Expect.ExpectBool("not", aip.stack.Pop());
+            aip.stack.Push(new AphidBool(!b));
+        }
+
         public void Dict(AphidInterpreter aip)
         {
             // ( list -- dict )
@@ -564,6 +571,7 @@ namespace LeafMachine.Aphid
                 { "random", Random },
                 { "and", And },
                 { "or", Or },
+                { "not", Not },
                 { "dict", Dict },
                 { "pushr", PushR },
                 { "popr", PopR },
