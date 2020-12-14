@@ -163,6 +163,22 @@ namespace LeafMachine.Aphid
             aip.stack.Push(z);
         }
 
+        public void Minus(AphidInterpreter aip)
+        {
+            // ( a b -- a-b )
+            int b = Expect.ExpectInteger("-", aip.stack.Pop());
+            int a = Expect.ExpectInteger("-", aip.stack.Pop());
+            aip.stack.Push(new AphidInteger(a - b));
+        }
+
+        public void Multiply(AphidInterpreter aip)
+        {
+            // ( a b -- a*b )
+            int b = Expect.ExpectInteger("*", aip.stack.Pop());
+            int a = Expect.ExpectInteger("*", aip.stack.Pop());
+            aip.stack.Push(new AphidInteger(a * b));
+        }
+
         public void Divide(AphidInterpreter aip)
         {
             // ( a b -- a/b )
@@ -502,6 +518,8 @@ namespace LeafMachine.Aphid
                 { "setvar", SetVar },
                 { "getvar", GetVar },
                 { "+", Plus },
+                { "-", Minus },
+                { "*", Multiply },
                 { "/", Divide },
                 { "rem", Rem },
                 { "for-each", ForEach },

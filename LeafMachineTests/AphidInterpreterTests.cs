@@ -351,5 +351,17 @@ namespace LeafMachineTests
             Check("1 10 { :counter getvar + :counter setvar } for", "");
             Check(":counter getvar", "55");
         }
+
+        [Test]
+        public void TestArithmetic()
+        {
+            Check("10 3 -", "7");
+            aip.stack.Clear();
+            Check("4 10 -", "-6");
+            aip.stack.Clear();
+            Check("3 4 *", "12");
+            aip.stack.Clear();
+            Check("-4 -5 *", "20");
+        }
     }
 }
