@@ -456,6 +456,23 @@ namespace LeafMachine.Aphid
             else aip.stack.Push(new AphidBool(false));
         }
 
+        public void Or(AphidInterpreter aip)
+        {
+            // ( block1 block2 -- bool )
+            // The blocks are expected to leave a boolean on the stack.
+            // Shortcut behavior: if block1 leaves `true` on the stack, block2 is not executed.
+            AphidBlock block2 = Expect.ExpectAphidBlock("or", aip.stack.Pop());
+            AphidBlock block1 = Expect.ExpectAphidBlock("or", aip.stack.Pop());
+            block1.Run(aip);
+            bool b1 = Expect.ExpectBool("or (code block 1)", aip.stack.Pop());
+            if (b1) aip.stack.Push(new AphidBool(true));
+            else {
+                block2.Run(aip);
+                bool b2 = Expect.ExpectBool("or (code block 2)", aip.stack.Pop());
+                aip.stack.Push(new AphidBool(b2));
+            }
+        }
+
         public void Dict(AphidInterpreter aip)
         {
             // ( list -- dict )
@@ -478,6 +495,8 @@ namespace LeafMachine.Aphid
             aip.stack.Push(d);
         }
 
+        #region returnstack;
+
         public void PushR(AphidInterpreter aip)
         {
             // ( x -- )
@@ -495,6 +514,8 @@ namespace LeafMachine.Aphid
             AphidType x = aip.ReturnStack.Pop();
             aip.stack.Push(x);
         }
+
+        #endregion returnstack;
 
         /* built-in words */
         public Dictionary<string, DelAphidBuiltinWord> GetBuiltinWords()
@@ -542,6 +563,7 @@ namespace LeafMachine.Aphid
                 { "symbol=", SymbolEquals },
                 { "random", Random },
                 { "and", And },
+                { "or", Or },
                 { "dict", Dict },
                 { "pushr", PushR },
                 { "popr", PopR },

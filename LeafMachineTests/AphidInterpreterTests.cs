@@ -330,6 +330,17 @@ namespace LeafMachineTests
         }
 
         [Test]
+        public void TestOr()
+        {
+            Check("{ 0 1 int= } { 2 2 int= } or", "true");
+            aip.stack.Clear();
+            Check("0 :block2-called setvar", "");
+            Check("{ 1 1 int= } { 42 :block2-called setvar 2 2 int= } or", "true");
+            aip.stack.Clear();
+            Check(":block2-called getvar", "0");
+        }
+
+        [Test]
         public void TestDict()
         {
             Check("[ :a 1 :b 2 :c 3 ] dict", "[ a 1 b 2 c 3 ]!");
