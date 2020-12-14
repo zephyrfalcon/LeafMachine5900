@@ -100,10 +100,10 @@ namespace LeafMachine.Aphid
 
         public void Exec(AphidInterpreter aip)
         {
-            AphidType x = aip.stack.Pop();
-            if (x is AphidBlock)
-                x.Run(aip);
-            else throw new System.Exception($"exec: Cannot execute {x.ToString()}");
+            // ( block -- ? )
+            // Execute the given block.
+            AphidBlock blk = Expect.ExpectAphidBlock("exec", aip.stack.Pop());
+            blk.Run(aip);
         }
 
         public void StrToChars(AphidInterpreter aip)
