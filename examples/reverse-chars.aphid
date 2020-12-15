@@ -3,11 +3,18 @@
 ; create a new charset
 :c64-rev make-charset
 
+; TODO
+{ } :reverse-bitmap defword
+
 ; ( charname -- )
 { dup               ; charname charname
   :c64              ; charname charname :c64
   swap              ; charname :c64 charname
   get-hires-bitmap  ; charname [bits...]
+  ; TODO: reverse!
+  :c64-rev          ; charname [bits...] :c64-rev
+  ror               ; :c64-rev charname [bits...]
+  set-hires-bitmap
 } :make-reverse-char defword
 
 :c64 get-charnames { make-reverse-char } for-each
