@@ -1,0 +1,13 @@
+; reverse-chars.aphid
+
+; create a new charset
+:c64-rev make-charset
+
+; ( charname -- )
+{ dup               ; charname charname
+  :c64              ; charname charname :c64
+  swap              ; charname :c64 charname
+  get-hires-bitmap  ; charname [bits...]
+} :make-reverse-char defword
+
+:c64 get-charnames { make-reverse-char } for-each

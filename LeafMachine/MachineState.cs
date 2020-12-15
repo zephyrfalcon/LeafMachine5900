@@ -28,7 +28,7 @@ namespace LeafMachine
         public const int HEIGHT = 25;
         public const int NUM_COLORS = 16;
 
-        GraphicsDeviceManager _graphics;
+        public GraphicsDeviceManager _graphics;
 
         // the keycodes are not really "state" but we do need to access them through here
         public KeyCodes keycodes;

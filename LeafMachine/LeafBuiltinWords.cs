@@ -163,6 +163,54 @@ namespace LeafMachine
             else throw new Exception("charset is not a CustomCharSet"); // FIXME later?
         }
 
+        public void GetHiresBitmap(AphidInterpreter aip, MachineState state)
+        {
+            // ( charset charname -- [bitmap64...] )
+            string charname = Expect.ExpectString("get-hires-bitmap", aip.stack.Pop());
+            string charset = Expect.ExpectSymbol("get-hires-bitmap", aip.stack.Pop());
+            int[] bitmap64 = state.gcsmanager.GetCharSet(charset).GetCharSet().BitmapForChar(charname);
+            // ^ might have to pull this apart to allow for clearer error messages?
+            List<AphidType> bits = new List<AphidType>();
+            for (int i = 0; i < 64; i++) {
+                bits.Add(new AphidInteger(bitmap64[i]));
+            }
+            aip.stack.Push(new AphidList(bits));
+        }
+
+        public void SetHiresBitmap(AphidInterpreter aip, MachineState state)
+        {
+            // ( charset charname bitmap -- )
+            AphidList bits = Expect.ExpectAphidList("set-hires-bitmap", aip.stack.Pop());
+            string charname = Expect.ExpectString("set-hires-bitmap", aip.stack.Pop());
+            string charset = Expect.ExpectSymbol("set-hires-bitmap", aip.stack.Pop());
+            CharSet cs = state.gcsmanager.GetCharSet(charset).GetCharSet();
+            // TODO: CharSet needs a method to set a bitmap
+            // and then we need to call GraphicCharSet.Add___ to create the image
+        }
+
+        public void GetCharnames(AphidInterpreter aip, MachineState state)
+        {
+            // ( charset -- [charnames...] )
+            string charset = Expect.ExpectSymbol("get-charnames", aip.stack.Pop());
+            string[] charnames = state.gcsmanager.GetCharSet(charset).GetCharSet().KnownChars();
+            List<AphidType> names = new List<AphidType>();
+            for (int i = 0; i < charnames.Length; i++) {
+                names.Add(new AphidString(charnames[i]));
+            }
+            aip.stack.Push(new AphidList(names));
+        }
+
+        public void MakeCharset(AphidInterpreter aip, MachineState state)
+        {
+            // ( :name -- )
+            // Make a new charset (CustomCharSet) and register it under the given name. 
+            // Charset starts out empty.
+            string charset = Expect.ExpectSymbol("make-charset", aip.stack.Pop());
+            CustomCharSet cs = new CustomCharSet(1024);
+            GraphicCharSet gcs = new GraphicCharSet(state._graphics, cs, charset);
+            state.gcsmanager.Add(charset, gcs);
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
@@ -181,6 +229,9 @@ namespace LeafMachine
                 { "current-charset", CurrentCharSet },
                 { "setfg", SetFG },
                 { "getfg", GetFG },
+                { "get-hires-bitmap", GetHiresBitmap },
+                { "get-charnames", GetCharnames },
+                { "make-charset", MakeCharset },
             };
             return bw;
         }
