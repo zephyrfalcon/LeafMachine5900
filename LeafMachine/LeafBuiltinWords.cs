@@ -181,11 +181,33 @@ namespace LeafMachine
         {
             // ( charset charname bitmap -- )
             AphidList bits = Expect.ExpectAphidList("set-hires-bitmap", aip.stack.Pop());
+            // TODO: we might benefit from an 'ExpectBitmap64' that checks a number of things beforehand...
             string charname = Expect.ExpectString("set-hires-bitmap", aip.stack.Pop());
             string charset = Expect.ExpectSymbol("set-hires-bitmap", aip.stack.Pop());
             CharSet cs = state.gcsmanager.GetCharSet(charset).GetCharSet();
-            // TODO: CharSet needs a method to set a bitmap
-            // and then we need to call GraphicCharSet.Add___ to create the image
+            if (bits.AsList().Count != 64)
+                throw new Exception($"set-hires-bitmap: bitmap must have exactly 64 elements; got {bits.AsList().Count} instead");
+            // only a CustomCharSet can (currently) add a bitmap
+            // AtariCharSet, C64CharSet etc, are "set in stone"
+            if (cs is CustomCharSet) {
+                CustomCharSet ccs = cs as CustomCharSet;
+                int[] bitmap = new int[64];
+                int i = 0;
+                bits.AsList().ForEach(x => {
+                    if (x is AphidInteger) {
+                        int b = (x as AphidInteger).AsInteger();
+                        if (b == 0 || b == 1) {
+                            bitmap[i++] = b;
+                        }
+                        else throw new Exception($"set-hires-bitmap: bitmap can only contain 0 or 1; found {b} instead");
+                    }
+                    else throw new Exception($"set-hires-bitmap: bitmap must consist of integers; got {x.ToString()} instead");
+                });
+                ccs.AddBitmap(charname, bitmap);
+            }
+            else throw new Exception("");
+            // add to the appropriate GraphicCharSet to create the Texture2D
+            state.gcsmanager.GetCharSet(charset).AddGraphicChar(charname);
         }
 
         public void GetCharnames(AphidInterpreter aip, MachineState state)
@@ -232,6 +254,7 @@ namespace LeafMachine
                 { "get-hires-bitmap", GetHiresBitmap },
                 { "get-charnames", GetCharnames },
                 { "make-charset", MakeCharset },
+                { "set-hires-bitmap", SetHiresBitmap },
             };
             return bw;
         }
