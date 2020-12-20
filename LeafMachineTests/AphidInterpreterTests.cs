@@ -396,11 +396,20 @@ namespace LeafMachineTests
         }
 
         [Test]
-        public void ListReverse()
+        public void TestListReverse()
         {
             Check("[ 1 2 3 ] :stuff setvar", "");
             Check(":stuff getvar list-reverse", "");
             Check(":stuff getvar", "[ 3 2 1 ]");
+        }
+
+        [Test]
+        public void TestStringReverse()
+        {
+            Check("\"abc\" string-reverse", "\"cba\"");
+            aip.stack.Clear();
+            Check("\"Les Mise\u0301rables\" string-reverse", "\"selbare\u0301siM seL\"");
+            // see: https://stackoverflow.com/a/15111719/27426
         }
     }
 }

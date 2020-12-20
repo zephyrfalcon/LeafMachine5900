@@ -461,6 +461,15 @@ namespace LeafMachine.Aphid
             list.AsList().Reverse();
         }
 
+        public void StringReverse(AphidInterpreter aip)
+        {
+            // ( string -- reversed-string )
+            string s = Expect.ExpectString("string-reverse", aip.stack.Pop());
+            string t = StringReverser.ReverseGraphemeClusters(s);
+            aip.stack.Push(new AphidString(t));
+            // see: https://stackoverflow.com/a/15111719/27426
+        }
+
         public void SymbolEquals(AphidInterpreter aip)
         {
             // ( symbol1 symbol2 -- bool )
@@ -618,6 +627,7 @@ namespace LeafMachine.Aphid
                 { "popr", PopR },
                 { "list-set", ListSet },
                 { "list-reverse", ListReverse },
+                { "string-reverse", StringReverse },
             };
             return bw;
         }
