@@ -386,5 +386,13 @@ namespace LeafMachineTests
         {
             Check("[ 1 2 3 ] { 1 + } map", "[ 2 3 4 ]");
         }
+
+        [Test]
+        public void TestListSet()
+        {
+            Check("[ 1 2 3 ] :stuff setvar", "");
+            Check("9 :stuff getvar 0 list-set", "");
+            Check(":stuff getvar", "[ 9 2 3 ]");
+        }
     }
 }

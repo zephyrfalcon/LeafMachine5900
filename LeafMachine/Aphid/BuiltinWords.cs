@@ -423,6 +423,9 @@ namespace LeafMachine.Aphid
             else throw new Exception($"length: list or string expected, got {x.ToString()} instead");
         }
 
+        // XXX This is a generic word; it currently supports lists and strings, and in the future
+        // could support dicts and maybe other types. Question is, if we should have type-specific
+        // words instead: list-at, string-at, dict-at, etc.
         public void At(AphidInterpreter aip)
         {
             // ( list|string index -- value )
@@ -437,6 +440,17 @@ namespace LeafMachine.Aphid
                 aip.stack.Push(new AphidString(c));
             }
             else throw new Exception($"length: list or string expected, got {x.ToString()} instead");
+        }
+
+        public void ListSet(AphidInterpreter aip)
+        {
+            // ( value list index -- )
+            // Sets element `index` of `list` to `value`. Modifies the list in-place.
+            int idx = Expect.ExpectInteger("list-set", aip.stack.Pop());
+            AphidList list = Expect.ExpectAphidList("list-set", aip.stack.Pop());
+            AphidType value = aip.stack.Pop();
+            list.AsList()[idx] = value;  // will throw an error if idx is out of bounds
+            // TODO: support negative indexes?
         }
 
         public void SymbolEquals(AphidInterpreter aip)
@@ -594,6 +608,7 @@ namespace LeafMachine.Aphid
                 { "dict", Dict },
                 { "pushr", PushR },
                 { "popr", PopR },
+                { "list-set", ListSet },
             };
             return bw;
         }
