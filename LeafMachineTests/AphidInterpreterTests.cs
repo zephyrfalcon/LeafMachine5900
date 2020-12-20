@@ -394,5 +394,13 @@ namespace LeafMachineTests
             Check("9 :stuff getvar 0 list-set", "");
             Check(":stuff getvar", "[ 9 2 3 ]");
         }
+
+        [Test]
+        public void ListReverse()
+        {
+            Check("[ 1 2 3 ] :stuff setvar", "");
+            Check(":stuff getvar list-reverse", "");
+            Check(":stuff getvar", "[ 3 2 1 ]");
+        }
     }
 }

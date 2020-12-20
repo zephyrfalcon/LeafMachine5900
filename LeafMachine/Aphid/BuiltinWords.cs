@@ -453,6 +453,14 @@ namespace LeafMachine.Aphid
             // TODO: support negative indexes?
         }
 
+        public void ListReverse(AphidInterpreter aip)
+        {
+            // ( list -- )
+            // Reverses a list in-place.
+            AphidList list = Expect.ExpectAphidList("list-reverse", aip.stack.Pop());
+            list.AsList().Reverse();
+        }
+
         public void SymbolEquals(AphidInterpreter aip)
         {
             // ( symbol1 symbol2 -- bool )
@@ -609,6 +617,7 @@ namespace LeafMachine.Aphid
                 { "pushr", PushR },
                 { "popr", PopR },
                 { "list-set", ListSet },
+                { "list-reverse", ListReverse },
             };
             return bw;
         }
