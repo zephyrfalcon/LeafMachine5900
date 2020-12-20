@@ -44,6 +44,9 @@
   ror               ; :c64-upside-down charname [bits...]
   set-hires-bitmap  
 } :make-upside-down-char defword
+; NOTE: this is *mostly* the same as `make-reverse-char`, but we need
+; to dup the list here because `list-reverse` changes it in-place and
+; does not push it to the stack.
 
 :c64 get-charnames { make-upside-down-char } for-each
 
