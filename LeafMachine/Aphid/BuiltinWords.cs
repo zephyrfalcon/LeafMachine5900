@@ -473,6 +473,21 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidList(slice));
         }
 
+        public void ListSetSlice(AphidInterpreter aip) {
+            // ( list start slice -- list )
+            // Replace the element of a list, starting at position `start`, with the element
+            // of list `slice`. The number of elements replaced is the same as the length
+            // of `slice`.
+            // Changes the list in-place. (Should it?)
+            // TODO: What happens if `slice` is longer than `list`?
+            AphidList slice = Expect.ExpectAphidList("list-set-slice", aip.stack.Pop());
+            int start = Expect.ExpectInteger("list-set-slice", aip.stack.Pop());
+            AphidList list = Expect.ExpectAphidList("list-set-slice", aip.stack.Pop());
+            list.AsList().RemoveRange(start, slice.AsList().Count);
+            list.AsList().InsertRange(start, slice.AsList());
+            aip.stack.Push(list);
+        }
+
         public void StringReverse(AphidInterpreter aip)
         {
             // ( string -- reversed-string )
@@ -641,6 +656,7 @@ namespace LeafMachine.Aphid
                 { "list-reverse", ListReverse },
                 { "string-reverse", StringReverse },
                 { "list-slice", ListSlice },
+                { "list-set-slice", ListSetSlice },
             };
             return bw;
         }

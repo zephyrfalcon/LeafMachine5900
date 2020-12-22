@@ -63,6 +63,14 @@
     ... make sure to leave bitmap on the stack for next iteration...
   } for
 } :mirror-bitmap-x defword
+;; Thought: In this case, we could use a word that maps a list to a
+;; number of slices, so `bitmap` => list with 8 sublists of 8 bits each.
+;; Then we can map over that, reversing the 8-lists (in this case), and
+;; have a new list back, which we join together to create the new bitmap.
+;; Something like `n list-split` and `list-join`...
+;; OR, we could do everything in-place... loop 8 times, get a slice of
+;; 8 bits, reverse it, stick it back in the original list.
+;; Less functional but perhaps "Forthier". :)
 
 ; GOAL: to have a general-purpose word that can be used to
 ; convert the characters in a charset. should take original charset,

@@ -419,5 +419,14 @@ namespace LeafMachineTests
             aip.stack.Clear();
             Check("[ 1 2 3 4 5 6 7 ] 1 4 list-slice", "[ 2 3 4 ]");
         }
+
+        [Test]
+        public void TestListSetSlice()
+        {
+            Check("[ 1 2 3 4 5 6 7 ] :foo setvar", "");
+            Check(":foo getvar 0 [ 0 0 0 ] list-set-slice", "[ 0 0 0 4 5 6 7 ]");
+            aip.stack.Clear();
+            Check(":foo getvar", "[ 0 0 0 4 5 6 7 ]");  // list was changed in-place
+        }
     }
 }
