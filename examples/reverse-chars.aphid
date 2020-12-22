@@ -33,20 +33,24 @@
 
 :c64-upside-down make-charset
 
+; ( bitmap -- bitmap' )
+{ dup list-reverse } :upside-down-bitmap defword
+
 ; ( charname -- )
-{ dup               ; charname charname
-  :c64              ; charname charname :c64
-  swap              ; charname :c64 charname
-  get-hires-bitmap  ; charname [bits...]
-  dup               ; charname [bits...] [bits...]
-  list-reverse      ; charname [bits...]
-  :c64-upside-down  ; charname [bits...] :c64-upside-down
-  ror               ; :c64-upside-down charname [bits...]
+{ dup                 ; charname charname
+  :c64                ; charname charname :c64
+  swap                ; charname :c64 charname
+  get-hires-bitmap    ; charname [bits...]
+  upside-down-bitmap  ; charname [bits...]
+  :c64-upside-down    ; charname [bits...] :c64-upside-down
+  ror                 ; :c64-upside-down charname [bits...]
   set-hires-bitmap  
 } :make-upside-down-char defword
-; NOTE: this is *mostly* the same as `make-reverse-char`, but we need
-; to dup the list here because `list-reverse` changes it in-place and
-; does not push it to the stack.
+
+; GOAL: to have a general-purpose word that can be used to
+; convert the characters in a charset. should take original charset,
+; target charset, and a block that is executed against the bitmap
+; (as a 64-element list of bits) to convert it.
 
 :c64 get-charnames { make-upside-down-char } for-each
 
