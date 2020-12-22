@@ -411,5 +411,13 @@ namespace LeafMachineTests
             Check("\"Les Mise\u0301rables\" string-reverse", "\"selbare\u0301siM seL\"");
             // see: https://stackoverflow.com/a/15111719/27426
         }
+
+        [Test]
+        public void TestListSlice()
+        {
+            Check("[ 1 2 3 4 5 6 7 8 ] 0 2 list-slice", "[ 1 2 ]");
+            aip.stack.Clear();
+            Check("[ 1 2 3 4 5 6 7 ] 1 4 list-slice", "[ 2 3 4 ]");
+        }
     }
 }

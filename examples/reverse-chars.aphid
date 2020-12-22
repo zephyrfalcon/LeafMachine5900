@@ -47,6 +47,23 @@
   set-hires-bitmap  
 } :make-upside-down-char defword
 
+; mirror-bitmap-x ( bitmap -- bitmap' )
+; Mirror a bitmap horizontally.
+{ 
+  0 7 {              ; bitmap idx
+    swap             ; idx bitmap
+    dup              ; idx bitmap bitmap
+    rol              ; bitmap bitmap idx
+    dup              ; bitmap bitmap idx idx
+    8 *              ; bitmap bitmap idx idx*8
+    swap             ; bitmap bitmap idx*8 idx
+    8 * 8 +          ; bitmap bitmap idx*8 idx*8+8
+    list-slice       ; bitmap slice
+    ...now what?
+    ... make sure to leave bitmap on the stack for next iteration...
+  } for
+} :mirror-bitmap-x defword
+
 ; GOAL: to have a general-purpose word that can be used to
 ; convert the characters in a charset. should take original charset,
 ; target charset, and a block that is executed against the bitmap

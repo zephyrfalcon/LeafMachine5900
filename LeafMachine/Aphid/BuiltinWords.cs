@@ -461,6 +461,18 @@ namespace LeafMachine.Aphid
             list.AsList().Reverse();
         }
 
+        public void ListSlice(AphidInterpreter aip)
+        {
+            // ( list start stop -- list[start:stop] )
+            // where `start` is inclusive but `stop` is exclusive
+            int stop = Expect.ExpectInteger("list-slice", aip.stack.Pop());
+            int start = Expect.ExpectInteger("list-slice", aip.stack.Pop());
+            AphidList list = Expect.ExpectAphidList("list-slice", aip.stack.Pop());
+            // TODO: assert start >= stop
+            List<AphidType> slice = list.AsList().GetRange(start, stop - start);
+            aip.stack.Push(new AphidList(slice));
+        }
+
         public void StringReverse(AphidInterpreter aip)
         {
             // ( string -- reversed-string )
@@ -628,6 +640,7 @@ namespace LeafMachine.Aphid
                 { "list-set", ListSet },
                 { "list-reverse", ListReverse },
                 { "string-reverse", StringReverse },
+                { "list-slice", ListSlice },
             };
             return bw;
         }
