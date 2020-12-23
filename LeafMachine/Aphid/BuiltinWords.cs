@@ -455,10 +455,12 @@ namespace LeafMachine.Aphid
 
         public void ListReverse(AphidInterpreter aip)
         {
-            // ( list -- )
-            // Reverses a list in-place.
+            // ( list -- list' )
+            // Reverses a list in-place. *Does* put the modified list on the stack (which, in terms of
+            // identity, is the same list.)
             AphidList list = Expect.ExpectAphidList("list-reverse", aip.stack.Pop());
             list.AsList().Reverse();
+            aip.stack.Push(list);
         }
 
         public void ListSlice(AphidInterpreter aip)

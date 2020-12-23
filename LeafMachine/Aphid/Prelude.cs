@@ -4,6 +4,9 @@
     {
         public static string code = @"
 
+; 2dup ( x y -- x y x y )
+{ over over } :2dup defword
+
 ; when ( cond block -- ? )
 { { } if } :when defword
 

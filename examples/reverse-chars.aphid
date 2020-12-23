@@ -47,40 +47,59 @@
   set-hires-bitmap  
 } :make-upside-down-char defword
 
+:c64 get-charnames { make-upside-down-char } for-each
+
+;; --- horizontal mirroring ---
+
+:c64-mirror-x make-charset
+
+; reverse-slice ( bitmap n -- bitmap' )
+; Take the n-th 8-slice of the bitmap, reverse it, and put it back.
+{                      ; bitmap n
+  over over            ; bitmap n bitmap n
+  dup                  ; bitmap n bitmap n n
+  8 *                  ; bitmap n bitmap n n*8
+  swap                 ; bitmap n bitmap n*8 n
+  8 * 8 +              ; bitmap n bitmap n*8 n*8+8
+  list-slice           ; bitmap n slice
+  list-reverse         ; bitmap n slice'
+  ror                  ; slice' bitmap n
+  8 *                  ; slice' bitmap n*8
+  rol                  ; bitmap n*8 slice'
+  list-set-slice       ; bitmap'
+} :reverse-slice defword
+
 ; mirror-bitmap-x ( bitmap -- bitmap' )
 ; Mirror a bitmap horizontally.
 { 
-  0 7 {              ; bitmap idx
-    swap             ; idx bitmap
-    dup              ; idx bitmap bitmap
-    rol              ; bitmap bitmap idx
-    dup              ; bitmap bitmap idx idx
-    8 *              ; bitmap bitmap idx idx*8
-    swap             ; bitmap bitmap idx*8 idx
-    8 * 8 +          ; bitmap bitmap idx*8 idx*8+8
-    list-slice       ; bitmap slice
-    ...now what?
-    ... make sure to leave bitmap on the stack for next iteration...
+  0 7 {               ; bitmap n
+    reverse-slice
   } for
 } :mirror-bitmap-x defword
-;; Thought: In this case, we could use a word that maps a list to a
-;; number of slices, so `bitmap` => list with 8 sublists of 8 bits each.
-;; Then we can map over that, reversing the 8-lists (in this case), and
-;; have a new list back, which we join together to create the new bitmap.
-;; Something like `n list-split` and `list-join`...
-;; OR, we could do everything in-place... loop 8 times, get a slice of
-;; 8 bits, reverse it, stick it back in the original list.
-;; Less functional but perhaps "Forthier". :)
+
+; ( charname -- )
+{ dup                 ; charname charname
+  :c64                ; charname charname :c64
+  swap                ; charname :c64 charname
+  get-hires-bitmap    ; charname [bits...]
+  mirror-bitmap-x     ; charname [bits...]
+  :c64-mirror-x       ; charname [bits...] :c64-mirror-x
+  ror                 ; :c64-mirror-x charname [bits...]
+  set-hires-bitmap  
+} :make-mirror-x-char defword
+
+:c64 get-charnames { make-mirror-x-char } for-each
 
 ; GOAL: to have a general-purpose word that can be used to
 ; convert the characters in a charset. should take original charset,
 ; target charset, and a block that is executed against the bitmap
 ; (as a 64-element list of bits) to convert it.
 
-:c64 get-charnames { make-upside-down-char } for-each
 
 1 1 15 :c64 "NORMAL TEXT..." writexy*
 
 1 3 15 :c64-rev "AND IN REVERSE!" writexy*
 
 1 5 15 :c64-upside-down "UPSIDE DOWN... dizzy does it make me" string-reverse writexy*
+
+1 7 15 :c64-mirror-x "ABCDEFGHIJKLMNOPQRSTUVWXYZ" writexy*
