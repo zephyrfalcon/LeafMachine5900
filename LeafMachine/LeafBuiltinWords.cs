@@ -233,6 +233,13 @@ namespace LeafMachine
             state.gcsmanager.Add(charset, gcs);
         }
 
+        public void Debug(AphidInterpreter aip, MachineState state)
+        {
+            // ( -- )
+            // Display debugging info.
+            Console.WriteLine($"DEBUG: # {aip.stack.SimpleRepr()}");
+        }
+
         /* built-in words */
 
         public Dictionary<string, DelAphidLeafBuiltinWord> GetBuiltinWords()
@@ -255,6 +262,7 @@ namespace LeafMachine
                 { "get-charnames", GetCharnames },
                 { "make-charset", MakeCharset },
                 { "set-hires-bitmap", SetHiresBitmap },
+                { "debug", Debug },
             };
             return bw;
         }

@@ -34,7 +34,7 @@
 :c64-upside-down make-charset
 
 ; ( bitmap -- bitmap' )
-{ dup list-reverse } :upside-down-bitmap defword
+{ list-reverse } :upside-down-bitmap defword
 
 ; ( charname -- )
 { dup                 ; charname charname
@@ -102,4 +102,4 @@
 
 1 5 15 :c64-upside-down "UPSIDE DOWN... dizzy does it make me" string-reverse writexy*
 
-1 7 15 :c64-mirror-x "ABCDEFGHIJKLMNOPQRSTUVWXYZ" writexy*
+1 7 15 :c64-mirror-x "horizontal mirroring..." writexy*
