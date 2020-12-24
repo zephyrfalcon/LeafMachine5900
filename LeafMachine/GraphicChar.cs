@@ -51,4 +51,18 @@ namespace LeafMachine
         }
         public override Texture2D GetImage() { return image; }
     }
+
+    public class MultiColorChar : GraphicChar
+    {
+        private Texture2D image;
+        
+        public MultiColorChar(GraphicsDeviceManager graphics, int[] flatpixels)
+        {
+            // there are 32 "flatpixels", each an integer value referring to the palette
+            // as set in MachineState; a value of 0 means transparent.
+            // MISSING: exactly this palette.
+        }
+
+        public override Texture2D GetImage() { return image; }
+    }
 }
