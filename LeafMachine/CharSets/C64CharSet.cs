@@ -14,7 +14,7 @@ namespace LeafMachine.CharSets
     // really matter.)
     public class C64CharSet : CharSet
     {
-        public override int[,] InitBitmaps()
+        public override CharBitmap[] InitBitmaps()
         {
             int[,] bitmaps64 = new int[256, 64] {
             { // 0
@@ -2578,7 +2578,16 @@ namespace LeafMachine.CharSets
                 0, 0, 0, 0, 1, 1, 1, 1,
             },
         };
-            return bitmaps64;
+
+            CharBitmap[] bitmaps = new CharBitmap[256];
+            for (int i = 0; i <= 255; i++) {
+                int[] bits = new int[64];
+                for (int j = 0; j < 64; j++) {
+                    bits[j] = bitmaps64[i, j];
+                }
+                bitmaps[i] = new HiresCharBitmap(bits);
+            }
+            return bitmaps;
         }
 
         public override Dictionary<string, int> CharToBitmapIndex()

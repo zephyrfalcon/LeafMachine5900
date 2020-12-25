@@ -13,13 +13,14 @@ namespace LeafMachine.CharSets
     {
         // the actual bitmaps as int[64] arrays (values must be 0 or 1). 
         // array size may differ per charset.
-        protected int[,] bitmaps64;
+        //protected int[,] bitmaps64;
+        protected CharBitmap[] bitmaps;
 
         // maps characters ("a") or names ("arrow-up") to index in bitmaps64
         protected Dictionary<string, int> charToBitmapIndex;
 
         // override in subclasses to provide the bitmaps of characters (e.g. C64, Atari, etc)
-        public virtual int[,] InitBitmaps()
+        public virtual CharBitmap[] InitBitmaps()
         {
             throw new System.Exception("not implemented");
         }
@@ -32,21 +33,22 @@ namespace LeafMachine.CharSets
 
         public CharSet()
         {
-            bitmaps64 = InitBitmaps();
+            bitmaps = InitBitmaps();
             charToBitmapIndex = CharToBitmapIndex();
         }
 
-        public int[] BitmapForIndex(int idx)
+        public CharBitmap BitmapForIndex(int idx)
         {
+            return bitmaps[idx];
             // apparently we cannot return a "nested" array, so I'll have to make one
-            int[] bits = new int[64];
-            for (int i = 0; i < 64; i++) {
-                bits[i] = bitmaps64[idx, i];
-            }
-            return bits;
+            //int[] bits = new int[64];
+            //for (int i = 0; i < 64; i++) {
+            //    bits[i] = bitmaps64[idx, i];
+            //}
+            //return bits;
         }
 
-        public int[] BitmapForChar(string name)
+        public CharBitmap BitmapForChar(string name)
         {
             int idx = charToBitmapIndex[name];
             return BitmapForIndex(idx);

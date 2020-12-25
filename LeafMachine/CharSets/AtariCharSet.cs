@@ -7,7 +7,7 @@ namespace LeafMachine.CharSets
 {
     public class AtariCharSet: CharSet
     {
-        public override int[,] InitBitmaps()
+        public override CharBitmap[] InitBitmaps()
         {
             int[,] bitmaps64 = new int[128, 64] {
             { // 0
@@ -1291,7 +1291,16 @@ namespace LeafMachine.CharSets
                 0, 0, 0, 0, 0, 0, 0, 0,
             },
         };
-            return bitmaps64;
+
+            CharBitmap[] bitmaps = new CharBitmap[128];
+            for (int i = 0; i < 128; i++) {
+                int[] bits = new int[64];
+                for (int j = 0; j < 64; j++) {
+                    bits[j] = bitmaps64[i, j];
+                }
+                bitmaps[i] = new HiresCharBitmap(bits);
+            }
+            return bitmaps;
         }
 
         public override Dictionary<string, int> CharToBitmapIndex()
