@@ -40,15 +40,30 @@ namespace LeafMachine
         private Texture2D image;
         static Color fg = new Color(255, 255, 255, 255);
         static Color bg = new Color(0, 0, 0, 0);
-        public HiresChar(GraphicsDeviceManager graphics, int[] bits)
+        //public HiresChar(GraphicsDeviceManager graphics, int[] bits)
+        //{
+        //   image = new Texture2D(graphics.GraphicsDevice, 8, 8);
+        //    Color[] colors = new Color[8 * 8];
+        //    for (int i=0; i < 8*8; i++) {
+        //        colors[i] = (bits[i] == 1) ? fg : bg;
+        //    }
+        //    image.SetData(colors);
+        //}
+
+        public HiresChar(GraphicsDeviceManager graphics, CharBitmap bitmap)
         {
-            image = new Texture2D(graphics.GraphicsDevice, 8, 8);
-            Color[] colors = new Color[8 * 8];
-            for (int i=0; i < 8*8; i++) {
-                colors[i] = (bits[i] == 1) ? fg : bg;
+            if (bitmap is HiresCharBitmap) {
+                int[] bits = (bitmap as HiresCharBitmap).GetValues();
+                image = new Texture2D(graphics.GraphicsDevice, 8, 8);
+                Color[] colors = new Color[8 * 8];
+                for (int i = 0; i < 8 * 8; i++) {
+                    colors[i] = (bits[i] == 1) ? fg : bg;
+                }
+                image.SetData(colors);
             }
-            image.SetData(colors);
+            else throw new System.Exception("HiresChar: needs HiresCharBitmap");
         }
+
         public override Texture2D GetImage() { return image; }
     }
 
@@ -56,13 +71,18 @@ namespace LeafMachine
     {
         private Texture2D image;
         
-        public MultiColorChar(GraphicsDeviceManager graphics, int[] flatpixels)
+        public MultiColorChar(GraphicsDeviceManager graphics, CharBitmap bitmap)
         {
             // there are 32 "flatpixels", each an integer value referring to the palette
             // as set in MachineState; a value of 0 means transparent.
             // MISSING: exactly this palette.
+            if (bitmap is MultiColorCharBitmap) {
+                // TODO
+            }
+            else throw new System.Exception("MultiColorChar: needs MultiColorCharBitmap");
         }
 
         public override Texture2D GetImage() { return image; }
     }
 }
+ 

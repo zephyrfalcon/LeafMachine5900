@@ -137,6 +137,7 @@ namespace LeafMachine
         // TODO: refactor out code that deals with expecting a bitmap
         public void SetChar(AphidInterpreter aip, MachineState state)
         {
+            // FIXME: deals with hires chars only, so rename or rework
             // ( bitmap charname charset -- )
             string charset = Expect.ExpectSymbol("set-char", aip.stack.Pop());
             string charname = Expect.ExpectString("set-char", aip.stack.Pop());
@@ -157,7 +158,7 @@ namespace LeafMachine
             CharSet cs = gcs.GetCharSet();
             if (cs is CustomCharSet) {
                 CustomCharSet ccs = (cs as CustomCharSet);
-                ccs.AddBitmap(charname, bitmap);
+                ccs.AddBitmap(charname, new HiresCharBitmap(bitmap));
                 gcs.AddGraphicChar(charname);
             }
             else throw new Exception("charset is not a CustomCharSet"); // FIXME later?
@@ -168,13 +169,17 @@ namespace LeafMachine
             // ( charset charname -- [bitmap64...] )
             string charname = Expect.ExpectString("get-hires-bitmap", aip.stack.Pop());
             string charset = Expect.ExpectSymbol("get-hires-bitmap", aip.stack.Pop());
-            int[] bitmap64 = state.gcsmanager.GetCharSet(charset).GetCharSet().BitmapForChar(charname);
-            // ^ might have to pull this apart to allow for clearer error messages?
-            List<AphidType> bits = new List<AphidType>();
-            for (int i = 0; i < 64; i++) {
-                bits.Add(new AphidInteger(bitmap64[i]));
+            CharBitmap bitmap = state.gcsmanager.GetCharSet(charset).GetCharSet().BitmapForChar(charname);
+            if (bitmap is HiresCharBitmap) {
+                int[] bits = (bitmap as HiresCharBitmap).GetValues();
+                // ^ might have to pull this apart to allow for clearer error messages?
+                List<AphidType> abits = new List<AphidType>();
+                for (int i = 0; i < 64; i++) {
+                    abits.Add(new AphidInteger(bits[i]));
+                }
+                aip.stack.Push(new AphidList(abits));
             }
-            aip.stack.Push(new AphidList(bits));
+            else throw new Exception($"get-hires-bitmap: requires hires bitmap");
         }
 
         public void SetHiresBitmap(AphidInterpreter aip, MachineState state)
@@ -203,7 +208,7 @@ namespace LeafMachine
                     }
                     else throw new Exception($"set-hires-bitmap: bitmap must consist of integers; got {x.ToString()} instead");
                 });
-                ccs.AddBitmap(charname, bitmap);
+                ccs.AddBitmap(charname, new HiresCharBitmap(bitmap));
             }
             else throw new Exception("");
             // add to the appropriate GraphicCharSet to create the Texture2D
