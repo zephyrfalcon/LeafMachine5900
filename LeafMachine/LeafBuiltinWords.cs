@@ -135,7 +135,7 @@ namespace LeafMachine
         }
 
         // TODO: refactor out code that deals with expecting a bitmap
-        public void SetChar(AphidInterpreter aip, MachineState state)
+        public void OBSOLETE_SetChar(AphidInterpreter aip, MachineState state)
         {
             // FIXME: deals with hires chars only, so rename or rework
             // ( bitmap charname charset -- )
@@ -259,7 +259,7 @@ namespace LeafMachine
                 { "key-down?", KeyDown },
                 { "set-default-charset", SetDefaultCharset },
                 { "set-current-charset", SetCurrentCharset },
-                { "set-char", SetChar },
+                //{ "set-char", SetChar },
                 { "current-charset", CurrentCharSet },
                 { "setfg", SetFG },
                 { "getfg", GetFG },
