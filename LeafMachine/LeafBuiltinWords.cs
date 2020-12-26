@@ -185,6 +185,8 @@ namespace LeafMachine
         public void SetHiresBitmap(AphidInterpreter aip, MachineState state)
         {
             // ( charset charname bitmap -- )
+            // Q: Shouldn't the order be: bitmap charset charname? When you define a bitmap "manually",
+            // the list should really come first... like we define words...
             AphidList bits = Expect.ExpectAphidList("set-hires-bitmap", aip.stack.Pop());
             // TODO: we might benefit from an 'ExpectBitmap64' that checks a number of things beforehand...
             string charname = Expect.ExpectString("set-hires-bitmap", aip.stack.Pop());
@@ -210,7 +212,7 @@ namespace LeafMachine
                 });
                 ccs.AddBitmap(charname, new HiresCharBitmap(bitmap));
             }
-            else throw new Exception("");
+            else throw new Exception("set-hires-bitmap: CharSet is not a CustomCharSet");
             // add to the appropriate GraphicCharSet to create the Texture2D
             state.gcsmanager.GetCharSet(charset).AddGraphicChar(charname);
         }
@@ -234,7 +236,7 @@ namespace LeafMachine
             // Charset starts out empty.
             string charset = Expect.ExpectSymbol("make-charset", aip.stack.Pop());
             CustomCharSet cs = new CustomCharSet(1024);
-            GraphicCharSet gcs = new GraphicCharSet(state._graphics, cs, charset);
+            GraphicCharSet gcs = new GraphicCharSet(state, cs, charset);
             state.gcsmanager.Add(charset, gcs);
         }
 

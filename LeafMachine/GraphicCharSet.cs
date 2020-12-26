@@ -12,14 +12,14 @@ namespace LeafMachine
     */
     public class GraphicCharSet
     {
-        GraphicsDeviceManager _graphics;
+        MachineState state;
         CharSet charset;
         Dictionary<string, GraphicChar> graphicChars;
         string name;
 
-        public GraphicCharSet(GraphicsDeviceManager graphics, CharSet aCharSet, string aname)
+        public GraphicCharSet(MachineState astate, CharSet aCharSet, string aname)
         {
-            _graphics = graphics;
+            state = astate;
             charset = aCharSet;
             name = aname;
             Init();
@@ -41,7 +41,7 @@ namespace LeafMachine
         {
             graphicChars = new Dictionary<string, GraphicChar> { };
             foreach (string name in charset.KnownChars()) {
-                graphicChars[name] = new HiresChar(_graphics, charset.BitmapForChar(name));
+                graphicChars[name] = new HiresChar(state, charset.BitmapForChar(name));
             }
         }
 
@@ -50,7 +50,7 @@ namespace LeafMachine
         // if necessary.
         public void AddGraphicChar(string charname)
         {
-            graphicChars[charname] = new HiresChar(_graphics, charset.BitmapForChar(charname));
+            graphicChars[charname] = new HiresChar(state, charset.BitmapForChar(charname));
         }
 
         public bool HasChar(string charname)

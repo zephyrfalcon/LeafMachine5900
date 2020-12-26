@@ -50,11 +50,11 @@ namespace LeafMachine
         //    image.SetData(colors);
         //}
 
-        public HiresChar(GraphicsDeviceManager graphics, CharBitmap bitmap)
+        public HiresChar(MachineState state, CharBitmap bitmap)
         {
             if (bitmap is HiresCharBitmap) {
                 int[] bits = (bitmap as HiresCharBitmap).GetValues();
-                image = new Texture2D(graphics.GraphicsDevice, 8, 8);
+                image = new Texture2D(state._graphics.GraphicsDevice, 8, 8);
                 Color[] colors = new Color[8 * 8];
                 for (int i = 0; i < 8 * 8; i++) {
                     colors[i] = (bits[i] == 1) ? fg : bg;
@@ -71,13 +71,27 @@ namespace LeafMachine
     {
         private Texture2D image;
         
-        public MultiColorChar(GraphicsDeviceManager graphics, CharBitmap bitmap)
+        public MultiColorChar(MachineState state, CharBitmap bitmap)
         {
             // there are 32 "flatpixels", each an integer value referring to the palette
             // as set in MachineState; a value of 0 means transparent.
-            // MISSING: exactly this palette.
             if (bitmap is MultiColorCharBitmap) {
-                // TODO
+                int[] values = (bitmap as MultiColorCharBitmap).GetValues();  // 32 values
+                image = new Texture2D(state._graphics.GraphicsDevice, 8, 8);
+                Color[] colors = new Color[8 * 8];
+                for (int i = 0; i < 32; i++) {
+                    if (values[i] == 0) {
+                        int idx = i * 2;
+                        colors[idx] = colors[idx + 1] = new Color(0, 0, 0, 0);  // transparent
+                    }
+                    else if (values[i] >= 1 && values[i] <= MachineState.NUM_COLORS) {
+                        Color color = state.palette[values[i]];
+                        int idx = i * 2;
+                        colors[idx] = colors[idx + 1] = color;
+                    }
+                    else throw new System.Exception($"MultiColorChar: ");
+                }
+                image.SetData(colors);
             }
             else throw new System.Exception("MultiColorChar: needs MultiColorCharBitmap");
         }

@@ -112,9 +112,9 @@ namespace LeafMachine
         protected void InitGraphicChars()
         {
             gcsmanager = new GraphicCharSetManager();
-            gcsmanager.Add("c64", new GraphicCharSet(_graphics, new C64CharSet(), "c64"));
-            gcsmanager.Add("atari", new GraphicCharSet(_graphics, new AtariCharSet(), "atari"));
-            gcsmanager.Add("user", new GraphicCharSet(_graphics, new CustomCharSet(1024), "user"));
+            gcsmanager.Add("c64", new GraphicCharSet(this, new C64CharSet(), "c64"));
+            gcsmanager.Add("atari", new GraphicCharSet(this, new AtariCharSet(), "atari"));
+            gcsmanager.Add("user", new GraphicCharSet(this, new CustomCharSet(1024), "user"));
         }
 
         public void SetUpdater(AphidWord newUpdater)
