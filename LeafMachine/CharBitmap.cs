@@ -12,6 +12,11 @@
         {
             throw new System.Exception("not implemented");
         }
+
+        public virtual GraphicChar MakeChar(MachineState state)
+        {
+            throw new System.Exception("not implemented");
+        }
     }
 
     public class HiresCharBitmap : CharBitmap
@@ -23,6 +28,10 @@
             bitmap64 = bits;
         }
         public override int[] GetValues() { return bitmap64; }
+        public override GraphicChar MakeChar(MachineState state)
+        {
+            return new HiresChar(state, this);
+        }
     }
 
     public class MultiColorCharBitmap : CharBitmap
@@ -34,5 +43,9 @@
             bitmap32 = values;
         }
         public override int[] GetValues() { return bitmap32; }
+        public override GraphicChar MakeChar(MachineState state)
+        {
+            return new MultiColorChar(state, this);
+        }
     }
 }

@@ -41,7 +41,9 @@ namespace LeafMachine
         {
             graphicChars = new Dictionary<string, GraphicChar> { };
             foreach (string name in charset.KnownChars()) {
-                graphicChars[name] = new HiresChar(state, charset.BitmapForChar(name));
+                CharBitmap cbm = charset.BitmapForChar(name);
+                //graphicChars[name] = new HiresChar(state, charset.BitmapForChar(name));
+                graphicChars[name] = cbm.MakeChar(state);
             }
         }
 
@@ -50,7 +52,9 @@ namespace LeafMachine
         // if necessary.
         public void AddGraphicChar(string charname)
         {
-            graphicChars[charname] = new HiresChar(state, charset.BitmapForChar(charname));
+            CharBitmap cbm = charset.BitmapForChar(charname);
+            //graphicChars[charname] = new HiresChar(state, charset.BitmapForChar(charname));
+            graphicChars[charname] = cbm.MakeChar(state);
         }
 
         public bool HasChar(string charname)
