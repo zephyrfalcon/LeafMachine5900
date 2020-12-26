@@ -182,6 +182,24 @@ namespace LeafMachine
             else throw new Exception($"get-hires-bitmap: requires hires bitmap");
         }
 
+        public void GetMultiColorBitmap(AphidInterpreter aip, MachineState state)
+        {
+            // ( charset charname -- [bitmap32...] )
+            string charname = Expect.ExpectString("get-hires-bitmap", aip.stack.Pop());
+            string charset = Expect.ExpectSymbol("get-hires-bitmap", aip.stack.Pop());
+            CharBitmap bitmap = state.gcsmanager.GetCharSet(charset).GetCharSet().BitmapForChar(charname);
+            if (bitmap is MultiColorCharBitmap) {
+                int[] colors = (bitmap as MultiColorCharBitmap).GetValues();
+                // ^ might have to pull this apart to allow for clearer error messages?
+                List<AphidType> acolors = new List<AphidType>();
+                for (int i = 0; i < 32; i++) {
+                    acolors.Add(new AphidInteger(colors[i]));
+                }
+                aip.stack.Push(new AphidList(acolors));
+            }
+            else throw new Exception($"get-multicolor-bitmap: requires multicolor bitmap");
+        }
+
         public void SetHiresBitmap(AphidInterpreter aip, MachineState state)
         {
             // ( charset charname bitmap -- )
@@ -266,6 +284,7 @@ namespace LeafMachine
                 { "setfg", SetFG },
                 { "getfg", GetFG },
                 { "get-hires-bitmap", GetHiresBitmap },
+                { "get-multicolor-bitmap", GetMultiColorBitmap },
                 { "get-charnames", GetCharnames },
                 { "make-charset", MakeCharset },
                 { "set-hires-bitmap", SetHiresBitmap },
