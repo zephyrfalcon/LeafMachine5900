@@ -101,6 +101,28 @@ namespace LeafMachine
             return bits;
         }
 
+        public static int[] ExpectBitmap32(string context, AphidType x)
+        {
+            if (!(x is AphidList))
+                throw new System.Exception($"{context}: list expected, got {x.ToString()} instead");
+            AphidList alist = (x as AphidList);
+            List<AphidType> values = alist.AsList();
+            if (values.Count != 32)
+                throw new System.Exception($"{context}: bitmap must have exactly 32 elements; got {values.Count} instead");
+            int[] colors = new int[32];
+            for (int i = 0; i < 32; i++) {
+                AphidType a = values[i];
+                if (!(a is AphidInteger))
+                    throw new System.Exception($"{context}: bitmap must contain integers; got {a.ToString()} instead");
+                AphidInteger ai = (a as AphidInteger);
+                int color = ai.AsInteger();
+                if (color < 0 || color > MachineState.NUM_COLORS)
+                    throw new System.Exception($"{context}: multicolor bitmap can have values of 0..{MachineState.NUM_COLORS}; got {color} instead");
+                colors[i] = color;
+            }
+            return colors;
+        }
+
 
         // TODO:
         // ExpectX, ExpectY
