@@ -217,6 +217,18 @@ namespace LeafMachine
             state.gcsmanager.GetCharSet(charset).AddGraphicChar(charname);
         }
 
+        public void SetMultiColorBitmap(AphidInterpreter aip, MachineState state)
+        {
+            // ( charset charname bitmap -- )
+            AphidList values = Expect.ExpectAphidList("set-multicolor-bitmap", aip.stack.Pop());
+            string charname = Expect.ExpectString("set-multicolor-bitmap", aip.stack.Pop());
+            string charset = Expect.ExpectSymbol("set-multicolor-bitmap", aip.stack.Pop());
+            List<AphidType> foo = values.AsList();
+            if (foo.Count != 32)
+                throw new Exception($"set-multicolor-bitmap: multicolor bitmap must have exactly 32 values; got {foo.Count} instead");
+
+        }
+
         public void GetCharnames(AphidInterpreter aip, MachineState state)
         {
             // ( charset -- [charnames...] )

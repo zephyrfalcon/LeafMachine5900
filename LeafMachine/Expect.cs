@@ -79,6 +79,28 @@ namespace LeafMachine
             else throw new System.Exception($"{context}: bool expected, got {x.ToString()} instead");
         }
 
+        public static int[] ExpectBitmap64(string context, AphidType x)
+        {
+            if (!(x is AphidList)) 
+                throw new System.Exception($"{context}: list expected, got {x.ToString()} instead");
+            AphidList alist = (x as AphidList);
+            List<AphidType> values = alist.AsList();
+            if (values.Count != 64)
+                throw new System.Exception($"{context}: bitmap must have exactly 64 elements; got {values.Count} instead");
+            int[] bits = new int[64];
+            for (int i = 0; i < 64; i++) {
+                AphidType a = values[i];
+                if (!(a is AphidInteger))
+                    throw new System.Exception($"{context}: bitmap must contain integers; got {a.ToString()} instead");
+                AphidInteger ai = (a as AphidInteger);
+                int bit = ai.AsInteger();
+                if (!(bit == 0 || bit == 1))
+                    throw new System.Exception($"{context}: bitmap can only have 0 and 1; got {bit} instead");
+                bits[i] = bit;
+            }
+            return bits;
+        }
+
 
         // TODO:
         // ExpectX, ExpectY

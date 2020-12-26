@@ -1,0 +1,15 @@
+; multicolor-chars.aphid
+
+:multi make-charset
+
+:multi "lines-1" [
+
+] set-multicolor-bitmap
+
+:multi "lines-1" get-multicolor-bitmap    ; bitmap32
+_ _ list-replace                          ; bitmap32
+:multi "lines-2"                          ; bitmap32 :multi "lines-2"
+rol                                       ; :multi "lines-2" bitmap32
+set-multicolor-bitmap
+
+
