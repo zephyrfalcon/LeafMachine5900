@@ -3,13 +3,28 @@
 :multi make-charset
 
 :multi "lines-1" [
-
+  12 12 12 12
+  12 12 12 12
+  13 13 13 13
+  13 13 13 13
+  16 16 16 16
+  16 16 16 16
+   2  2  2  2
+   2  2  2  2
 ] set-multicolor-bitmap
 
-:multi "lines-1" get-multicolor-bitmap    ; bitmap32
-_ _ list-replace                          ; bitmap32
-:multi "lines-2"                          ; bitmap32 :multi "lines-2"
-rol                                       ; :multi "lines-2" bitmap32
-set-multicolor-bitmap
+;:multi "lines-1" get-multicolor-bitmap    ; bitmap32
+;_ _ list-replace                          ; bitmap32
+;:multi "lines-2"                          ; bitmap32 :multi "lines-2"
+;rol                                       ; :multi "lines-2" bitmap32
+;set-multicolor-bitmap
 
+0 39 { 
+  ; x
+  12 
+  ; ... we're going to need equivalents of setxy and writexy that take
+  ; a multicolor character... there will be no foreground parameter
+  ; ALSO, Draw() needs to handle hires vs multicolor characters when it
+  ; encounters them at a position.
+} for
 
