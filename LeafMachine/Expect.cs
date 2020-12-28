@@ -37,6 +37,15 @@ namespace LeafMachine
             else throw new System.Exception($"{context}: color must be a value between 1 and {MachineState.NUM_COLORS}; got {color} instead");
         }
 
+        public static int ExpectColorOr0(string context, AphidType x)
+        {
+            int color = ExpectInteger(context, x);
+            if (color >= 0 && color <= MachineState.NUM_COLORS) {
+                return color;
+            }
+            else throw new System.Exception($"{context}: color must be a value between 0 and {MachineState.NUM_COLORS}; got {color} instead");
+        }
+
         public static int ExpectXCoordinate(string context, AphidType thing)
         {
             int x = ExpectInteger(context, thing);

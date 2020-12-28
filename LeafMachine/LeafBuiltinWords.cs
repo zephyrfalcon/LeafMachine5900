@@ -13,13 +13,12 @@ namespace LeafMachine
         {
             // writexy ( x y color text -- )
             // Write the given text, in the default charset, starting at position (x, y).
-            string text = "";
-            int color, x, y;
-
-            text = Expect.ExpectString("writexy", aip.stack.Pop());
-            color = Expect.ExpectColor("writexy", aip.stack.Pop());
-            y = Expect.ExpectYCoordinate("writexy", aip.stack.Pop());
-            x = Expect.ExpectXCoordinate("writexy", aip.stack.Pop());
+            // A color value of 0 is allowed, in which case we *don't* set or change the foreground color
+            // for the given screen position.
+            string text = Expect.ExpectString("writexy", aip.stack.Pop());
+            int color = Expect.ExpectColorOr0("writexy", aip.stack.Pop());
+            int y = Expect.ExpectYCoordinate("writexy", aip.stack.Pop());
+            int x = Expect.ExpectXCoordinate("writexy", aip.stack.Pop());
 
             // finally, set the values in MachineState.chars
             for (int i=0; i < text.Length; i++) {
@@ -27,7 +26,8 @@ namespace LeafMachine
                 if (realX < 0 || realX >= MachineState.WIDTH)
                     throw new System.Exception($"writexy: string too long to be displayed");
                 state.SetChar(realX, y, text[i].ToString());
-                state.SetColor(realX, y, color);
+                if (color > 0)
+                    state.SetColor(realX, y, color);
             }
         }
 
@@ -35,13 +35,16 @@ namespace LeafMachine
         {
             // ( x y fgcolor charname -- )
             // Plot the given character at (x,y) in the given color, using the current charset.
+            // A color value of 0 is allowed, in which case we *don't* set or change the foreground color
+            // for the given screen position.
             string charname = Expect.ExpectString("setxy", aip.stack.Pop());
-            int fgcolor = Expect.ExpectColor("setxy", aip.stack.Pop());
+            int fgcolor = Expect.ExpectColorOr0("setxy", aip.stack.Pop());
             int y = Expect.ExpectYCoordinate("setxy", aip.stack.Pop());
             int x = Expect.ExpectXCoordinate("setxy", aip.stack.Pop());
 
             state.SetChar(x, y, charname);
-            state.SetColor(x, y, fgcolor);
+            if (fgcolor > 0)
+                state.SetColor(x, y, fgcolor);
         }
 
         public void SetBG(AphidInterpreter aip, MachineState state)
