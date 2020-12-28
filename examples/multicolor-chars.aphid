@@ -1,8 +1,9 @@
 ; multicolor-chars.aphid
 
-1 setbg
+1 setbg  ; black background
 :multi make-charset
 
+;; create a character "lines-1" consisting of a gradient gray->white
 :multi "lines-1" [
   12 12 12 12
   12 12 12 12
@@ -14,6 +15,7 @@
    2  2  2  2
 ] set-multicolor-bitmap
 
+;; take that character and use list-replace to make a blue->white gradient
 :multi "lines-1" get-multicolor-bitmap    ; bitmap32
 13 15 list-replace                        ; bitmap32
 12 7 list-replace                         ; bitmap32
@@ -22,6 +24,7 @@ rol                                       ; :multi "lines-2" bitmap32
 list-reverse
 set-multicolor-bitmap
 
+;; display the gradients
 1 1 12 "MULTICOLOR DABBLING..." writexy
 0 39 { 
   ; x
