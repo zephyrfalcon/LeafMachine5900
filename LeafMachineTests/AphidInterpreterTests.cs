@@ -399,8 +399,8 @@ namespace LeafMachineTests
         public void TestListReverse()
         {
             Check("[ 1 2 3 ] :stuff setvar", "");
-            Check(":stuff getvar list-reverse", "");
-            Check(":stuff getvar", "[ 3 2 1 ]");
+            Check(":stuff getvar list-reverse", "[ 3 2 1 ]"); // list-reverse does push the modified list
+            Check("drop :stuff getvar", "[ 3 2 1 ]");
         }
 
         [Test]
@@ -427,6 +427,12 @@ namespace LeafMachineTests
             Check(":foo getvar 0 [ 0 0 0 ] list-set-slice", "[ 0 0 0 4 5 6 7 ]");
             aip.stack.Clear();
             Check(":foo getvar", "[ 0 0 0 4 5 6 7 ]");  // list was changed in-place
+        }
+
+        [Test]
+        public void TestListReplace()
+        {
+            Check("[ 1 2 3 1 2 3 ] 1 4 list-replace", "[ 4 2 3 4 2 3 ]");
         }
     }
 }

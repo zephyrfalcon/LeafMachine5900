@@ -3,6 +3,7 @@ using LeafMachine.Aphid;
 using LeafMachine.Aphid.Types;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace LeafMachine.Aphid
 {
@@ -477,7 +478,7 @@ namespace LeafMachine.Aphid
 
         public void ListSetSlice(AphidInterpreter aip) {
             // ( list start slice -- list )
-            // Replace the element of a list, starting at position `start`, with the element
+            // Replace the elements of a list, starting at position `start`, with the elements
             // of list `slice`. The number of elements replaced is the same as the length
             // of `slice`.
             // Changes the list in-place. (Should it?)
@@ -488,6 +489,18 @@ namespace LeafMachine.Aphid
             list.AsList().RemoveRange(start, slice.AsList().Count);
             list.AsList().InsertRange(start, slice.AsList());
             aip.stack.Push(list);
+        }
+
+        public void ListReplace(AphidInterpreter aip)
+        {
+            // ( list before after -- list' )
+            // Replace all instances of `before` in `list` with `after`.
+            // Returns a new list.
+            AphidType after = aip.stack.Pop();
+            AphidType before = aip.stack.Pop();
+            AphidList alist = Expect.ExpectAphidList("list-replace", aip.stack.Pop());
+            List<AphidType> list2 = alist.AsList().Select(x => x.Equals(before) ? after : x).ToList();
+            aip.stack.Push(new AphidList(list2));
         }
 
         public void StringReverse(AphidInterpreter aip)
@@ -659,6 +672,7 @@ namespace LeafMachine.Aphid
                 { "string-reverse", StringReverse },
                 { "list-slice", ListSlice },
                 { "list-set-slice", ListSetSlice },
+                { "list-replace", ListReplace },
             };
             return bw;
         }
