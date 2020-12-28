@@ -104,8 +104,14 @@ namespace LeafMachine
                 for (int y = 0; y < MachineState.HEIGHT; y++) {
                     GraphicChar gc = state.gcsmanager.Get(state.chars[x,y].charset, state.chars[x,y].charname);
                     int colornum = state.chars[x,y].fgcolor;
-                    Color color = state.palette[colornum];
-                    _spriteBatch.Draw(gc.GetImage(), new Vector2(x*8, y*8), color);
+                    if (gc is HiresChar) {
+                        Color color = state.palette[colornum];
+                        _spriteBatch.Draw(gc.GetImage(), new Vector2(x * 8, y * 8), color);
+                    }
+                    else if (gc is MultiColorChar) {
+                        _spriteBatch.Draw(gc.GetImage(), new Vector2(x * 8, y * 8), new Color(255, 255, 255, 255));
+                    }
+                    else throw new Exception("Unknown GraphicChar type");
                 }
             _spriteBatch.End();
 

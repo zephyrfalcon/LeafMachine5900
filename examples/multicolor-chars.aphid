@@ -1,5 +1,6 @@
 ; multicolor-chars.aphid
 
+1 setbg
 :multi make-charset
 
 :multi "lines-1" [
@@ -19,9 +20,10 @@
 ;rol                                       ; :multi "lines-2" bitmap32
 ;set-multicolor-bitmap
 
+1 1 12 "MULTICOLOR DABBLING..." writexy
 0 39 { 
   ; x
-  12 
+  12 0 :multi "lines-1" setxy*
   ; ... we're going to need equivalents of setxy and writexy that take
   ; a multicolor character... there will be no foreground parameter
   ; ALSO, Draw() needs to handle hires vs multicolor characters when it
