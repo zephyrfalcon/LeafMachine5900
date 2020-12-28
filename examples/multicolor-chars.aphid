@@ -14,19 +14,20 @@
    2  2  2  2
 ] set-multicolor-bitmap
 
-;:multi "lines-1" get-multicolor-bitmap    ; bitmap32
-;_ _ list-replace                          ; bitmap32
-;:multi "lines-2"                          ; bitmap32 :multi "lines-2"
-;rol                                       ; :multi "lines-2" bitmap32
-;set-multicolor-bitmap
+:multi "lines-1" get-multicolor-bitmap    ; bitmap32
+13 15 list-replace                        ; bitmap32
+12 7 list-replace                         ; bitmap32
+:multi "lines-2"                          ; bitmap32 :multi "lines-2"
+rol                                       ; :multi "lines-2" bitmap32
+list-reverse
+set-multicolor-bitmap
 
 1 1 12 "MULTICOLOR DABBLING..." writexy
 0 39 { 
   ; x
   12 0 :multi "lines-1" setxy*
-  ; ... we're going to need equivalents of setxy and writexy that take
-  ; a multicolor character... there will be no foreground parameter
-  ; ALSO, Draw() needs to handle hires vs multicolor characters when it
-  ; encounters them at a position.
 } for
 
+0 39 { 
+  16 0 :multi "lines-2" setxy*
+} for
