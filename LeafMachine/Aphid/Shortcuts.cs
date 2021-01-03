@@ -28,5 +28,20 @@ namespace LeafMachine.Aphid
             }
             return null;
         }
+
+        public List<string> ExpandTokens(List<string> tokens)
+        {
+            ShortcutExpander exp = new ShortcutExpander();
+            List<string> expanded_tokens = new List<string> { };
+            tokens.ForEach(token => {
+                List<string> expanded = exp.Expand(token);
+                if (expanded is null) {
+                    expanded_tokens.Add(token);
+                } else {
+                    expanded_tokens.AddRange(expanded);
+                }
+            });
+            return expanded_tokens;
+        }
     }
 }
