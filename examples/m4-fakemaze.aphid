@@ -1,13 +1,13 @@
 ; m4-fakemaze.aphid
 
-0 :x setvar
-0 :y setvar
+0 $!x
+0 $!y
 
 { 
     :x inc
-    :x getvar 39 int> { 
-        0 :x setvar 
-        :y getvar 24 int< { :y inc } when
+    $x 39 int> { 
+        0 $!x
+        $y 24 int< { :y inc } when
     } when
 } :inc-variables defword
 
@@ -16,11 +16,11 @@
 } :get-random-char defword
 
 { 
-    :x getvar :y getvar 15       ; x y 15
+    $x $y 15                     ; x y 15
     get-random-char              ; x y 15 charname
     setxy
     ; stop when we've reached the end of the screen
-    { :x getvar 39 int= } { :y getvar 24 int= } and { :nop set-updater } when
+    { $x 39 int= } { $y 24 int= } and { :nop set-updater } when
     ; otherwise, continue
     inc-variables
 } :updater defword
