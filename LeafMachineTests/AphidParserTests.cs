@@ -51,5 +51,14 @@ namespace LeafMachineTests
             List<AphidType> values = Parser.TokenizeAndParse("{ 3 4 }");
             Assert.IsTrue(values[0] is AphidBlock);
         }
+
+        [Test]
+        public void TestVariables()
+        {
+            List<AphidType> values = Parser.TokenizeAndParse("42 $!foo");
+            Assert.AreEqual(values.Count, 3);
+            Assert.AreEqual(values[1].ToString(), ":foo");
+            Assert.AreEqual(values[2].ToString(), "setvar");
+        }
     }
 }

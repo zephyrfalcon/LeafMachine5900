@@ -63,7 +63,8 @@ namespace LeafMachine.Aphid
         public static List<AphidType> TokenizeAndParse(string data)
         {
             List<string> tokens = Tokenizer.Tokenize(data);
-            return Parse(tokens);
+            List<string> expanded_tokens = new ShortcutExpander().ExpandTokens(tokens);
+            return Parse(expanded_tokens);
         }
     }
 }
