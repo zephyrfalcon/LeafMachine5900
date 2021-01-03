@@ -591,6 +591,14 @@ namespace LeafMachine.Aphid
             aip.stack.Push(d);
         }
 
+        public void Copy(AphidInterpreter aip)
+        {
+            // ( x -- copy_of(x) )
+            // Returns a shallow copy of the element on the stack.
+            AphidType x = aip.stack.Pop();
+            aip.stack.Push(x.Copy());
+        }
+
         #region returnstack;
 
         public void PushR(AphidInterpreter aip)
@@ -673,6 +681,7 @@ namespace LeafMachine.Aphid
                 { "list-slice", ListSlice },
                 { "list-set-slice", ListSetSlice },
                 { "list-replace", ListReplace },
+                { "copy", Copy },
             };
             return bw;
         }

@@ -45,6 +45,8 @@ namespace LeafMachine.Aphid.Types
         {
             return 0;
         }
+
+        public virtual AphidType Copy() { return this; }
     }
 
     public class AphidInteger : AphidType, IDictionaryKey
@@ -176,6 +178,12 @@ namespace LeafMachine.Aphid.Types
         {
             return values;
         }
+
+        public override AphidType Copy()
+        {
+            List<AphidType> copy = values.Select(x => x).ToList();
+            return new AphidList(copy);
+        }
     }
 
     public class AphidBlock : AphidType
@@ -300,6 +308,16 @@ namespace LeafMachine.Aphid.Types
             }
             parts.Add("]!");
             return String.Join(' ', parts.Select(x => x.ToString()));
+        }
+
+        public override AphidType Copy()
+        {
+            //Dictionary<IDictionaryKey, AphidType> copy = new Dictionary<IDictionaryKey, AphidType>();
+            AphidDictionary copy = new AphidDictionary();
+            foreach(KeyValuePair<IDictionaryKey,AphidType> kv in data) {
+                copy.Add(kv.Key, kv.Value);
+            }
+            return copy;
         }
     }
 

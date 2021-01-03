@@ -434,5 +434,17 @@ namespace LeafMachineTests
         {
             Check("[ 1 2 3 1 2 3 ] 1 4 list-replace", "[ 4 2 3 4 2 3 ]");
         }
+
+        [Test]
+        public void TestCopy()
+        {
+            Check("42 copy", "42");
+            aip.stack.Clear();
+
+            Check("[ 1 2 3 ] :foo setvar", "");               // foo = [1 2 3]
+            Check(":foo getvar copy", "[ 1 2 3 ]");           // shallow copy is on the stack
+            Check("dup 9 swap 0 list-set", "[ 9 2 3 ]");      // set element 0 to 9; we dup the list so we can inspect the result
+            Check("drop :foo getvar", "[ 1 2 3 ]");           // get contents of foo, they should still be [1 2 3]
+        }
     }
 }
