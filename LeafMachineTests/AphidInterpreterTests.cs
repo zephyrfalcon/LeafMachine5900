@@ -446,5 +446,11 @@ namespace LeafMachineTests
             Check("dup 9 swap 0 list-set", "[ 9 2 3 ]");      // set element 0 to 9; we dup the list so we can inspect the result
             Check("drop :foo getvar", "[ 1 2 3 ]");           // get contents of foo, they should still be [1 2 3]
         }
+
+        [Test]
+        public void TestForBy()
+        {
+            Check("[ 1 2 3 4 5 6 7 8 ] 2 { unpack + } for-by", "3 7 11 15");
+        }
     }
 }

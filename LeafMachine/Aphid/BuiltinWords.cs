@@ -242,6 +242,25 @@ namespace LeafMachine.Aphid
             }
         }
 
+        public void ForBy(AphidInterpreter aip)
+        {
+            // ( list n block -- ? )
+            // Loop over the list, taking slices of size `n` at each iteration, and pushing them.
+            // NOTE: Could be written in Aphid (with some trouble) and moved to prelude.
+            // UNDECIDED: what to do if list.Count % n > 0? (in other words, if the length of the list isn't
+            // a number that can be divided exactly by size n.)
+            AphidBlock blk = Expect.ExpectAphidBlock("for-by", aip.stack.Pop());
+            int size = Expect.ExpectInteger("for-by", aip.stack.Pop());
+            AphidList alist = Expect.ExpectAphidList("for-by", aip.stack.Pop());
+            List<AphidType> list = alist.AsList();
+            int num_slices = list.Count / size;
+            for (int i = 0; i < num_slices; i++) {
+                List<AphidType> slice = list.GetRange(i * size, size);
+                aip.stack.Push(new AphidList(slice));
+                blk.Run(aip);
+            }
+        }
+
         public void Map(AphidInterpreter aip)
         {
             // ( list block -- list' )
@@ -650,6 +669,7 @@ namespace LeafMachine.Aphid
 
                 { "for-each", ForEach },
                 { "for", For },
+                { "for-by", ForBy },
                 { "map", Map },
 
                 { "pack", Pack },
