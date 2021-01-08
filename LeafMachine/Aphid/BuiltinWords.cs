@@ -277,6 +277,25 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidList(results));
         }
 
+        public void Filter(AphidInterpreter aip)
+        {
+            // ( list block -- list ')
+            // Iterate over `list`, putting each element on the stack, and running `block`.
+            // The block is supposed to leave a boolean on the stack. If true, append the original
+            // list element to list'.
+            AphidBlock blk = Expect.ExpectAphidBlock("filter", aip.stack.Pop());
+            AphidList alist = Expect.ExpectAphidList("filter", aip.stack.Pop());
+            List<AphidType> filtered = new List<AphidType> { };
+            alist.AsList().ForEach(x => {
+                aip.stack.Push(x);
+                blk.Run(aip);
+                bool result = Expect.ExpectBool("filter (block)", aip.stack.Pop());
+                if (result)
+                    filtered.Add(x);
+            });
+            aip.stack.Push(new AphidList(filtered));
+        }
+
         public void Pack(AphidInterpreter aip)
         {
             // ( ...N items... N -- [...N items...] )
@@ -462,6 +481,8 @@ namespace LeafMachine.Aphid
             else throw new Exception($"length: list or string expected, got {x.ToString()} instead");
         }
 
+        #region listwords
+
         public void ListSet(AphidInterpreter aip)
         {
             // ( value list index -- )
@@ -521,6 +542,8 @@ namespace LeafMachine.Aphid
             List<AphidType> list2 = alist.AsList().Select(x => x.Equals(before) ? after : x).ToList();
             aip.stack.Push(new AphidList(list2));
         }
+
+        #endregion listwords
 
         public void StringReverse(AphidInterpreter aip)
         {
@@ -671,6 +694,7 @@ namespace LeafMachine.Aphid
                 { "for", For },
                 { "for-by", ForBy },
                 { "map", Map },
+                { "filter", Filter },
 
                 { "pack", Pack },
                 { "unpack", Unpack },

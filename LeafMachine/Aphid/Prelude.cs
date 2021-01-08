@@ -52,6 +52,12 @@
   popr set-current-charset
 } :writexy* defword
 
+; even? ( x -- bool )
+{ 2 rem 0 int= } :even? defword
+
+; even? ( x -- bool )
+{ even? not } :odd? defword
+
 ";
     }
 }

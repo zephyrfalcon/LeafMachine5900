@@ -452,5 +452,20 @@ namespace LeafMachineTests
         {
             Check("[ 1 2 3 4 5 6 7 8 ] 2 { unpack + } for-by", "3 7 11 15");
         }
+
+        [Test]
+        public void TestOddOrEven()
+        {
+            Check("1 odd? 2 odd? -3 odd? 0 odd?", "true false true false");
+            aip.stack.Clear();
+            Check("1 even? 2 even? 22 even? 1001 even? -1 even? -4 even?", "false true true false false true");
+        }
+
+        [Test]
+        public void TestFilter()
+        {
+            Check("[ 1 2 3 4 ] { odd? } filter", "[ 1 3 ]");
+        }
+
     }
 }
