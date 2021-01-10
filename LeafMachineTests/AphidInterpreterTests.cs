@@ -391,7 +391,8 @@ namespace LeafMachineTests
         public void TestListSet()
         {
             Check("[ 1 2 3 ] :stuff setvar", "");
-            Check("9 :stuff getvar 0 list-set", "");
+            Check("9 :stuff getvar 0 list-set", "[ 9 2 3 ]");
+            aip.stack.Clear();
             Check(":stuff getvar", "[ 9 2 3 ]");
         }
 
@@ -443,7 +444,7 @@ namespace LeafMachineTests
 
             Check("[ 1 2 3 ] :foo setvar", "");               // foo = [1 2 3]
             Check(":foo getvar copy", "[ 1 2 3 ]");           // shallow copy is on the stack
-            Check("dup 9 swap 0 list-set", "[ 9 2 3 ]");      // set element 0 to 9; we dup the list so we can inspect the result
+            Check("9 swap 0 list-set", "[ 9 2 3 ]");          // set element 0 to 9
             Check("drop :foo getvar", "[ 1 2 3 ]");           // get contents of foo, they should still be [1 2 3]
         }
 

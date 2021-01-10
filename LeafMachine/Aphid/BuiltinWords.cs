@@ -502,18 +502,19 @@ namespace LeafMachine.Aphid
 
         public void ListSet(AphidInterpreter aip)
         {
-            // ( value list index -- )
+            // ( value list index -- modified-list )
             // Sets element `index` of `list` to `value`. Modifies the list in-place.
             int idx = Expect.ExpectInteger("list-set", aip.stack.Pop());
             AphidList list = Expect.ExpectAphidList("list-set", aip.stack.Pop());
             AphidType value = aip.stack.Pop();
             list.AsList()[idx] = value;  // will throw an error if idx is out of bounds
+            aip.stack.Push(list);
             // TODO: support negative indexes?
         }
 
         public void ListReverse(AphidInterpreter aip)
         {
-            // ( list -- list' )
+            // ( list -- modified-list )
             // Reverses a list in-place. *Does* put the modified list on the stack (which, in terms of
             // identity, is the same list.)
             AphidList list = Expect.ExpectAphidList("list-reverse", aip.stack.Pop());
@@ -534,11 +535,11 @@ namespace LeafMachine.Aphid
         }
 
         public void ListSetSlice(AphidInterpreter aip) {
-            // ( list start slice -- list )
+            // ( list start slice -- modified-list )
             // Replace the elements of a list, starting at position `start`, with the elements
             // of list `slice`. The number of elements replaced is the same as the length
             // of `slice`.
-            // Changes the list in-place. (Should it?)
+            // Changes the list in-place.
             // TODO: What happens if `slice` is longer than `list`?
             AphidList slice = Expect.ExpectAphidList("list-set-slice", aip.stack.Pop());
             int start = Expect.ExpectInteger("list-set-slice", aip.stack.Pop());
@@ -549,6 +550,7 @@ namespace LeafMachine.Aphid
         }
 
         public void ListReplace(AphidInterpreter aip)
+            // FIXME: change list in-place!
         {
             // ( list before after -- list' )
             // Replace all instances of `before` in `list` with `after`.
