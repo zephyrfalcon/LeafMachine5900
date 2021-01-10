@@ -401,7 +401,7 @@ namespace LeafMachineTests
         {
             Check("[ 1 2 3 ] :stuff setvar", "");
             Check(":stuff getvar list-reverse", "[ 3 2 1 ]"); // list-reverse does push the modified list
-            Check("drop :stuff getvar", "[ 3 2 1 ]");
+            Check("drop :stuff getvar", "[ 3 2 1 ]");  // check that list was modified in-place
         }
 
         [Test]
@@ -434,6 +434,12 @@ namespace LeafMachineTests
         public void TestListReplace()
         {
             Check("[ 1 2 3 1 2 3 ] 1 4 list-replace", "[ 4 2 3 4 2 3 ]");
+            aip.stack.Clear();
+            // check that we modify the list in-place
+            Check("[ 4 5 6 ] $!stuff", "");
+            Check("$stuff 4 8 list-replace", "[ 8 5 6 ]");
+            aip.stack.Clear();
+            Check("$stuff", "[ 8 5 6 ]");
         }
 
         [Test]

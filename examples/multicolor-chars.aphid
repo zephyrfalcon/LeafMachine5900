@@ -16,13 +16,16 @@
 ] set-multicolor-bitmap
 
 ;; take that character and use list-replace to make a blue->white gradient
-:multi "lines-1" get-multicolor-bitmap    ; bitmap32
+:multi "lines-1" get-multicolor-bitmap    ; bitmap32 (*1)
 13 15 list-replace                        ; bitmap32
 12 7 list-replace                         ; bitmap32
 :multi "lines-2"                          ; bitmap32 :multi "lines-2"
 rol                                       ; :multi "lines-2" bitmap32
-list-reverse
+list-reverse                              ; :multi "lines-2" bitmap32'
 set-multicolor-bitmap
+
+;; (*1) get-multicolor-bitmap produces a new list, not a reference to the one
+;; we used to create the first bitmap. So it's safe to change it.
 
 ;; display the gradients
 1 1 12 "MULTICOLOR DABBLING..." writexy

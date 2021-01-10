@@ -550,16 +550,19 @@ namespace LeafMachine.Aphid
         }
 
         public void ListReplace(AphidInterpreter aip)
-            // FIXME: change list in-place!
         {
             // ( list before after -- list' )
             // Replace all instances of `before` in `list` with `after`.
-            // Returns a new list.
+            // Changes the list in-place.
             AphidType after = aip.stack.Pop();
             AphidType before = aip.stack.Pop();
             AphidList alist = Expect.ExpectAphidList("list-replace", aip.stack.Pop());
-            List<AphidType> list2 = alist.AsList().Select(x => x.Equals(before) ? after : x).ToList();
-            aip.stack.Push(new AphidList(list2));
+            List<AphidType> list = alist.AsList();
+            for (int i = 0; i < list.Count; i++ ) {
+                if (list[i].Equals(before))
+                    list[i] = after;
+            }
+            aip.stack.Push(alist);
         }
 
         #endregion listwords
@@ -588,6 +591,8 @@ namespace LeafMachine.Aphid
             int n = Expect.ExpectInteger("random", aip.stack.Pop());
             aip.stack.Push(new AphidInteger(rnd.Next(0, n)));
         }
+
+        #region logic
 
         public void And(AphidInterpreter aip)
         {
@@ -629,6 +634,8 @@ namespace LeafMachine.Aphid
             bool b = Expect.ExpectBool("not", aip.stack.Pop());
             aip.stack.Push(new AphidBool(!b));
         }
+
+        #endregion logic
 
         public void Dict(AphidInterpreter aip)
         {
