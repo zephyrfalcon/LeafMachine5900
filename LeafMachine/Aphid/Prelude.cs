@@ -58,6 +58,9 @@
 ; even? ( x -- bool )
 { even? not } :odd? defword
 
+; sum ( list-of-numbers -- sum )
+{ { + } 0 reduce } :sum defword
+
 ";
     }
 }
@@ -67,4 +70,7 @@
    - We can write a word `++` (or maybe, `inc`) that takes a variable name (so, a symbol)
      and adds 1 to it. Similar for `dec`. [done] 
      Also `inc-by` and `dec-by`. [TBD]
+   - `pairwise`, based on `for-by` but returns two items on the stack for the block, instead of a list.
+     `list block pairwise`
+     so `[ 1 2 3 4 5 6 ] { + } pairwise` => `[ 3 7 11 ]`
 */

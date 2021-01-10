@@ -467,5 +467,13 @@ namespace LeafMachineTests
             Check("[ 1 2 3 4 ] { odd? } filter", "[ 1 3 ]");
         }
 
+        [Test]
+        public void TestReduce()
+        {
+            Check("[ 1 2 3 4 ] { + } 0 reduce", "10");
+            aip.stack.Clear();
+            Check("[ 3 5 7 2 ] sum", "17");
+        }
+
     }
 }

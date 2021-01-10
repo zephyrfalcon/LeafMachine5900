@@ -296,6 +296,23 @@ namespace LeafMachine.Aphid
             aip.stack.Push(new AphidList(filtered));
         }
 
+        public void Reduce(AphidInterpreter aip)
+        {
+            // ( list block default -- value )
+            // Like fold in functional languages, or reduce in Python.
+            // [ 1 2 3 4 ] { + } 0 reduce => 10
+            // (This is how we can write `sum` for the prelude)
+            AphidType result = aip.stack.Pop();
+            AphidBlock blk = Expect.ExpectAphidBlock("reduce", aip.stack.Pop());
+            AphidList alist = Expect.ExpectAphidList("reduce", aip.stack.Pop());
+            aip.stack.Push(result);
+            alist.AsList().ForEach(x => {
+                aip.stack.Push(x);
+                blk.Run(aip);  // is expected to leave one value on the stack
+            });
+            // the value left on the stack is the final result
+        }
+
         public void Pack(AphidInterpreter aip)
         {
             // ( ...N items... N -- [...N items...] )
@@ -693,8 +710,10 @@ namespace LeafMachine.Aphid
                 { "for-each", ForEach },
                 { "for", For },
                 { "for-by", ForBy },
+
                 { "map", Map },
                 { "filter", Filter },
+                { "reduce", Reduce },
 
                 { "pack", Pack },
                 { "unpack", Unpack },
