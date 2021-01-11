@@ -37,3 +37,29 @@ set-multicolor-bitmap
 0 39 { 
   16 0 :multi "lines-2" setxy*
 } for
+
+:multi "A" [
+ 00 00 00 00
+ 00 13 00 00
+ 16 13 13 00
+ 16 00 13 00
+ 16 13 13 00
+ 13 00 13 00
+ 13 00 13 00
+ 13 00 13 00
+] set-multicolor-bitmap
+
+:multi "B" [
+ 00 00 00 00
+ 16 13 00 00
+ 16 00 13 00
+ 16 00 13 00
+ 13 13 00 00
+ 13 00 13 00
+ 13 00 13 00
+ 13 13 00 00
+] set-multicolor-bitmap
+
+1 3 0 :multi "AB" writexy*
+;; the 0 is just a dummy value since writexy requires a foreground color
+;; (for now anyway)
